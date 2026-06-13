@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import YesNoTool from '../components/tool/YesNoTool.astro';
+import ResultPopup from '../components/tool/ResultPopup.astro';
+import HistoryTracker from '../components/tool/HistoryTracker.astro';
+import FAQAccordion from '../components/content/FAQAccordion.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+
+const faqItems = [
+  { category: 'general', question: 'How do I get a random yes or no?', answer: 'Click the "Press to Decide" button. The tool instantly generates a random yes or no result with exactly 50/50 probability. No setup, no sign-up, no cost.' },
+  { category: 'general', question: 'Is the random result truly 50/50?', answer: 'Yes. The randomness uses Math.random(), which generates numbers uniformly between 0 and 1. Below 0.5 gives No; 0.5 or above gives Yes: exactly 50% each.' },
+  { category: 'general', question: 'Can I get multiple random yes or no answers in a row?', answer: 'Yes, unlimited. Each click generates a fully independent random result. There is no daily limit or subscription required.' },
+  { category: 'general', question: 'Is this tool the same as a yes or no generator?', answer: 'Yes: a random yes or no tool and a yes or no generator are the same thing. Different names for the same function: randomly producing a yes or no answer.' },
+];
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Random Yes or No', url: '/random-yes-or-no' },
+]);
+---
+
+<BaseLayout
+  title="Random Yes or No — Get a Truly Random Yes or No Answer"
+  description="Get a completely random yes or no answer in one click. True 50/50 probability. Unbiased, instant, free. Try random yes no maybe mode too."
+  canonical="https://yesnobuttonapp.com/random-yes-or-no"
+  schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <!-- HERO -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container text-center">
+      <h1 class="font-display text-5xl md:text-6xl font-bold text-ink dark:text-ink-dark leading-tight mb-3">
+        Random Yes or No
+      </h1>
+      <p class="text-muted dark:text-muted-dark mb-10 leading-relaxed max-w-xl mx-auto">
+        Truly random. 50/50. Unbiased. Click for your random yes or no answer.
+      </p>
+      <YesNoTool />
+      <ResultPopup />
+      <HistoryTracker />
+    </div>
+  </section>
+
+  <!-- SECTION 1: What Does "Random Yes or No" Mean? -->
+  <section class="bg-card dark:bg-card-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
+        What Does "Random Yes or No" Mean?
+      </h2>
+      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
+        A random yes or no means an answer generated with no bias: equally likely to be yes or no, with no influence from previous answers, questions, or patterns. This tool produces a random yes or no result using JavaScript's pseudorandom number generator, seeded from your browser's system entropy. The result is, for all practical purposes, perfectly random. It is the digital equivalent of a fair coin flip: except it is faster, always available, and requires no physical coin. Each random result is completely independent of the one before it. The tool cannot be gamed, predicted, or influenced: not even by you.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Why Randomness Helps You Decide -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
+        Why Randomness Helps You Decide
+      </h2>
+      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
+        When you ask a random yes or no tool for an answer, something interesting happens psychologically: you immediately notice your emotional reaction to the result. If the random result says "No" and you feel disappointment: that feeling reveals your true preference. The random answer did not decide for you. It revealed what you already knew. This is the hidden power of random decision-making: not that the random result is correct, but that your reaction to it shows you what is correct. Decision scientists call this the "coin flip test." Flip a random coin, commit to the result, and notice how you feel. This tool does the same thing: but faster, and without needing a coin.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 3: How Random Is This Tool Really? -->
+  <section class="bg-card dark:bg-card-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
+        How Random Is This Tool Really?
+      </h2>
+      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
+        This tool uses Math.random(), JavaScript's built-in pseudorandom number generator. The function generates a number between 0 and 1 using an algorithm seeded by system entropy: factors like your device's timing, memory state, and hardware randomness. Numbers below 0.5 produce a No result; numbers at or above 0.5 produce Yes. The probability of each is exactly 50%. Crucially, results are statistically independent: getting three Yes results in a row does not make a No result more likely on the next click. This is the same property as a fair coin: past flips do not affect future ones. For all practical purposes, this is true randomness. The only type of randomness that would be "more random" is hardware random number generation based on radioactive decay or atmospheric noise: but for a yes or no decision, Math.random() is more than sufficient.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Get a Random Yes or No in 3 Steps -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-5">
+        Get a Random Yes or No in 3 Steps
+      </h2>
+      <ol class="list-decimal list-inside text-muted dark:text-muted-dark space-y-3 leading-relaxed">
+        <li>Think of your yes or no question: or type it in the input field.</li>
+        <li>Click the button and receive your random yes or no result instantly.</li>
+        <li>Notice your emotional reaction: if you feel relief, that is your real answer.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SECTION 5: Random Yes No Maybe -->
+  <section class="bg-card dark:bg-card-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
+        Random Yes No Maybe
+      </h2>
+      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
+        Sometimes a random yes or no is not quite right: you need a third option. Toggle to Random Yes No Maybe mode by clicking the toggle above the button. The generator now randomly produces one of three results: Yes, No, or Maybe. Each has exactly 33.3% probability. The Maybe result is the random tool's way of saying "this one is genuinely too close to call: sit with it."
+      </p>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-6">
+        Frequently Asked Questions
+      </h2>
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>
+
+<script>
+  import { initTool } from '../scripts/tool';
+  initTool();
+</script>

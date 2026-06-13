@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import WheelControls from '../components/tool/WheelControls.astro';
+import WheelSpinner from '../components/tool/WheelSpinner.astro';
+import ResultPopup from '../components/tool/ResultPopup.astro';
+import HistoryTracker from '../components/tool/HistoryTracker.astro';
+import FAQAccordion from '../components/content/FAQAccordion.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+
+const faqItems = [
+  { category: 'general', question: 'What is a yes no wheel?', answer: 'A yes no wheel is a tool that randomly selects Yes or No: like a spinning wheel landing on one of two equal segments. This digital version works instantly, with exactly 50/50 probability, on any device.' },
+  { category: 'general', question: 'Is the yes no wheel truly random?', answer: 'Yes. The wheel uses Math.random() - a pseudorandom number generator - to produce results with exactly 50/50 probability. Each spin is statistically independent.' },
+  { category: 'general', question: 'What is the difference between a yes no wheel and a yes no button?', answer: 'The underlying mechanism is identical: both randomly produce Yes or No with 50/50 probability. The difference is visual: the wheel version uses a spin animation on the result, reinforcing the wheel metaphor.' },
+  { category: 'general', question: 'Can I spin a yes no wheel on my phone?', answer: 'Yes. This yes no wheel works on all devices including iPhone, Android, tablet, and desktop. No app download required.' },
+];
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Yes No Wheel', url: '/yes-no-wheel' },
+]);
+---
+
+<BaseLayout
+  title="Yes No Wheel — Spin a Random Yes or No Wheel Online"
+  description="Free yes no wheel spinner. Get a random yes or no result with one click: faster than spinning a real wheel."
+  canonical="https://yesnobuttonapp.com/yes-no-wheel"
+  schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <!-- HERO -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[60px] max-sm:py-[40px]">
+    <div class="container">
+      <div class="text-center mb-10 max-sm:mb-6">
+        <h1 class="font-display text-4xl md:text-5xl font-bold text-ink dark:text-ink-dark leading-tight mb-3">
+          Yes No Wheel
+        </h1>
+        <p class="text-muted dark:text-muted-dark leading-relaxed max-w-xl mx-auto">
+          Spin the wheel for a random yes or no decision. No physical spinner needed.
+        </p>
+      </div>
+
+      <!-- Two-column layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 max-sm:gap-6 items-start max-w-4xl mx-auto">
+        <!-- Wheel (first on mobile, right on desktop) -->
+        <div class="flex flex-col items-center gap-5 lg:order-2">
+          <WheelSpinner />
+        </div>
+
+        <!-- Controls (second on mobile, left on desktop) -->
+        <div class="lg:order-1">
+          <WheelControls />
+        </div>
+      </div>
+
+      <!-- Question input -->
+      <div class="max-w-2xl mx-auto mt-10 max-sm:mt-6">
+        <input
+          id="question-input"
+          type="text"
+          placeholder="Type your question here (optional)"
+          class="w-full px-6 py-4 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-[#8B5CF6]/20 dark:focus:ring-[#A78BFA]/20 transition-all"
+        />
+      </div>
+
+      <!-- History -->
+      <div class="max-w-lg mx-auto mt-6">
+        <HistoryTracker />
+      </div>
+
+      <ResultPopup />
+    </div>
+  </section>
+
+  <!-- SECTION 1: What Is a Yes No Wheel? -->
+  <section class="bg-card dark:bg-card-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
+        What Is a Yes No Wheel?
+      </h2>
+      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
+        A yes no wheel is a decision-making tool that randomly lands on either Yes or No when spun. Traditional yes no wheels are physical spinners: a wheel divided equally into yes and no segments, spun by hand. Digital yes no wheels simulate this spin with an animation and the same 50/50 random probability. This tool is a yes no wheel in digital form: no physical spinner required. Click once and the wheel has "spun": an instant random result with exactly the same probability as a real physical spinner. Faster, always available, and impossible to influence.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Yes No Wheel vs Physical Spinner -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-5">
+        Yes No Wheel vs Physical Spinner
+      </h2>
+      <div class="overflow-x-auto mb-4">
+        <table class="ynb-table text-sm">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Yes No Wheel</th>
+              <th>Physical Spinner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="font-medium text-ink dark:text-ink-dark">Speed</td><td>Instant</td><td>3–5 seconds</td></tr>
+            <tr><td class="font-medium text-ink dark:text-ink-dark">Device needed</td><td>Any phone or computer</td><td>Physical wheel</td></tr>
+            <tr><td class="font-medium text-ink dark:text-ink-dark">Probability</td><td>Exactly 50/50</td><td>Approximately 50/50</td></tr>
+            <tr><td class="font-medium text-ink dark:text-ink-dark">Voice result</td><td class="text-yes">&#x2713; Yes</td><td class="text-no">&#x2717; No</td></tr>
+            <tr><td class="font-medium text-ink dark:text-ink-dark">Shareable result</td><td class="text-yes">&#x2713; Yes</td><td class="text-no">&#x2717; No</td></tr>
+            <tr><td class="font-medium text-ink dark:text-ink-dark">Available 24/7</td><td class="text-yes">&#x2713; Yes</td><td class="text-no">&#x2717; No</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted dark:text-muted-dark leading-relaxed">
+        The digital yes no wheel has one significant advantage over its physical counterpart: it cannot be influenced by spin speed, angle, or technique. Every digital "spin" is a pure mathematical random event.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 3: How to Use This Yes No Wheel -->
+  <section class="bg-card dark:bg-card-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-5">
+        How to Use This Yes No Wheel
+      </h2>
+      <ol class="list-decimal list-inside text-muted dark:text-muted-dark space-y-3 leading-relaxed">
+        <li>Type your question (optional).</li>
+        <li>Click the button: the wheel "spins" and lands on Yes or No.</li>
+        <li>The result appears with a spin animation and is read aloud.</li>
+        <li>Click again to spin again for a new independent result.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-6">
+        Frequently Asked Questions
+      </h2>
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>
+
+<script>
+  import { initWheel } from '../scripts/wheel';
+  initWheel();
+</script>

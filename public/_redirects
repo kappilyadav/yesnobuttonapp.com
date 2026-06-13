@@ -1,0 +1,24 @@
+# Button keyword variants → homepage
+/yes-and-no-button          /     301
+/yes-or-no-buttons          /     301
+/no-or-yes-button           /     301
+/yesnobutton                /     301
+/yes-no                     /yes-or-no     301
+
+# Generator variants → generator page
+/yesnogenerator             /yes-or-no-generator     301
+/yes-no-generator           /yes-or-no-generator     301
+/generator-yes-no           /yes-or-no-generator     301
+
+# Random variants → random page
+/random-yes-no              /random-yes-or-no     301
+/yes-no-random              /random-yes-or-no     301
+
+# Oracle variants → oracle page
+/yes-or-no-oracle           /yes-no-oracle     301
+/yesnooracle                /yes-no-oracle     301
+
+# Wheel/spinner variants → wheel page
+/yes-or-no-wheel            /yes-no-wheel     301
+/yes-no-spinner             /yes-no-wheel     301
+/yes-no-picker              /yes-no-wheel     301

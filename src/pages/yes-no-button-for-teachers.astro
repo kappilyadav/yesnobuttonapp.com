@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import YesNoTool from '../components/tool/YesNoTool.astro';
+import ResultPopup from '../components/tool/ResultPopup.astro';
+import HistoryTracker from '../components/tool/HistoryTracker.astro';
+import FAQAccordion from '../components/content/FAQAccordion.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+
+const faqItems = [
+  { category: 'general', question: 'How can teachers use the Yes No Button?', answer: 'Teachers can use it to randomly select students, determine presentation order, break ties in class votes, decide quiz questions, or as an icebreaker activity. The classroom mode displays results in large fullscreen text for projector visibility.' },
+  { category: 'general', question: 'Is the Yes No Button fair for classroom use?', answer: 'Yes. The tool uses a truly random 50/50 generator with no bias. Each result is independent, making it a fair selection method for classrooms.' },
+  { category: 'general', question: 'Can I project the Yes No Button on a screen?', answer: 'Yes. The classroom-friendly version shows results in large fullscreen text that is clearly visible on projectors and smart boards. The standard version also works well on large screens.' },
+  { category: 'general', question: 'Is the Yes No Button free for schools?', answer: 'Yes. The Yes No Button is completely free for all users, including schools and educational institutions. No sign-up, no subscription, no cost.' },
+
+  { category: 'career', question: 'How can teachers use the Yes No Button for classroom management?', answer: 'Use it to decide activity timing, randomly assign groups, determine which student answers next, or settle disputes about turns. The random outcome is perceived as fair by students, reducing complaints.' },
+  { category: 'career', question: 'Can the Yes No Button help with lesson planning?', answer: 'Teachers use the button to decide between two equally good teaching activities, which topic to review first, or whether to extend a lesson. It removes hesitation from low-stakes planning decisions.' },
+  { category: 'career', question: 'How do schools use the Yes No Button for professional development?', answer: 'School administrators use it during staff meetings to randomly select presenters, break into discussion groups, or decide the order of agenda items. The randomness ensures equitable participation.' },
+
+  { category: 'daily', question: 'Can students use the Yes No Button independently?', answer: 'Yes. Students can use it for their own decisions  -  which homework to start first, whether to review a subject, or to settle friendly debates. It teaches decision-making skills in a fun way.' },
+  { category: 'daily', question: 'How can the Yes No Button support social-emotional learning?', answer: 'The button can be used in SEL activities to help students practice decision-making, understand probability, and reflect on their emotional reactions to random outcomes in a safe, structured way.' },
+];
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Yes No Button for Teachers', url: '/yes-no-button-for-teachers' },
+]);
+---
+
+<BaseLayout
+  title="Yes No Button for Teachers  -  Classroom Random Decision Maker"
+  description="Use the Yes No Button in your classroom as a random student picker, decision maker, or icebreaker. Free, fair, and projector-friendly. No sign-up needed."
+  canonical="https://yesnobuttonapp.com/yes-no-button-for-teachers"
+  schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <section class="py-12 md:py-20">
+    <div class="container text-center">
+      <h1 class="font-display text-3xl md:text-5xl tracking-tight text-ink dark:text-ink-dark mb-3">
+        Yes No Button for Teachers
+      </h1>
+      <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-10 max-w-xl mx-auto">
+        Classroom random decision maker. Fair, free, and projector-friendly.
+      </p>
+
+      <div id="teachers-tool" class="max-w-lg mx-auto">
+        <div class="p-4 bg-card dark:bg-card-dark rounded-xl border border-border dark:border-border-dark">
+          <p class="text-sm text-muted dark:text-muted-dark mb-3">Click for a large fullscreen result  -  perfect for classroom projectors.</p>
+          <YesNoTool />
+          <ResultPopup />
+          <HistoryTracker />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12 bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl tracking-tight text-ink dark:text-ink-dark mb-6">
+        Why Teachers Love the Yes No Button
+      </h2>
+      <div class="text-muted dark:text-muted-dark space-y-4 leading-relaxed">
+        <p>Classrooms are full of decisions  -  who goes first, which question to answer, whether to extend an activity. The Yes No Button gives teachers a fair, unbiased way to make these decisions instantly, without favouritism or hesitation.</p>
+        <p>The tool is particularly valuable for:</p>
+        <ul class="list-disc list-inside space-y-3 mt-2">
+          <li><strong class="text-ink dark:text-ink-dark">Random student selection</strong>  -  ensure every student gets a fair chance to participate. The 50/50 randomness eliminates any perception of bias.</li>
+          <li><strong class="text-ink dark:text-ink-dark">Presentation order</strong>  -  let the button decide which group presents first, second, or third. Students accept random assignment more readily than teacher choice.</li>
+          <li><strong class="text-ink dark:text-ink-dark">Quiz and test order</strong>  -  randomly determine which questions to ask or in which sequence to test students.</li>
+          <li><strong class="text-ink dark:text-ink-dark">Breaking ties</strong>  -  when a class vote ends in a tie, the button provides a neutral tiebreaker.</li>
+          <li><strong class="text-ink dark:text-ink-dark">Icebreakers</strong> - start the school year or a new term with fun yes/no questions that get students talking.</li>
+          <li><strong class="text-ink dark:text-ink-dark">Classroom management</strong>  -  use it to decide activity timing: &quot;Should we do 5 more minutes or move on?&quot;</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl tracking-tight text-ink dark:text-ink-dark mb-6">
+        Classroom Mode Features
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-muted dark:text-muted-dark">
+        <div class="p-5 rounded-xl bg-card dark:bg-card-dark border border-border dark:border-border-dark">
+          <h3 class="font-medium text-ink dark:text-ink-dark mb-2">Large display</h3>
+          <p class="text-sm leading-relaxed">The result popup fills the entire screen with oversized text  -  clearly visible from the back of any classroom.</p>
+        </div>
+        <div class="p-5 rounded-xl bg-card dark:bg-card-dark border border-border dark:border-border-dark">
+          <h3 class="font-medium text-ink dark:text-ink-dark mb-2">Voice output</h3>
+          <p class="text-sm leading-relaxed">The tool reads the result aloud, providing an audio cue that reaches every corner of the room.</p>
+        </div>
+        <div class="p-5 rounded-xl bg-card dark:bg-card-dark border border-border dark:border-border-dark">
+          <h3 class="font-medium text-ink dark:text-ink-dark mb-2">No account needed</h3>
+          <p class="text-sm leading-relaxed">Teachers can open the page and start using it immediately  -  no login, no setup, no IT approval required.</p>
+        </div>
+        <div class="p-5 rounded-xl bg-card dark:bg-card-dark border border-border dark:border-border-dark">
+          <h3 class="font-medium text-ink dark:text-ink-dark mb-2">Completely free</h3>
+          <p class="text-sm leading-relaxed">The Yes No Button is and always will be free for educational use. No hidden fees, no premium tier.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12 bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl tracking-tight text-ink dark:text-ink-dark mb-6">
+        Classroom Activity Ideas
+      </h2>
+      <div class="text-muted dark:text-muted-dark space-y-4 leading-relaxed">
+        <p><strong class="text-ink dark:text-ink-dark">Yes/No debate warm-up:</strong> Ask a polarising yes/no question and have students stand on one side of the room based on their answer. Use the button to reveal the &quot;official&quot; random answer, then discuss.</p>
+        <p><strong class="text-ink dark:text-ink-dark">Reading circle order:</strong> Use the button to randomly select which student reads the next paragraph. The unpredictability keeps everyone engaged.</p>
+        <p><strong class="text-ink dark:text-ink-dark">Group formation:</strong> Assign each student yes or no, then divide the class into yes and no groups for an activity.</p>
+        <p><strong class="text-ink dark:text-ink-dark">End-of-class reflection:</strong> Ask &quot;Did today's lesson make sense?&quot; and use the button to spark a discussion about why the answer might be yes or no.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl tracking-tight text-ink dark:text-ink-dark mb-6">
+        Frequently Asked Questions
+      </h2>
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>
+
+<script>
+  import { initTool } from '../scripts/tool';
+  initTool();
+</script>

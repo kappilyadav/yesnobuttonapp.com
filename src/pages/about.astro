@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { aboutPageSchema, breadcrumbSchema } from '../data/schemas';
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'About', url: '/about' },
+]);
+---
+
+<BaseLayout
+  title="About | Yes No Button"
+  description="Learn about the Yes No Button - a free, anonymous random decision-making tool that helps you break out of analysis paralysis."
+  canonical="https://yesnobuttonapp.com/about"
+  schema={[aboutPageSchema, breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <div class="flex flex-wrap gap-2 mb-6">
+        <a href="/about" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">About</a>
+        <a href="/privacy-policy" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
+        <a href="/terms" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
+        <a href="/contact" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
+      </div>
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">ABOUT</span>
+      <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">About Yes No Button</h1>
+
+      <div class="text-muted dark:text-muted-dark space-y-6 leading-relaxed">
+        <section>
+          <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Our Mission</h2>
+          <p>The Yes No Button was created with a simple mission: to help people make decisions. Whether you're stuck between two options, looking for a spark of spontaneity, or just want to add some fun to your day, our tool gives you an instant random answer.</p>
+          <p>We believe that sometimes the best way to make a decision is to stop overthinking and let chance decide. The random answer you receive often reveals your true feelings - if the result disappoints you, you know what you actually wanted all along.</p>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">What We Offer</h2>
+          <ul class="list-disc list-inside space-y-2">
+            <li><strong class="text-ink dark:text-ink-dark">Yes No Button</strong> - The classic 50/50 random decision maker</li>
+            <li><strong class="text-ink dark:text-ink-dark">Yes No Maybe Button</strong> - Three-way mode with equal 33% probability for more nuanced decisions</li>
+            <li><strong class="text-ink dark:text-ink-dark">Yes No Oracle</strong> - A mystical-themed version with cosmic visuals</li>
+            <li><strong class="text-ink dark:text-ink-dark">Bluey Yes No Button</strong> - A kid-friendly version inspired by the popular TV show</li>
+            <li><strong class="text-ink dark:text-ink-dark">Embed Widget</strong> - Add the tool to your own website with a single line of code</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Our Values</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-xl p-5">
+              <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Privacy First</h3>
+              <p class="text-sm text-muted dark:text-muted-dark">Everything runs in your browser. No data is collected, stored, or shared.</p>
+            </div>
+            <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-xl p-5">
+              <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Completely Free</h3>
+              <p class="text-sm text-muted dark:text-muted-dark">No subscriptions, no sign-ups, no hidden costs. The tool is free for everyone.</p>
+            </div>
+            <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-xl p-5">
+              <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Always Available</h3>
+              <p class="text-sm text-muted dark:text-muted-dark">Works on any device with a web browser, 24/7, with no downtime.</p>
+            </div>
+            <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-xl p-5">
+              <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Truly Random</h3>
+              <p class="text-sm text-muted dark:text-muted-dark">Mathematically fair 50/50 random results powered by JavaScript's random generator.</p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Why We Built This</h2>
+          <p>We noticed that even simple decisions can take up mental energy. Studies show that an average adult makes about 35,000 decisions per day. When you're faced with one too many choices, outsourcing a decision to a random button can save mental bandwidth for the things that truly matter.</p>
+          <p>The Yes No Button started as a simple project and grew into a tool used by thousands of people daily for decisions big and small. We're committed to keeping it simple, free, and private.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

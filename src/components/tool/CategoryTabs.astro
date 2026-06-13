@@ -1,0 +1,150 @@
+---
+// CategoryTabs.astro
+
+interface Category {
+  id: string;
+  label: string;
+  questions: string[];
+}
+
+const categories: Category[] = [
+  {
+    id: 'love',
+    label: 'Love & Relationships',
+    questions: ['Should I text them first?', 'Is it time to have the talk?', 'Should I say yes to the date?'],
+  },
+  {
+    id: 'career',
+    label: 'Work & Career',
+    questions: ['Should I apply for that job?', 'Should I ask for a raise?', 'Is today the day I quit?'],
+  },
+  {
+    id: 'food',
+    label: 'Food & Lifestyle',
+    questions: ['Should I order pizza tonight?', 'Is it time for a snack?', 'Should I go to the gym?'],
+  },
+  {
+    id: 'travel',
+    label: 'Travel & Adventure',
+    questions: ['Should I book the trip?', 'Should I take the scenic route?', 'Is today a beach day?'],
+  },
+  {
+    id: 'games',
+    label: 'Games & Fun',
+    questions: ['Should I go first?', 'Is this a dare or truth?', 'Should I pick the mystery box?'],
+  },
+  {
+    id: 'daily',
+    label: 'Daily Decisions',
+    questions: ['Should I get out of bed?', 'Is it too late for coffee?', 'Should I call them back?'],
+  },
+];
+---
+
+<div class="w-full max-w-2xl mx-auto">
+  <div class="flex flex-wrap justify-center gap-2 mb-4">
+    {categories.map((cat) => (
+      <button
+        class="px-[18px] max-sm:px-3 py-2 rounded-full text-sm max-sm:text-xs font-medium whitespace-nowrap border cursor-pointer transition-all duration-150"
+        class:list={{
+          'bg-[#18181B] text-white border-[#18181B]': false,
+          'bg-transparent text-[#6B6965] border-[#E4E2DC]': true,
+        }}
+        data-category-tab={cat.id}
+        aria-selected="false"
+      >
+        {cat.label}
+      </button>
+    ))}
+  </div>
+
+  {categories.map((cat) => (
+    <div id={`category-${cat.id}`} class="category-panel hidden">
+      <div class="flex flex-wrap justify-center gap-2 pt-4">
+        {cat.questions.map((q) => (
+          <button
+            data-category-chip
+            data-question={q}
+            data-category={cat.id}
+            class="inline-flex px-[18px] max-sm:px-3 py-2.5 max-sm:py-2 rounded-full border border-[#E4E2DC] bg-white dark:bg-card-dark text-sm max-sm:text-xs text-[#1A1A18] dark:text-ink-dark cursor-pointer hover:bg-[#F4F2EC] dark:hover:bg-[#2A2A28] hover:border-[#18181B] transition-all duration-150"
+          >
+            {q}
+          </button>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('[data-category-tab]');
+  const panels = document.querySelectorAll('.category-panel');
+  let activeTab = 'love';
+
+  function activateTab(id) {
+    tabs.forEach((tab) => {
+      const isActive = tab.getAttribute('data-category-tab') === id;
+      tab.setAttribute('aria-selected', String(isActive));
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.id === `category-${id}`;
+      if (isActive) {
+        panel.classList.remove('hidden');
+        panel.classList.add('animate-chip-fade-in');
+      } else {
+        panel.classList.add('hidden');
+        panel.classList.remove('animate-chip-fade-in');
+      }
+    });
+    activeTab = id;
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const id = tab.getAttribute('data-category-tab');
+      if (id) activateTab(id);
+    });
+
+    tab.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const id = tab.getAttribute('data-category-tab');
+        if (id) activateTab(id);
+      }
+    });
+  });
+
+  activateTab('love');
+</script>
+
+<style>
+  [data-category-tab][aria-selected="true"] {
+    background: #18181B;
+    color: #FFFFFF;
+    border-color: #18181B;
+  }
+  .dark [data-category-tab][aria-selected="true"] {
+    background: #E8E6E0;
+    color: #18181B;
+    border-color: #E8E6E0;
+  }
+  [data-category-tab][aria-selected="false"] {
+    background: transparent;
+    color: #6B6965;
+    border-color: #E4E2DC;
+  }
+  .dark [data-category-tab][aria-selected="false"] {
+    background: transparent;
+    color: #8A8880;
+    border-color: #2A2A28;
+  }
+  [data-category-tab][aria-selected="false"]:hover {
+    color: #1A1A18;
+    border-color: #18181B;
+  }
+  .dark [data-category-tab][aria-selected="false"]:hover {
+    color: #E8E6E0;
+    border-color: #E8E6E0;
+  }
+</style>

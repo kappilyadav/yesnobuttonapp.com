@@ -1,11 +1,581 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import YesNoTool from '../components/tool/YesNoTool.astro';
+import ResultPopup from '../components/tool/ResultPopup.astro';
+import HistoryTracker from '../components/tool/HistoryTracker.astro';
+import CategoryTabs from '../components/tool/CategoryTabs.astro';
+import EmbedWidget from '../components/tool/EmbedWidget.astro';
+import FAQAccordion from '../components/content/FAQAccordion.astro';
+import SeasonalTable from '../components/content/SeasonalTable.astro';
+import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const seasonalQuestions = [
+  { question: 'Should I go to the beach this weekend?', reason: 'Summer is here and the warm weather makes beach trips the perfect spontaneous decision.' },
+  { question: 'Should I start a summer reading list?', reason: 'June is a great time to pick up new books with long sunny days ahead.' },
+  { question: 'Should I plan a summer road trip?', reason: 'The start of summer is the ideal time to decide on travel plans before schedules fill up.' },
+  { question: 'Should I try outdoor yoga?', reason: 'Warm mornings make outdoor exercise inviting and refreshing.' },
+  { question: 'Should I host a barbecue?', reason: 'June evenings are perfect for gathering friends for an outdoor meal.' },
+  { question: 'Should I take a staycation?', reason: 'Sometimes the best summer break is right at home with no travel stress.' },
+];
+
+const julyQuestions = [
+  { question: 'Should I go to the beach this weekend?', reason: 'Perfect for summer decision paralysis' },
+  { question: 'Is it too hot to cook: should I order out?', reason: 'The eternal July dilemma' },
+  { question: 'Should I take a vacation in July?', reason: 'Peak summer planning anxiety' },
+  { question: 'Should I start that summer project I\'ve been putting off?', reason: 'July accountability' },
+  { question: 'Is it too early to think about back-to-school shopping?', reason: 'Parents\' July worry' },
+  { question: 'Should I spend the day outdoors today?', reason: 'Weather-dependent decision' },
+];
+
+const homeBreadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+]);
+
+const faqItems = [
+  { category: 'general', question: 'What is a Yes No Button?', answer: 'A Yes No Button is a free online tool that randomly generates a Yes or No answer to any question. It works like flipping a coin with a 50/50 chance of either outcome, but is instantly accessible on any device without needing a physical coin.' },
+  { category: 'general', question: 'Is the Yes No Button truly random?', answer: 'Yes. The Yes No Button uses JavaScript\'s Math.random() function, which generates a pseudorandom number between 0 and 1. Numbers below 0.5 produce a No; numbers at or above 0.5 produce a Yes. Each result is fully independent of previous results.' },
+  { category: 'general', question: 'How does the Yes No Button decide the answer?', answer: 'When you click the button, JavaScript generates a random decimal between 0 and 1. If the number is below 0.5 the answer is No, if it is 0.5 or above the answer is Yes. In Maybe mode the range is split into three equal thirds.' },
+  { category: 'general', question: 'Can I use the Yes No Button for free?', answer: 'Yes, the Yes No Button is completely free to use. There are no subscriptions, no hidden fees, and no sign-up required. It works on any device with a web browser.' },
+  { category: 'general', question: 'Does the Yes No Button work on mobile?', answer: 'Yes, the Yes No Button works on all devices including smartphones, tablets, laptops, and desktop computers. The interface is fully responsive and adapts to any screen size.' },
+  { category: 'general', question: 'Is there a Yes No Maybe Button?', answer: 'Yes. Use the toggle at the top of the tool to switch between Yes/No mode and Yes/No/Maybe mode. In three-way mode each outcome has an equal 33% probability.' },
+  { category: 'general', question: 'Can I share my Yes No Button result?', answer: 'Yes. After each result a Share button appears. You can copy a shareable link containing your result and question, or use the native share dialog on mobile devices via the Web Share API.' },
+  { category: 'general', question: 'How do I embed the Yes No Button on my website?', answer: 'Scroll to the embed section at the bottom of the page, copy the provided iframe code, and paste it into your website\'s HTML. The embed loads a lightweight version of the tool that works in any webpage.' },
+  { category: 'general', question: 'Does the Yes No Button record my questions?', answer: 'No. The Yes No Button runs entirely in your browser. No questions or results are sent to any server, recorded, or stored anywhere except your browser\'s localStorage for the history feature.' },
+  { category: 'general', question: 'What is the Yes No Oracle?', answer: 'The Yes No Oracle is a mystical framing of the same random yes or no tool. Instead of clicking a button, you "consult the oracle": but the underlying mechanism is identical: a truly random 50/50 result generated by JavaScript. The oracle framing appeals to users who enjoy fortune-telling, tarot, or mystical decision-making contexts. You can try the full oracle experience at <a href="/yes-no-oracle">yesnobuttonapp.com/yes-no-oracle</a>.' },
+  { category: 'general', question: 'What is the difference between a Yes No Button and flipping a coin?', answer: 'Both produce a 50/50 random outcome, but the Yes No Button is instant, works on any device, optionally reads the answer aloud, tracks your history, and lets you share results. No physical coin needed.' },
+  { category: 'general', question: 'How many times can I press the Yes No Button?', answer: 'There is no limit. You can press the button as many times as you want. Each press generates a new independent random result based on pure probability.' },
+  { category: 'general', question: 'What is the probability of getting Yes vs No?', answer: 'In standard mode the probability is exactly 50/50  -  equal chance of Yes or No. In Maybe mode each of the three outcomes has a 33.3% chance.' },
+  { category: 'general', question: 'Can I type my question before pressing the button?', answer: 'Yes. There is an optional text input above the button where you can type your question. If filled in, the question appears inside the result popup above the answer. The input is completely optional.' },
+  { category: 'general', question: 'Is the Yes No Button available in other languages?', answer: 'Currently the Yes No Button is available in English. Multi-language support for Spanish, French, and other languages is coming soon.' },
+  { category: 'general', question: 'How do I reset my Yes No Button history?', answer: 'Click the Clear history link below the result pills in the history tracker section. This removes all stored results from your browser\'s localStorage.' },
+  { category: 'general', question: 'What is the Bluey Yes No Button?', answer: 'The Bluey Yes No Button is a kid-friendly version inspired by the yes/no game from the popular Australian children\'s TV show Bluey. It features bright colors and fun questions for families.' },
+  { category: 'general', question: 'Can I use the Yes No Button offline?', answer: 'Once the page has loaded, the Yes No Button runs entirely in your browser using JavaScript. If you have already visited the page, it may work offline depending on your browser\'s caching.' },
+
+  { category: 'love', question: 'Can the Yes No Button help with relationship decisions?', answer: 'Yes. Many people use the button to break deadlocks in relationship decisions  -  whether to text someone, ask someone out, or have an important conversation. The random result can help reveal your true feelings based on how you react to the answer.' },
+  { category: 'love', question: 'Should I use the Yes No Button for dating advice?', answer: 'The Yes No Button is a fun tool for lighthearted dating decisions, like picking a restaurant or deciding who chooses the movie. For serious relationship matters, it is best used as a conversation starter rather than a final authority.' },
+  { category: 'love', question: 'How can couples use the Yes No Button together?', answer: 'Couples can use it to settle minor disagreements like what to watch, where to eat, or who does the dishes. It adds an element of fun and removes tension from small decisions by making chance the neutral decider.' },
+
+  { category: 'career', question: 'Is the Yes No Button useful for career decisions?', answer: 'The button can help with career choices like whether to apply for a job, ask for a raise, or start a new project. While not a substitute for careful deliberation, the random answer can reveal your gut feeling about a decision.' },
+  { category: 'career', question: 'Can I use the Yes No Button to decide whether to quit my job?', answer: 'The button can be a helpful prompt for self-reflection. If it says Yes to quitting and you feel relief, that tells you something. If it says No and you feel relieved, that is also revealing. Use it as a mirror for your feelings, not as the final word.' },
+  { category: 'career', question: 'How do professionals use the Yes No Button?', answer: 'Professionals use the button for low-stakes work decisions  -  which task to prioritize, whether to speak up in a meeting, or to break ties when two options seem equally good. It is a productivity tool for overcoming analysis paralysis.' },
+
+  { category: 'food', question: 'Can I use the Yes No Button for food decisions?', answer: 'Absolutely. The button is perfect for settling the classic "what should I eat?" dilemma. Use it to decide between two restaurants, whether to cook or order in, or if you should try a new recipe.' },
+  { category: 'food', question: 'Is the Yes No Button helpful for diet and lifestyle choices?', answer: 'The button can support lifestyle decisions like whether to go to the gym, try a new workout, or stick to your meal plan. It works best as a motivational prompt  -  the act of asking can strengthen your commitment.' },
+  { category: 'food', question: 'Should I use the Yes No Button to decide what to cook?', answer: 'Yes. When you have two meal options and cannot decide, assign each to Yes or No and press the button. The result picks for you, turning a time-consuming choice into an instant decision.' },
+
+  { category: 'travel', question: 'Can I use the Yes No Button for travel planning?', answer: 'Yes. Use the button to decide between destinations, whether to book a trip, or to break ties on travel logistics. It is a great way to add spontaneity to your travel decisions.' },
+  { category: 'travel', question: 'Should I let the Yes No Button choose my next destination?', answer: 'For fun, you can assign two destinations to Yes and No and let the button pick. It is a playful way to discover where your travel instincts actually want to go based on your reaction to the result.' },
+  { category: 'travel', question: 'How can I use the Yes No Button during trips?', answer: 'Use it on the go for small travel decisions  -  should I take the scenic route, try that local restaurant, or extend my stay. It removes friction from minor choices while travelling.' },
+
+  { category: 'games', question: 'Can I use the Yes No Button for games?', answer: 'Yes. The Yes No Button works great as a game randomizer for truth-or-dare, would-you-rather, board game decisions, picking who goes first, and many other party games.' },
+  { category: 'games', question: 'Is the Yes No Button good for party games?', answer: 'The button adds an element of chance to any party game. Use it to decide dares, determine teams, or settle disputes. The fullscreen result popup makes it visible and exciting for groups.' },
+  { category: 'games', question: 'How does the Yes No Button work for truth or dare?', answer: 'When a player is stuck choosing between truth and dare, assign each to Yes and No. The button picks randomly, adding unpredictability and fun to the game.' },
+  { category: 'games', question: 'Can I use this for the Yes No No game?', answer: 'Yes! The "yes no no" challenge is a game where players answer rapid-fire questions without saying &quot;yes&quot; or &quot;no&quot;. Use the Yes No Button as an impartial judge: press it to randomly decide who goes first, assign penalties, or generate random questions. Toggle to Yes/No/Maybe mode for a three-way variant.' },
+
+  { category: 'daily', question: 'Can I use the Yes No Button as a decision-making tool?', answer: 'Yes. The Yes No Button is designed as a decision-making aid. When you are stuck between two options, pressing the button can help reveal your true preference based on your emotional reaction to the result.' },
+  { category: 'daily', question: 'How do I use the Yes No Button for icebreakers?', answer: 'Use the button to randomly assign group activities, break ties in team votes, or add an element of chance to group decisions. It works well as a neutral third party in group settings.' },
+  { category: 'daily', question: 'Can the Yes No Button help with everyday decisions?', answer: 'Yes. Use it for low-stakes daily choices like which task to do first, whether to take a break, or what to wear. By outsourcing small decisions to the button, you save mental energy for more important things.' },
+];
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="Yes No Button — Free Yes or No Generator & Random Decision Maker"
+  description="Free yes or no generator and random decision maker. Press the button for a random yes or no answer instantly. Also works as a yes no oracle, yes no picker, and yes no maybe tool. No sign-up needed."
+  canonical="https://yesnobuttonapp.com/"
+  schema={[webAppSchema, createFaqSchema(faqItems), homeBreadcrumb]}
+>
+  <Fragment slot="header">
+    <Header />
+  </Fragment>
+
+  <!-- Section 1: Hero / Tool -->
+  <section class="py-[80px] max-sm:py-[48px] hero-gradient relative overflow-hidden">
+    <!-- Decorative game-like glow behind the tool -->
+    <div aria-hidden="true" class="hero-glow absolute inset-0 pointer-events-none select-none">
+      <div class="animate-hero-glow absolute top-1/2 left-1/2 w-[700px] h-[700px] max-sm:w-[400px] max-sm:h-[400px] rounded-full bg-gradient-to-br from-[#16A34A]/8 via-[#7C3AED]/5 to-transparent dark:from-[#22C55E]/10 dark:via-[#A78BFA]/8 dark:to-transparent blur-3xl"></div>
+      <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#FAFAF8]/80 to-transparent dark:from-[#111110]/80 dark:to-transparent"></div>
+    </div>
+    <div class="container text-center relative z-10">
+      <h1 class="font-display text-4xl md:text-6xl tracking-tight text-ink dark:text-ink-dark mb-3">
+        Yes No Button
+      </h1>
+      <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-10 max-w-xl mx-auto">
+        The free random yes or no decision maker. One click. Truly 50/50.
+      </p>
+      <YesNoTool />
+      <ResultPopup />
+      <HistoryTracker />
+    </div>
+  </section>
+
+  <!-- Section 2: What Is [bg: #FFFFFF] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">WHAT IS IT</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
+        What Is the Yes No Button?
+      </h2>
+      <div class="text-muted dark:text-muted-dark space-y-4 leading-relaxed mt-6">
+        <p>The Yes No Button is a free online random decision-making tool. It works by generating a truly random Yes or No answer with exact 50/50 probability  -  the same odds as flipping a fair coin, but instantly accessible on any device with a web browser.</p>
+        <p>You can type an optional question into the input field for context, or simply hold a question in your mind and press the button. The answer appears as a fullscreen popup: a green background for Yes, a red background for No. The tool also reads the answer aloud using your device's voice synthesis, so you get both visual and audio confirmation.</p>
+        <p>There is no sign-up required, no cost, and no data collection. The entire tool runs in your browser  -  nothing is sent to any server. It works on phones, tablets, laptops, and desktop computers. Whether you need a quick decision, a game randomizer, or just a moment of clarity, the Yes No Button is always ready.</p>
+      </div>
+
+      <img
+        src="/images/yes-result-screenshot.webp"
+        alt="Yes No Button showing a YES result in green"
+        width="600"
+        height="400"
+        loading="lazy"
+        style="border-radius: 16px; border: 1px solid #E4E2DC; width: 100%; max-width: 560px; display: block; margin: 24px auto;"
+      />
+
+      <h3 class="font-display text-lg md:text-xl tracking-tight text-ink dark:text-ink-dark mt-10 mb-6">
+        Common questions people ask
+      </h3>
+      <div id="common-questions-list">
+        <div class="flex justify-between items-start py-[14px] border-b border-[#E4E2DC] dark:border-border-dark max-sm:flex-col max-sm:gap-1">
+          <span class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark max-sm:max-w-full"><span class="mr-2">💬</span>Should I text them first?</span>
+          <span class="text-[14px] text-[#6B6965] dark:text-muted-dark text-right max-sm:text-left max-sm:max-w-full max-sm:text-[13px]">Overthinking a message they already want to send</span>
+        </div>
+        <div class="flex justify-between items-start py-[14px] border-b border-[#E4E2DC] dark:border-border-dark max-sm:flex-col max-sm:gap-1">
+          <span class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark max-sm:max-w-full"><span class="mr-2">💬</span>Should I quit my job?</span>
+          <span class="text-[14px] text-[#6B6965] dark:text-muted-dark text-right max-sm:text-left max-sm:max-w-full max-sm:text-[13px]">A gut check for a decision they're already leaning toward</span>
+        </div>
+        <div class="flex justify-between items-start py-[14px] border-b border-[#E4E2DC] dark:border-border-dark max-sm:flex-col max-sm:gap-1">
+          <span class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark max-sm:max-w-full"><span class="mr-2">💬</span>Should I order pizza tonight?</span>
+          <span class="text-[14px] text-[#6B6965] dark:text-muted-dark text-right max-sm:text-left max-sm:max-w-full max-sm:text-[13px]">Settling a classic internal debate</span>
+        </div>
+        <div class="flex justify-between items-start py-[14px] border-b border-[#E4E2DC] dark:border-border-dark max-sm:flex-col max-sm:gap-1">
+          <span class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark max-sm:max-w-full"><span class="mr-2">💬</span>Should I take the trip?</span>
+          <span class="text-[14px] text-[#6B6965] dark:text-muted-dark text-right max-sm:text-left max-sm:max-w-full max-sm:text-[13px]">Getting permission from a random source to do something fun</span>
+        </div>
+        <div class="flex justify-between items-start py-[14px] border-b border-[#E4E2DC] dark:border-border-dark max-sm:flex-col max-sm:gap-1">
+          <span class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark max-sm:max-w-full"><span class="mr-2">💬</span>Should I go to bed now?</span>
+          <span class="text-[14px] text-[#6B6965] dark:text-muted-dark text-right max-sm:text-left max-sm:max-w-full max-sm:text-[13px]">The eternal battle with a good show</span>
+        </div>
+        <div class="flex justify-between items-start py-[14px] border-none max-sm:flex-col max-sm:gap-1">
+          <span class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark max-sm:max-w-full"><span class="mr-2">💬</span>Should I call them back?</span>
+          <span class="text-[14px] text-[#6B6965] dark:text-muted-dark text-right max-sm:text-left max-sm:max-w-full max-sm:text-[13px]">Waiting for the right moment that never comes</span>
+        </div>
+      </div>
+      <div class="mt-6">
+        <a href="#decide-btn" class="inline-block px-6 py-3 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium hover:bg-[#27272A] dark:hover:bg-[#D4D2CC] transition-colors no-underline cursor-pointer">
+          Ask the Button
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: How to Use [bg: #FAFAF8] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">HOW TO USE</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
+        How to Use the Yes No Button
+      </h2>
+      <div class="text-muted dark:text-muted-dark leading-relaxed mt-4 mb-8">
+        <p>Using the Yes No Button takes just seconds. Follow these eight simple steps to get the most out of the tool:</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">1</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8a3.5 3 0 0 1 3.5 -3h1a3.5 3 0 0 1 3.5 3a3 3 0 0 1 -2 3a3 4 0 0 0 -2 4"/><path d="M12 19l0 .01"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">Type your question</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Type your question in the input field (optional but adds context)</p>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">2</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3m0 4a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-4a4 4 0 0 1 -4 -4z"/><path d="M12 7l0 4"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">Click the button</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Click the <strong class="text-ink dark:text-ink-dark">Press to Decide</strong> button</p>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">3</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">See the result</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Wait for the animated result  -  Yes (green) or No (red)</p>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">4</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8a5 5 0 0 1 0 8"/><path d="M17.7 5a9 9 0 0 1 0 14"/><path d="M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">Listen to the voice</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Listen to the voice confirmation read aloud</p>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">5</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">Click again</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Click again to get a new random answer</p>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">6</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/><path d="M2 6m0 6a6 6 0 0 1 6 -6h8a6 6 0 0 1 6 6v0a6 6 0 0 1 -6 6h-8a6 6 0 0 1 -6 -6z"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">Toggle mode</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Use the Yes/No/Maybe toggle if you want a third option</p>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">7</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4v4c-6.575 1.028 -9.02 6.788 -10 12c-.037 .206 5.384 -5.962 10 -6v4l8 -7l-8 -7z"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">Share your result</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Share your result using the Share button</p>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6 flex gap-4 items-start">
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="w-9 h-9 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium flex items-center justify-center shrink-0">8</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8l-4 4l4 4"/><path d="M17 8l4 4l-4 4"/><path d="M14 4l-4 16"/></svg>
+          </div>
+          <div>
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark">Embed the tool</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-0.5">Embed the tool on your site using the iframe widget</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 bg-[#F0FDF4] dark:bg-[#0A2E1A] border-l-3 border-[#16A34A] rounded-r-lg p-[14px_16px] text-sm text-[#15803D] dark:text-[#22C55E] leading-relaxed">
+        The question field is completely optional  -  you can simply hold your question in mind and click the button.
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: How Does It Work [bg: #FFFFFF] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">HOW IT WORKS</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
+        How Does the Yes No Button Work?
+      </h2>
+
+      <!-- How It Works Mini Diagram -->
+      <div class="flex items-center justify-center gap-3 my-8 max-sm:flex-col max-sm:gap-2">
+        <div class="border border-[#E4E2DC] dark:border-border-dark rounded-xl px-5 py-3 bg-white dark:bg-card-dark text-sm font-medium text-[#1A1A18] dark:text-ink-dark w-full max-sm:text-center">
+          Button Click
+        </div>
+        <span class="text-[#B0AEA8] text-xl font-medium max-sm:rotate-90 max-sm:scale-x-[-1]">→</span>
+        <div class="border border-[#E4E2DC] dark:border-border-dark rounded-xl px-5 py-3 bg-white dark:bg-card-dark text-sm font-medium text-center w-full">
+          <span class="text-[#1A1A18] dark:text-ink-dark">Math.random()</span>
+          <div class="flex items-center gap-0 mt-1.5">
+            <span class="text-[10px] text-[#6B6965]">0.0</span>
+            <div class="flex-1 h-2 rounded-full mx-1 overflow-hidden flex">
+              <div class="h-full w-1/2 bg-[#16A34A]"></div>
+              <div class="h-full w-1/2 bg-[#DC2626]"></div>
+            </div>
+            <span class="text-[10px] text-[#6B6965]">1.0</span>
+          </div>
+        </div>
+        <span class="text-[#B0AEA8] text-xl font-medium max-sm:rotate-90 max-sm:scale-x-[-1]">→</span>
+        <div class="border border-[#E4E2DC] dark:border-border-dark rounded-xl px-5 py-3 bg-white dark:bg-card-dark text-sm font-medium text-[#1A1A18] dark:text-ink-dark w-full max-sm:text-center">
+          YES or NO
+        </div>
+      </div>
+
+      <div class="text-muted dark:text-muted-dark space-y-4 leading-relaxed">
+        <p>The Yes No Button uses JavaScript's <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">Math.random()</code> function  -  a cryptographically seeded pseudorandom number generator built into every modern web browser. When you click the button, the tool generates a random decimal number between 0 and 1.</p>
+        <p>If the number is below 0.5, the answer is No. If it is 0.5 or above, the answer is Yes. This gives an exact 50/50 probability, mathematically equivalent to flipping a fair coin. In Maybe mode (three-way), the range is split into three equal thirds: 0 to 0.333 for No, 0.333 to 0.666 for Yes, and 0.666 to 1 for Maybe.</p>
+        <p>Each result is fully independent  -  previous outcomes have no influence on the next one. The tool does not store your questions or record your answers on any server. It is 100% client-side, running entirely in your browser with zero data sent over the network.</p>
+      </div>
+
+      <img
+        src="/images/no-result-screenshot.webp"
+        alt="Yes No Button showing a NO result in red"
+        width="600"
+        height="400"
+        loading="lazy"
+        style="border-radius: 16px; border: 1px solid #E4E2DC; width: 100%; max-width: 560px; display: block; margin: 24px auto;"
+      />
+
+      <h3 class="font-display text-lg md:text-xl tracking-tight text-ink dark:text-ink-dark mt-10 mb-6">Comparison with other methods</h3>
+      <div class="overflow-x-auto" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+        <table class="ynb-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Speed</th>
+              <th>Bias-free?</th>
+              <th>Fun factor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="text-ink dark:text-ink-dark">Flipping a coin</td><td class="text-muted dark:text-muted-dark">Slow (need a coin)</td><td class="text-muted dark:text-muted-dark">Yes</td><td class="text-muted dark:text-muted-dark">Medium</td></tr>
+            <tr><td class="text-ink dark:text-ink-dark">Asking a friend</td><td class="text-muted dark:text-muted-dark">Medium</td><td class="text-muted dark:text-muted-dark">No</td><td class="text-muted dark:text-muted-dark">High</td></tr>
+            <tr><td class="text-ink dark:text-ink-dark">Magic 8-ball</td><td class="text-muted dark:text-muted-dark">Medium</td><td class="text-muted dark:text-muted-dark">Yes</td><td class="text-muted dark:text-muted-dark">High</td></tr>
+            <tr class="winner-row"><td class="text-ink dark:text-ink-dark">Yes No Button</td><td class="text-muted dark:text-muted-dark">Instant</td><td class="text-muted dark:text-muted-dark">Yes</td><td class="text-muted dark:text-muted-dark">High</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: When to Use [bg: #FAFAF8] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">USE CASES</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
+        When to Use the Yes No Button?
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6">
+          <h3 class="flex items-center gap-2 text-lg font-medium text-[#1A1A18] dark:text-ink-dark mb-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 7a5 5 0 1 0 5 5"/><path d="M13 3.055a9 9 0 1 0 7.941 7.945"/><path d="M15 6v3h3l3 -3h-3v-3z"/><path d="M15 9l-3 3"/></svg>
+            Decision making
+          </h3>
+          <p class="text-muted dark:text-muted-dark leading-relaxed text-sm">When you're stuck between two options and analysis paralysis has set in, a random result can reveal your true preference. If the button says No and you feel disappointed, you know what you actually wanted.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6">
+          <h3 class="flex items-center gap-2 text-lg font-medium text-[#1A1A18] dark:text-ink-dark mb-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"/><circle cx="8.5" cy="8.5" r=".5" fill="currentColor"/><circle cx="15.5" cy="8.5" r=".5" fill="currentColor"/><circle cx="15.5" cy="15.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="15.5" r=".5" fill="currentColor"/></svg>
+            Games
+          </h3>
+          <p class="text-muted dark:text-muted-dark leading-relaxed text-sm">Use the button as a game mechanic. It works as a randomiser for truth-or-dare, would-you-rather, board game decisions, or picking who goes first.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6">
+          <h3 class="flex items-center gap-2 text-lg font-medium text-[#1A1A18] dark:text-ink-dark mb-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/></svg>
+            Surveys &amp; classroom
+          </h3>
+          <p class="text-muted dark:text-muted-dark leading-relaxed text-sm">Teachers can use it to randomly select students or determine the order of presentations. The truly random output ensures fair selection.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6">
+          <h3 class="flex items-center gap-2 text-lg font-medium text-[#1A1A18] dark:text-ink-dark mb-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/></svg>
+            Icebreakers
+          </h3>
+          <p class="text-muted dark:text-muted-dark leading-relaxed text-sm">In group settings, use it to randomly assign activities, break ties in votes, or add an element of chance to team decisions.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6">
+          <h3 class="flex items-center gap-2 text-lg font-medium text-[#1A1A18] dark:text-ink-dark mb-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2"/><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"/><path d="M9 14l2 2l4 -4"/></svg>
+            Daily tasks
+          </h3>
+          <p class="text-muted dark:text-muted-dark leading-relaxed text-sm">When choosing between two equally good options  -  which task to do first, which show to watch, which restaurant to pick  -  the button removes friction and helps you act.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6">
+          <h3 class="flex items-center gap-2 text-lg font-medium text-[#1A1A18] dark:text-ink-dark mb-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M12 16v.01"/><path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"/></svg>
+            Quizzes &amp; trivia
+          </h3>
+          <p class="text-muted dark:text-muted-dark leading-relaxed text-sm">In educational settings, use it to randomly pick which questions to ask or in which order to test participants.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-6">
+          <h3 class="flex items-center gap-2 text-lg font-medium text-[#1A1A18] dark:text-ink-dark mb-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12 12m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></svg>
+            Yes No No Game Judge
+          </h3>
+          <p class="text-muted dark:text-muted-dark leading-relaxed text-sm">The "yes no no" challenge is a game where players must answer rapid-fire questions without saying "yes" or "no". Use this button as the impartial judge: press it to randomly assign who goes first, or to generate the penalty decision when someone slips up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Why Use Online [bg: #F0FDF4] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-[#F0FDF4] dark:bg-[#0A2E1A]">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">BENEFITS</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
+        Why Use the Yes No Button Online?
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+        <div class="bg-white dark:bg-card-dark border border-[#D4F0DF] dark:border-[#1A3A2A] rounded-2xl p-6 flex flex-col gap-2.5 hover:border-[#16A34A] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,163,74,0.08)] transition-all duration-200 ease">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><circle cx="12" cy="12" r="8"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+          </div>
+          <p class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark">Free</p>
+          <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed">No subscription, no hidden fees  -  it's completely free to use.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#D4F0DF] dark:border-[#1A3A2A] rounded-2xl p-6 flex flex-col gap-2.5 hover:border-[#16A34A] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,163,74,0.08)] transition-all duration-200 ease">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <p class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark">Instant</p>
+          <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed">One click, no waiting  -  results appear immediately.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#D4F0DF] dark:border-[#1A3A2A] rounded-2xl p-6 flex flex-col gap-2.5 hover:border-[#16A34A] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,163,74,0.08)] transition-all duration-200 ease">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <p class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark">Anonymous</p>
+          <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed">Nothing is stored or tracked  -  your privacy is protected.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#D4F0DF] dark:border-[#1A3A2A] rounded-2xl p-6 flex flex-col gap-2.5 hover:border-[#16A34A] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,163,74,0.08)] transition-all duration-200 ease">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20l10 0"/><path d="M6 6l6 -1l6 1"/><path d="M12 3l0 17"/><path d="M9 12l-3 -6l-3 6a3 3 0 0 0 6 0"/><path d="M21 12l-3 -6l-3 6a3 3 0 0 0 6 0"/></svg>
+          </div>
+          <p class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark">Unbiased</p>
+          <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed">Truly random, unlike asking a friend who may have their own bias.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#D4F0DF] dark:border-[#1A3A2A] rounded-2xl p-6 flex flex-col gap-2.5 hover:border-[#16A34A] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,163,74,0.08)] transition-all duration-200 ease">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+          </div>
+          <p class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark">Available 24/7</p>
+          <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed">Always ready when you need it, day or night.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-[#D4F0DF] dark:border-[#1A3A2A] rounded-2xl p-6 flex flex-col gap-2.5 hover:border-[#16A34A] hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(22,163,74,0.08)] transition-all duration-200 ease">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16"/><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"/><path d="M8 4v4"/></svg>
+          </div>
+          <p class="text-[15px] font-medium text-[#1A1A18] dark:text-ink-dark">No app download</p>
+          <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed">Works in any browser  -  no installation or download needed.</p>
+        </div>
+      </div>
+      <p style="font-size: 13px; color: #6B6965; margin-top: 24px; text-align: center;">
+        Also called the <a href="/yes-and-no-button" style="color: #6B6965; text-decoration: underline; text-underline-offset: 2px;">yes and no button</a>,
+        <a href="/yes-or-no-buttons" style="color: #6B6965; text-decoration: underline; text-underline-offset: 2px;">yes or no buttons</a>,
+        or <a href="/no-or-yes-button" style="color: #6B6965; text-decoration: underline; text-underline-offset: 2px;">no or yes button</a>
+: all names for the same free random decision tool.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 7: Seasonal Questions [bg: #FFFFFF] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">THIS MONTH</span>
+      <SeasonalTable
+        month="July"
+        year={2026}
+        questions={julyQuestions}
+      />
+      <div class="h-8"></div>
+      <SeasonalTable
+        month="June"
+        year={2026}
+        questions={seasonalQuestions}
+      />
+    </div>
+  </section>
+
+  <!-- Section 8: Category Questions [bg: #FAFAF8] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl text-center">
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
+        Question Ideas by Category
+      </h2>
+      <p class="text-muted dark:text-muted-dark mb-8">Pick a category and click a question to auto-fill and trigger the button.</p>
+    </div>
+    <div class="container">
+      <CategoryTabs />
+    </div>
+  </section>
+
+  <!-- Section 10: FAQ [bg: #FFFFFF] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">FAQ</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-6">
+        Frequently Asked Questions
+      </h2>
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <!-- Section 10.5: Other Names [bg: #FAFAF8] -->
+  <section class="py-[80px] max-sm:py-[48px] bg-canvas dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">ALSO KNOWN AS</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-5">
+        Other Names for the Yes No Button
+      </h2>
+      <p class="text-base text-[#4A4A48] dark:text-muted-dark leading-[1.8] mb-6">
+        The Yes No Button goes by many names depending on how people use it.
+        Some call it a <strong>yes or no generator</strong>: because it generates
+        a random answer on demand. Others call it a
+        <strong>random yes or no tool</strong> because of its 50/50
+        unpredictability. It's also referred to as a
+        <strong>yes no oracle</strong> (for those who prefer a mystical framing),
+        a <strong>yes no picker</strong> (when you need something to pick a
+        direction for you), or a <strong>yes no wheel</strong> (as an alternative
+        to spinning a physical wheel). Whatever you call it: yes or no button,
+        yes no generator, random yes or no, yes and no button, no or yes button,
+        or yes no oracle: this tool does one thing: gives you an instant,
+        unbiased, random yes or no answer.
+      </p>
+      <div class="flex flex-wrap gap-2.5">
+        <a href="/yes-or-no-generator"
+          class="inline-flex items-center gap-1.5 px-[18px] py-[10px] rounded-full border border-[#E4E2DC] bg-[#FAFAF8] text-sm text-[#1A1A18] no-underline">
+          Yes or No Generator →
+        </a>
+        <a href="/random-yes-or-no"
+          class="inline-flex items-center gap-1.5 px-[18px] py-[10px] rounded-full border border-[#E4E2DC] bg-[#FAFAF8] text-sm text-[#1A1A18] no-underline">
+          Random Yes or No →
+        </a>
+        <a href="/yes-no-oracle"
+          class="inline-flex items-center gap-1.5 px-[18px] py-[10px] rounded-full border border-[#E4E2DC] bg-[#FAFAF8] text-sm text-[#1A1A18] no-underline">
+          Yes No Oracle →
+        </a>
+        <a href="/yes-no-wheel"
+          class="inline-flex items-center gap-1.5 px-[18px] py-[10px] rounded-full border border-[#E4E2DC] bg-[#FAFAF8] text-sm text-[#1A1A18] no-underline">
+          Yes No Wheel →
+        </a>
+        <a href="/yes-or-no"
+          class="inline-flex items-center gap-1.5 px-[18px] py-[10px] rounded-full border border-[#E4E2DC] bg-[#FAFAF8] text-sm text-[#1A1A18] no-underline">
+          Yes or No →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 11: Embed CTA [bg: #18181B] -->
+  <section class="py-[80px] max-sm:py-[48px]" style="background:#18181B">
+    <div class="container max-w-3xl text-center">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">FREE EMBED</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-white leading-[1.15] mb-2">
+        Add the Yes No Button to Your Site  -  Free
+      </h2>
+      <p class="text-[#A8A8A0] mb-8 max-sm:max-w-full max-w-md mx-auto" style="color:#A8A8A0">
+        Works on any website. Paste one line of code. Your visitors get the full tool.
+      </p>
+      <EmbedWidget />
+      <p class="mt-6 text-sm" style="color:#A8A8A0">
+        <a href="/embed" class="text-white underline hover:no-underline">View full embed page</a>
+      </p>
+    </div>
+  </section>
+
+  <Fragment slot="footer">
+    <Footer />
+  </Fragment>
+</BaseLayout>
+
+<script>
+  import { initTool } from '../scripts/tool';
+  initTool();
+
+  document.querySelector('a[href="#decide-btn"]')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('decide-btn');
+    if (btn) {
+      btn.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => btn.focus(), 500);
+    }
+  });
+</script>

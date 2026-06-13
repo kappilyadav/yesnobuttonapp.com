@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import YesNoTool from '../components/tool/YesNoTool.astro';
+import ResultPopup from '../components/tool/ResultPopup.astro';
+import HistoryTracker from '../components/tool/HistoryTracker.astro';
+import FAQAccordion from '../components/content/FAQAccordion.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+
+const faqItems = [
+  { category: 'general', question: 'What is the yes no oracle?', answer: 'The Yes No Oracle is a free online tool that randomly generates a yes or no answer with equal 50/50 probability. It uses a mystical oracle framing but the underlying mechanism is identical to a random coin flip.' },
+  { category: 'general', question: 'Is the yes no oracle real or random?', answer: 'The oracle produces random results using JavaScript\'s Math.random() function. However, many users find that their emotional reaction to the random result helps them identify what they truly want \u2014 making it genuinely useful for decision-making.' },
+  { category: 'general', question: 'How does the yes no oracle work?', answer: 'When you press "Consult the Oracle", the tool generates a number between 0 and 1. Numbers below 0.5 produce No; numbers at or above 0.5 produce Yes. Each result is completely independent of previous ones.' },
+  { category: 'general', question: 'Can I trust the yes no oracle for important decisions?', answer: 'The oracle is best used for low-to-medium stakes decisions where you feel stuck. For major life decisions, use the oracle to reveal your emotional preference, then consult appropriate professionals (doctors, lawyers, financial advisors) before acting.' },
+  { category: 'general', question: 'Is there a free yes no oracle online?', answer: 'Yes \u2014 this tool is completely free. No sign-up, no subscription, no cost. Consult the oracle as many times as you need.' },
+];
+
+const faqSchema = createFaqSchema(faqItems);
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Yes No Oracle', url: '/yes-no-oracle' },
+]);
+---
+
+<BaseLayout
+  title="Yes No Oracle \u2014 Ask the Oracle Your Yes or No Question"
+  description="Consult the free Yes No Oracle for an instant yes or no answer. The online oracle uses true randomness to answer any question. No sign-up."
+  canonical="https://yesnobuttonapp.com/yes-no-oracle"
+  schema={[webAppSchema, faqSchema, breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <!-- HERO -->
+  <section class="py-[80px] max-sm:py-[48px] relative overflow-hidden bg-canvas dark:bg-canvas-dark">
+    <div class="container text-center relative z-10">
+      <h1 class="font-display text-5xl md:text-6xl font-bold text-ink dark:text-white leading-tight mb-3">
+        Yes No Oracle
+      </h1>
+      <p class="text-muted dark:text-muted-dark mb-10 leading-relaxed max-w-xl mx-auto">
+        Ask the oracle. Receive your answer. The oracle does not lie.
+      </p>
+      <YesNoTool theme="oracle" />
+      <ResultPopup theme="oracle" />
+      <HistoryTracker />
+    </div>
+  </section>
+
+  <!-- SECTION 1: What Is the Yes No Oracle? -->
+  <section class="py-[80px] max-sm:py-[48px] bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-white mb-4">
+        What Is the Yes No Oracle?
+      </h2>
+      <div class="text-muted dark:text-muted-dark leading-relaxed space-y-4">
+        <p>The Yes No Oracle is a digital divination tool that answers yes or no questions with instant, unbiased certainty. Unlike human advisors \u2014 who carry their own biases, moods, and agendas \u2014 the Yes No Oracle is purely impartial. It generates its answer using true mathematical randomness: a 50/50 probability split that cannot be predicted, influenced, or manipulated.</p>
+        <p>The oracle does not know your question. It does not favour a particular answer. It simply responds: Yes or No.</p>
+        <p>For centuries, humans have used oracles, coin flips, I Ching hexagrams, and tarot cards to seek external guidance on difficult decisions. The Yes No Oracle is the modern digital version of that ancient practice \u2014 faster, always available, free.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: How to Consult the Yes No Oracle -->
+  <section class="py-[80px] max-sm:py-[48px] bg-canvas dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-white mb-6">
+        How to Consult the Yes No Oracle
+      </h2>
+      <ol class="list-decimal list-inside space-y-4 text-muted dark:text-muted-dark leading-relaxed">
+        <li><strong class="text-[#D97706]">Quiet your mind</strong> and focus clearly on your question</li>
+        <li><strong class="text-[#D97706]">Type your question</strong> into the oracle\u2019s input field \u2014 or hold it in your mind</li>
+        <li><strong class="text-[#D97706]">Click "Consult the Oracle"</strong> \u2014 do not hesitate</li>
+        <li><strong class="text-[#D97706]">Accept the oracle\u2019s answer</strong>: Yes or No</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- SECTION 3: The History of Yes No Oracles -->
+  <section class="py-[80px] max-sm:py-[48px] bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-white mb-4">
+        The History of Yes No Oracles
+      </h2>
+      <div class="text-muted dark:text-muted-dark leading-relaxed space-y-4">
+        <p>The idea of asking a higher power for a yes or no answer is ancient. The Oracle of Delphi in ancient Greece gave yes or no guidance to kings and generals for over a thousand years. The I Ching, the Chinese divination text written over 3,000 years ago, offers binary yes/no answers through the casting of coins or yarrow sticks.</p>
+        <p>The Magic 8-Ball, invented in 1950, brought yes/no oracle mechanics to the mass market \u2014 and sold over one million units in its first year. Tarot readers have long used single-card yes/no spreads, assigning affirmative cards (The Sun, The Star, The World) and negative cards (The Tower, The Five of Cups) to binary outcomes.</p>
+        <p>What all of these oracles have in common \u2014 from the ancient to the commercial \u2014 is the same mechanism: a random result that the seeker invests with meaning. The Yes No Oracle works on the same psychological principle. The answer is random. Your reaction to it is not.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: Is the Yes No Oracle Accurate? -->
+  <section class="py-[80px] max-sm:py-[48px] bg-canvas dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-white mb-4">
+        Is the Yes No Oracle Accurate?
+      </h2>
+      <div class="text-muted dark:text-muted-dark leading-relaxed space-y-4">
+        <p>The Yes No Oracle produces results that are random \u2014 not divinely guided, not psychically informed, not mystically accurate in a supernatural sense. It is honest about this.</p>
+        <p>However, research in decision psychology consistently shows that people are better at identifying their true preferences after committing to a random outcome than they are through deliberate analysis alone. If you consult the oracle and it says "No" \u2014 and you immediately feel relief \u2014 the oracle has served its purpose. Not by being right, but by revealing what you already knew.</p>
+        <p>In this sense, the oracle is always accurate: not about the future, but about your present emotional state.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: Yes No Oracle vs Yes No Button -->
+  <section class="py-[80px] max-sm:py-[48px] bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-white mb-6">
+        Yes No Oracle vs Yes No Button
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-border dark:border-border-dark">
+              <th class="text-left py-2.5 px-3 font-medium text-ink dark:text-white">Feature</th>
+              <th class="text-left py-2.5 px-3 font-medium text-ink dark:text-white">Yes No Oracle</th>
+              <th class="text-left py-2.5 px-3 font-medium text-ink dark:text-white">Yes No Button</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-border/50 dark:border-border-dark/50"><td class="py-2.5 px-3 text-[#D97706] font-medium">Underlying mechanism</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">50/50 random</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">50/50 random</td></tr>
+            <tr class="border-b border-border/50 dark:border-border-dark/50"><td class="py-2.5 px-3 text-[#D97706] font-medium">Visual theme</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Mystical, dark</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Clean, minimal</td></tr>
+            <tr class="border-b border-border/50 dark:border-border-dark/50"><td class="py-2.5 px-3 text-[#D97706] font-medium">Button label</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">"Consult the Oracle"</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">"Press to Decide"</td></tr>
+            <tr class="border-b border-border/50 dark:border-border-dark/50"><td class="py-2.5 px-3 text-[#D97706] font-medium">Use case</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Mystical framing</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Everyday decisions</td></tr>
+            <tr class="border-b border-border/50 dark:border-border-dark/50"><td class="py-2.5 px-3 text-[#D97706] font-medium">Speed</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Instant</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Instant</td></tr>
+            <tr class="border-b border-border/50 dark:border-border-dark/50"><td class="py-2.5 px-3 text-[#D97706] font-medium">Cost</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Free</td><td class="py-2.5 px-3 text-muted dark:text-muted-dark">Free</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: FAQ -->
+  <section class="py-[80px] max-sm:py-[48px] bg-canvas dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-white mb-6">
+        Frequently Asked Questions
+      </h2>
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>
+
+<script>
+  import { initTool } from '../scripts/tool';
+  initTool();
+</script>

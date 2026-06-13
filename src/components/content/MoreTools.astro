@@ -1,0 +1,35 @@
+---
+export interface ToolLink {
+  href: string;
+  label: string;
+}
+
+const tools: ToolLink[] = [
+  { href: '/', label: 'Yes No Button' },
+  { href: '/yes-or-no', label: 'Yes or No' },
+  { href: '/yes-or-no-generator', label: 'Yes or No Generator' },
+  { href: '/random-yes-or-no', label: 'Random Yes or No' },
+  { href: '/yes-no-oracle', label: 'Yes No Oracle' },
+  { href: '/yes-no-wheel', label: 'Yes No Wheel' },
+  { href: '/bluey-yes-no-button', label: 'Bluey Yes No Button' },
+  { href: '/yes-no-button-for-teachers', label: 'For Teachers' },
+];
+---
+
+<section class="py-12 bg-card dark:bg-card-dark">
+  <div class="container max-w-3xl text-center">
+    <p class="text-sm text-muted dark:text-muted-dark mb-4">
+      More tools from Yes No Button App:
+    </p>
+    <div class="flex justify-center flex-wrap gap-2.5">
+      {tools.map((tool) => (
+        <a
+          href={tool.href}
+          class="px-4 py-2 border border-border dark:border-border-dark rounded-full text-xs text-ink dark:text-ink-dark no-underline hover:bg-border/50 dark:hover:bg-border-dark/50 transition-colors"
+        >
+          {tool.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

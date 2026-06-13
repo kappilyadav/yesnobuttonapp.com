@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import YesNoTool from '../components/tool/YesNoTool.astro';
+import ResultPopup from '../components/tool/ResultPopup.astro';
+import HistoryTracker from '../components/tool/HistoryTracker.astro';
+import FAQAccordion from '../components/content/FAQAccordion.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+
+const faqItems = [
+  { category: 'general', question: 'What is a yes or no tool?', answer: 'A yes or no tool is a free online application that randomly generates either a yes or no answer with equal 50/50 probability. It works like flipping a coin but is instantly accessible on any device: no coin needed.' },
+  { category: 'general', question: 'Is the yes or no answer random?', answer: 'Yes. The answer uses JavaScript\'s Math.random(): numbers below 0.5 give No, at or above 0.5 give Yes. Each result is fully independent of previous ones.' },
+  { category: 'general', question: 'Can I get yes, no, or maybe?', answer: 'Yes: toggle to Yes/No/Maybe mode. Each of the three outcomes has exactly 33.3% probability. Perfect for decisions that aren\'t strictly binary.' },
+  { category: 'general', question: 'Is this yes or no tool free?', answer: 'Completely free. No sign-up, no subscription, no ads. Use it unlimited times.' },
+];
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Yes or No', url: '/yes-or-no' },
+]);
+---
+
+<BaseLayout
+  title="Yes or No — Free Online Yes or No Tool"
+  description="Instant yes or no answers. Click the button for a free random yes or no result. 50/50 chance. Yes, no, or maybe. No sign-up required."
+  canonical="https://yesnobuttonapp.com/yes-or-no"
+  schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <!-- HERO — TOOL FIRST, MINIMAL TEXT -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container text-center">
+
+      <h1 class="font-display text-5xl md:text-6xl font-bold text-ink dark:text-ink-dark leading-tight mb-3">
+        Yes or No
+      </h1>
+
+      <p class="text-muted dark:text-muted-dark mb-10 leading-relaxed max-w-xl mx-auto">
+        Can't decide? Click for an instant yes or no answer. Free. 50/50. No sign-up.
+      </p>
+
+      <YesNoTool />
+      <ResultPopup />
+      <HistoryTracker />
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: YES OR NO, OR MAYBE? -->
+  <section class="bg-card dark:bg-card-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
+        Yes or No: or Maybe?
+      </h2>
+
+      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
+        Sometimes yes or no is not enough. Toggle to Yes/No/Maybe mode for decisions
+        where a middle ground makes sense.         Each of the three outcomes has exactly 33%
+        probability: no bias, no thumb on the scale.
+      </p>
+
+      <p class="text-muted dark:text-muted-dark leading-relaxed">
+        Some people also use this tool for yes/no games like the "yes no no" challenge:
+        where players must answer questions without ever saying "yes" or "no".
+        This tool works as an instant judge for those games.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3: USE CASES (SHORT) -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
+        What Can You Ask?
+      </h2>
+
+      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
+        People use this yes or no tool for everyday decisions: Should I text them?
+        Should I order pizza? Should I take the job? Should I go to the gym?
+        The tool works for any question where a binary answer is helpful:
+        or where you just need a gentle push in one direction.
+      </p>
+
+      <p class="text-muted dark:text-muted-dark leading-relaxed">
+        Research in decision science shows that committing to a random yes or no answer -
+        and then noticing your emotional reaction - is one of the most reliable ways
+        to discover what you actually want. If you feel relief when it says "No",
+        you already knew the answer.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-card dark:bg-card-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-6">
+        Frequently Asked Questions
+      </h2>
+
+      <FAQAccordion items={faqItems} />
+
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>
+
+<script>
+  import { initTool } from '../scripts/tool';
+  initTool();
+</script>

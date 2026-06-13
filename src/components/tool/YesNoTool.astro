@@ -1,0 +1,94 @@
+---
+// YesNoTool.astro
+import WheelSpinner from '../tool/WheelSpinner.astro';
+
+export interface Props {
+  theme?: string;
+  showWheel?: boolean;
+}
+
+const { theme, showWheel } = Astro.props;
+const buttonLabel = theme === 'oracle' ? 'Consult the Oracle' : 'Press to Decide';
+const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
+---
+
+<div id="yes-no-tool" class="w-full max-w-lg mx-auto text-center flex flex-col items-center gap-6" data-theme={theme === 'oracle' ? 'oracle' : undefined}>
+
+  <!-- Hero animated circles / Wheel -->
+  {showWheel && <WheelSpinner />}
+  {!showWheel && (
+    <div class="flex items-center justify-center gap-2 mb-2" id="hero-circles" aria-hidden="true">
+      <div class="w-6 h-6 rounded-full bg-yes" style="--i:0; animation: float 1.5s ease-in-out infinite; animation-delay: 0s; opacity: 0; animation: reveal 0.4s ease-out 0s forwards, float 1.5s ease-in-out 0.4s infinite;"></div>
+      <div class="w-6 h-6 rounded-full bg-no" style="--i:1; animation: float 1.5s ease-in-out infinite; animation-delay: 0.15s; opacity: 0; animation: reveal 0.4s ease-out 0.08s forwards, float 1.5s ease-in-out 0.48s infinite;"></div>
+      <div class="w-6 h-6 rounded-full bg-yes" style="--i:2; animation: float 1.5s ease-in-out infinite; animation-delay: 0.3s; opacity: 0; animation: reveal 0.4s ease-out 0.16s forwards, float 1.5s ease-in-out 0.56s infinite;"></div>
+      <div class="w-6 h-6 rounded-full bg-[#B0AEA8]" style="--i:3; animation: float 1.5s ease-in-out infinite; animation-delay: 0.45s; opacity: 0; animation: reveal 0.4s ease-out 0.24s forwards, float 1.5s ease-in-out 0.64s infinite;"></div>
+      <div class="w-6 h-6 rounded-full bg-no" style="--i:4; animation: float 1.5s ease-in-out infinite; animation-delay: 0.6s; opacity: 0; animation: reveal 0.4s ease-out 0.32s forwards, float 1.5s ease-in-out 0.72s infinite;"></div>
+      <div class="w-6 h-6 rounded-full bg-yes" style="--i:5; animation: float 1.5s ease-in-out infinite; animation-delay: 0.75s; opacity: 0; animation: reveal 0.4s ease-out 0.4s forwards, float 1.5s ease-in-out 0.8s infinite;"></div>
+      <div class="w-6 h-6 rounded-full bg-no" style="--i:6; animation: float 1.5s ease-in-out infinite; animation-delay: 0.9s; opacity: 0; animation: reveal 0.4s ease-out 0.48s forwards, float 1.5s ease-in-out 0.88s infinite;"></div>
+    </div>
+  )}
+
+  <!-- Mode toggle -->
+  <div
+    id="mode-toggle"
+    class="flex items-center gap-1 p-1 rounded-xl bg-[#F4F2EC] dark:bg-[#2A2A28] w-fit mx-auto"
+    role="radiogroup"
+    aria-label="Select answer mode"
+  >
+    <button
+      data-ynb-mode="binary"
+      class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+      role="radio"
+      aria-checked="true"
+    >
+      Yes / No
+    </button>
+    <button
+      data-ynb-mode="three-way"
+      class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+      role="radio"
+      aria-checked="false"
+    >
+      Yes / No / Maybe
+    </button>
+  </div>
+
+  <!-- Question Input -->
+  <input
+    id="question-input"
+    type="text"
+    placeholder="Type your question here (optional)"
+    class="w-full px-5 py-3.5 rounded-xl border border-border dark:border-border-dark bg-card dark:bg-card-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-ink/10 dark:focus:ring-ink-dark/10 transition-all"
+    aria-label="Type your question"
+  />
+
+  <!-- Press to Decide Button -->
+  <div class="py-12 max-sm:py-8 w-full flex justify-center">
+    <button
+      id="decide-btn"
+      class="relative w-[280px] h-[72px] max-sm:w-[calc(100%-48px)] max-sm:h-16 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark font-display text-xl max-sm:text-lg tracking-[0.05em] uppercase cursor-pointer select-none animate-pulse-subtle animate-pulse-glow hover:bg-[#27272A] dark:hover:bg-[#D4D2CC] hover:scale-105 active:scale-96 transition-all duration-200 ease focus:outline-hidden disabled:opacity-50"
+      aria-label="Press to get a random yes or no answer"
+      role="button"
+    >
+      {buttonLabel}
+    </button>
+  </div>
+</div>
+
+<style>
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #mode-toggle button.mode-active {
+    background: white;
+    color: #1A1A18;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+  .dark #mode-toggle button.mode-active {
+    background: #1C1C1A;
+    color: #E8E6E0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+</style>

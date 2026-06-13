@@ -7,11 +7,23 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "images:convert": "node scripts/convert-images.js",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "astro build && npx wrangler pages deploy dist/ --project-name yesnobuttonapp-com"
+  },
+  "devDependencies": {
+    "sharp": "^0.32.0"
   },
   "dependencies": {
-    "astro": "^6.4.4"
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/syne": "^5.2.7",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.4.5",
+    "tailwindcss": "^4.3.0"
   }
 }

@@ -1,0 +1,25 @@
+---
+import EmbedLayout from '../layouts/EmbedLayout.astro';
+import YesNoTool from '../components/tool/YesNoTool.astro';
+import ResultPopup from '../components/tool/ResultPopup.astro';
+---
+
+<EmbedLayout>
+  <div class="flex items-center justify-center min-h-[260px] px-4 py-6">
+    <div class="w-full max-w-sm text-center">
+      <h1 class="font-display text-3xl md:text-4xl tracking-tight text-ink dark:text-ink-dark mb-2">
+        Yes No Button
+      </h1>
+      <p class="text-muted dark:text-muted-dark text-sm md:text-base mb-4 max-w-xs mx-auto leading-relaxed">
+        The free random yes or no decision maker. One click. Truly 50/50.
+      </p>
+      <YesNoTool />
+      <ResultPopup />
+    </div>
+  </div>
+</EmbedLayout>
+
+<script>
+  import { initTool } from '../scripts/tool';
+  initTool();
+</script>

@@ -1,0 +1,62 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import Footer from '../../components/layout/Footer.astro';
+import MoreTools from '../../components/content/MoreTools.astro';
+import { articleSchema, breadcrumbSchema } from '../../data/schemas';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: post.data.title, url: `/blog/${post.id}/` },
+]);
+---
+
+<BaseLayout
+  title={`${post.data.title} | Yes No Button Blog`}
+  description={post.data.description}
+  canonical={`https://yesnobuttonapp.com/blog/${post.id}/`}
+  schema={[
+    articleSchema({
+      title: post.data.title,
+      description: post.data.description,
+      pubDate: post.data.pubDate,
+      updatedDate: post.data.updatedDate,
+      slug: post.id,
+      image: post.data.image,
+    }),
+    breadcrumb,
+  ]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <article class="py-12 md:py-20">
+    <div class="container max-w-3xl">
+      <time class="text-xs text-muted dark:text-muted-dark">
+        {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time>
+      <h1 class="font-display text-3xl md:text-4xl tracking-tight text-ink dark:text-ink-dark mt-2 mb-8">
+        {post.data.title}
+      </h1>
+      <div class="prose prose-stone dark:prose-invert max-w-none text-muted dark:text-muted-dark leading-relaxed space-y-4 [&_h2]:font-display [&_h2]:text-xl [&_h2]:md:text-2xl [&_h2]:text-ink [&_h2]:dark:text-ink-dark [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-lg [&_h3]:text-ink [&_h3]:dark:text-ink-dark [&_h3]:mt-6 [&_h3]:mb-2 [&_ul]:list-disc [&_ul]:list-inside [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:space-y-1 [&_li]:text-muted [&_li]:dark:text-muted-dark [&_a]:text-ink [&_a]:dark:text-ink-dark [&_a]:underline [&_strong]:text-ink [&_strong]:dark:text-ink-dark">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

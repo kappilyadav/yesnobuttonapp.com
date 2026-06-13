@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { contactPageSchema, breadcrumbSchema } from '../data/schemas';
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Contact', url: '/contact' },
+]);
+---
+
+<BaseLayout
+  title="Contact Us | Yes No Button"
+  description="Get in touch with the Yes No Button team. Have a question, suggestion, or feedback? We'd love to hear from you."
+  canonical="https://yesnobuttonapp.com/contact"
+  schema={[contactPageSchema, breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <div class="flex flex-wrap gap-2 mb-6">
+        <a href="/about" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
+        <a href="/privacy-policy" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
+        <a href="/terms" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
+        <a href="/contact" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Contact</a>
+      </div>
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">CONTACT</span>
+      <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">Contact Us</h1>
+      <p class="text-muted dark:text-muted-dark text-lg mb-10">Have a question, suggestion, or just want to say hello? We'd love to hear from you.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+          </div>
+          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Email</h3>
+          <p class="text-sm text-muted dark:text-muted-dark">Send us an email at <a href="mailto:hello@yesnobuttonapp.com" class="text-ink dark:text-ink-dark underline hover:no-underline">hello@yesnobuttonapp.com</a>. We'll get back to you as soon as possible.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          </div>
+          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Feedback</h3>
+          <p class="text-sm text-muted dark:text-muted-dark">Found a bug or have a feature request? We appreciate your feedback and use it to improve the tool.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0 -4 -4H5a4 4 0 0 0 -4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0 -3 -3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Embed Support</h3>
+          <p class="text-sm text-muted dark:text-muted-dark">Need help embedding the Yes No Button on your website? Check out our <a href="/embed" class="text-ink dark:text-ink-dark underline hover:no-underline">embed page</a> or reach out.</p>
+        </div>
+        <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
+          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </div>
+          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Open Source</h3>
+          <p class="text-sm text-muted dark:text-muted-dark">This project is open source. Find us on <a href="https://github.com" class="text-ink dark:text-ink-dark underline hover:no-underline">GitHub</a> to contribute or report issues.</p>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-8 text-center">
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Send Us a Message</h2>
+        <p class="text-muted dark:text-muted-dark mb-6">For now, the best way to reach us is by email at <a href="mailto:hello@yesnobuttonapp.com" class="text-ink dark:text-ink-dark underline hover:no-underline">hello@yesnobuttonapp.com</a>. We read every message and will respond as quickly as we can.</p>
+        <a href="mailto:hello@yesnobuttonapp.com" class="inline-flex items-center px-6 py-3 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark font-display text-base hover:scale-102 active:scale-98 transition-transform no-underline gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+          Send Email
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

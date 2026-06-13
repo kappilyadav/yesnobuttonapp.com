@@ -1,0 +1,71 @@
+---
+export interface FAQItem {
+  question: string;
+  answer: string;
+  category?: string;
+}
+
+export interface Props {
+  items: FAQItem[];
+}
+
+const { items } = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  general: 'General',
+  love: 'Love & Relationships',
+  career: 'Work & Career',
+  food: 'Food & Lifestyle',
+  travel: 'Travel & Adventure',
+  games: 'Games & Fun',
+  daily: 'Daily Decisions',
+};
+
+const categoryOrder = ['general', 'love', 'career', 'food', 'travel', 'games', 'daily'];
+
+const grouped = items.reduce<Record<string, FAQItem[]>>((acc, item) => {
+  const cat = item.category ?? 'general';
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(item);
+  return acc;
+}, {});
+
+const orderedGroups = categoryOrder
+  .filter((cat) => grouped[cat]?.length)
+  .map((cat) => ({ category: cat, label: categoryLabels[cat] ?? cat, items: grouped[cat] }));
+---
+
+<div>
+  {orderedGroups.map((group) => (
+    <div class="mb-8">
+      <h3 class="text-xs font-medium text-[#6B6965] dark:text-muted-dark uppercase tracking-[0.08em] mb-3">
+        {group.label}
+      </h3>
+      <div class="space-y-2">
+        {group.items.map((item) => (
+          <details class="group bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-xl overflow-hidden transition-all duration-150">
+            <summary class="flex items-center justify-between cursor-pointer px-5 py-[18px] text-base font-medium text-[#1A1A18] dark:text-ink-dark hover:bg-[#FAFAF8] dark:hover:bg-[#222220] transition-colors list-none">
+              <span>{item.question}</span>
+              <span class="chevron text-[#6B6965] dark:text-muted-dark transition-transform duration-200 group-open:rotate-180 shrink-0 ml-4 text-lg leading-none">▾</span>
+            </summary>
+            <div class="px-5 pb-[18px] pt-0 text-[15px] text-[#4A4A48] dark:text-muted-dark leading-relaxed border-t border-[#E4E2DC] dark:border-border-dark">
+              <Fragment set:html={item.answer} />
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  details[open] summary {
+    color: #16A34A;
+  }
+  .dark details[open] summary {
+    color: #22C55E;
+  }
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

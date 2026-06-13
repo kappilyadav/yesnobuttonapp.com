@@ -1,0 +1,42 @@
+---
+// WheelControls.astro — left panel entry editor
+---
+
+<div class="bg-card dark:bg-card-dark rounded-2xl shadow-sm border border-border dark:border-border-dark overflow-hidden">
+  <!-- Purple header -->
+  <div class="bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] px-5 py-3.5">
+    <div class="flex items-center justify-between">
+      <span class="text-white text-sm font-semibold">Entries</span>
+      <span id="entry-count" class="text-white/70 text-xs font-medium">2 entries</span>
+    </div>
+  </div>
+
+  <!-- Entry editor -->
+  <div class="p-4 space-y-3">
+    <!-- Input row -->
+    <div class="flex gap-2">
+      <input
+        id="entry-input"
+        type="text"
+        placeholder="Add an option..."
+        class="flex-1 px-3.5 py-2 rounded-xl border border-border dark:border-border-dark bg-canvas dark:bg-canvas-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-[#8B5CF6]/20 transition-all"
+      />
+      <button
+        id="add-entry-btn"
+        class="px-4 py-2 rounded-xl bg-[#8B5CF6] text-white text-sm font-medium hover:bg-[#7C3AED] transition-colors cursor-pointer"
+      >
+        Add
+      </button>
+    </div>
+
+    <!-- Entry list -->
+    <div id="entry-list" class="space-y-1 max-h-[260px] overflow-y-auto">
+      <!-- Populated by wheel.ts -->
+    </div>
+
+    <!-- Hint text -->
+    <p class="text-xs text-muted dark:text-muted-dark">
+      Add at least 2 options. Click the wheel center to spin.
+    </p>
+  </div>
+</div>
