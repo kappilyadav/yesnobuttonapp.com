@@ -24,7 +24,7 @@ const breadcrumb = breadcrumbSchema([
   <Fragment slot="header"><Header /></Fragment>
 
   <section class="py-12 md:py-20">
-    <div class="container max-w-3xl">
+    <div class="container max-w-6xl">
       <h1 class="font-display text-3xl md:text-5xl tracking-tight text-ink dark:text-ink-dark mb-3">
         Blog
       </h1>
@@ -32,22 +32,32 @@ const breadcrumb = breadcrumbSchema([
         Decision-making tips, question ideas, and guides.
       </p>
 
-      <div class="space-y-8">
-        {posts.map((post) => (
-          <article class="border-b border-border dark:border-border-dark pb-8">
-            <time class="text-xs text-muted dark:text-muted-dark">
-              {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </time>
-            <h2 class="font-display text-xl md:text-2xl tracking-tight mt-1 mb-2">
-              <a href={`/blog/${post.id}/`} class="text-ink dark:text-ink-dark hover:text-muted dark:hover:text-muted-dark transition-colors no-underline">
-                {post.data.title}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post) => {
+          const heroBase = `/images/${post.id}-hero`;
+          const hero1200 = `${heroBase}-1200.webp`;
+          const hero800 = `${heroBase}-800.webp`;
+          const hero400 = `${heroBase}-400.webp`;
+          const fallback = '/images/og-image.webp';
+          return (
+            <article class="group block bg-card-bg dark:bg-card-bg-dark rounded-xl overflow-hidden border border-border dark:border-border-dark transition-shadow hover:shadow-lg">
+              <a href={`/blog/${post.id}/`} class="no-underline text-inherit block">
+                <div class="w-full">
+                  <picture>
+                    <source type="image/webp" srcset={`${hero1200} 1200w, ${hero800} 800w, ${hero400} 400w`} sizes="(max-width: 640px) 100vw, 360px" />
+                    <img src={hero1200} alt={`Illustration for ${post.data.title}`} loading="lazy" class="w-full h-44 object-cover sm:h-48 md:h-40 lg:h-44" onerror={`this.src='${fallback}'`} />
+                  </picture>
+                </div>
+
+                <div class="p-4">
+                  <time class="text-xs text-muted dark:text-muted-dark block">{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                  <h3 class="font-display text-lg mt-2 mb-2 text-ink dark:text-ink-dark leading-tight">{post.data.title}</h3>
+                  <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">{post.data.description}</p>
+                </div>
               </a>
-            </h2>
-            <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">
-              {post.data.description}
-            </p>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
