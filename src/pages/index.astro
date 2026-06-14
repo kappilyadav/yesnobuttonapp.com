@@ -9,6 +9,7 @@ import CategoryTabs from '../components/tool/CategoryTabs.astro';
 import EmbedWidget from '../components/tool/EmbedWidget.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import SeasonalTable from '../components/content/SeasonalTable.astro';
+import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const seasonalQuestions = [
@@ -560,6 +561,8 @@ const faqItems = [
       </p>
     </div>
   </section>
+
+  <BlogSection />
 
   <Fragment slot="footer">
     <Footer />

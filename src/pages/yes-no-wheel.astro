@@ -8,6 +8,7 @@ import ResultPopup from '../components/tool/ResultPopup.astro';
 import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
+import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
@@ -142,6 +143,8 @@ const breadcrumb = breadcrumbSchema([
       <FAQAccordion items={faqItems} />
     </div>
   </section>
+
+  <BlogSection />
 
   <MoreTools />
 

@@ -5,6 +5,8 @@ import '@fontsource/inter/500.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '../styles/global.css';
 import { organizationSchema, websiteSchema } from '../data/schemas';
+import syneWoff2 from '@fontsource/syne/files/syne-latin-700-normal.woff2?url';
+import interWoff2 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 
 export interface Props {
   title: string;
@@ -57,7 +59,17 @@ export interface Props {
       }
     </script>
 
-    <script is:inline src="https://cdn.jsdelivr.net/npm/@tabler/icons@3.31.0/icons-react/dist/index.umd.min.js" defer></script>
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preload" href={syneWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FHP1RF82CG"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FHP1RF82CG');
+    </script>
   </head>
   <body class="min-h-dvh flex flex-col">
     <slot name="header" />

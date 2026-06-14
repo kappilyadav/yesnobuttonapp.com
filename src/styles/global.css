@@ -170,8 +170,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 6px rgba(0,0,0,0.06); }
-  50% { box-shadow: 0 0 0 12px rgba(0,0,0,0.03); }
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 @keyframes bounce-in {
@@ -226,10 +226,12 @@
 }
 
 .animate-pulse-subtle {
+  will-change: transform;
   animation: pulse-subtle 2s ease-in-out infinite;
 }
 
 .animate-pulse-glow {
+  box-shadow: 0 0 0 6px rgba(0,0,0,0.06);
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
@@ -246,6 +248,7 @@
 }
 
 .animate-float {
+  will-change: transform;
   animation: float 1.5s ease-in-out infinite;
 }
 
@@ -295,7 +298,15 @@
 }
 
 .animate-hero-glow {
+  will-change: transform, opacity;
   animation: hero-glow 4s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .animate-hero-glow {
+    animation: none;
+    opacity: 0.3;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

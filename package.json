@@ -11,7 +11,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "astro build && npx wrangler pages deploy dist/ --project-name yesnobuttonapp-com"
+    "deploy": "astro build && npx wrangler pages deploy dist/ --project-name yesnobuttonapp-com --branch main",
+    "deploy:preview": "astro build && npx wrangler pages deploy dist/ --project-name yesnobuttonapp-com"
   },
   "devDependencies": {
     "sharp": "^0.32.0"
