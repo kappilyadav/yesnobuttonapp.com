@@ -1,6 +1,5 @@
 // scripts/tool.ts
 import { Events } from './analytics';
-import { generateShareUrl, copyToClipboard, shareViaWebAPI } from './share';
 
 export type Result = 'yes' | 'no' | 'maybe';
 type Mode = 'binary' | 'three-way';
@@ -159,7 +158,6 @@ export function initTool() {
   initHistoryElements();
   initModeToggle();
   const clearHistoryBtn = document.getElementById('clear-history') as HTMLElement | null;
-  const shareResultBtn = document.getElementById('share-result-btn') as HTMLButtonElement | null;
   const pressAgainBtn = document.getElementById('press-again-btn') as HTMLButtonElement | null;
   const categoryChips = document.querySelectorAll('[data-category-chip]');
   const popupProgress = document.getElementById('popup-progress') as HTMLElement | null;
@@ -180,10 +178,6 @@ export function initTool() {
     if (popupQuestion) {
       popupQuestion.textContent = question || '';
       popupQuestion.classList.toggle('hidden', !question);
-    }
-
-    if (shareResultBtn) {
-      shareResultBtn.onclick = () => handleShare(result, question);
     }
 
     if (pressAgainBtn) {
@@ -211,6 +205,10 @@ export function initTool() {
     Events.resultShown(result);
 
     updateSpeechIndicator();
+
+    // Hide Ko-fi floating chat while popup is active
+    document.querySelectorAll<HTMLElement>('.floatingchat-container-wrap, .floatingchat-container-wrap-mobi')
+      .forEach(el => el.style.display = 'none');
   }
 
   function updateSpeechIndicator() {
@@ -236,18 +234,10 @@ export function initTool() {
     if (popupTimer) clearTimeout(popupTimer);
     if (speechIndicator) speechIndicator.classList.add('hidden');
     button?.focus();
-  }
 
-  function handleShare(result: Result, question?: string) {
-    const url = generateShareUrl(result, question);
-    const text = question
-      ? `I asked "${question}" and got: ${result.toUpperCase()}`
-      : `I got: ${result.toUpperCase()}`;
-
-    shareViaWebAPI({ title: 'Yes No Button Result', text, url }).then((shared) => {
-      if (!shared) copyToClipboard(url);
-    });
-    Events.resultShared();
+    // Restore Ko-fi floating chat
+    document.querySelectorAll<HTMLElement>('.floatingchat-container-wrap, .floatingchat-container-wrap-mobi')
+      .forEach(el => el.style.display = '');
   }
 
   function generateAndShow() {

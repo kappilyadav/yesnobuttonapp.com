@@ -70,6 +70,16 @@ export interface Props {
       gtag('js', new Date());
       gtag('config', 'G-FHP1RF82CG');
     </script>
+    <style>
+      .floatingchat-container-wrap,
+      .floatingchat-container-wrap-mobi {
+        max-width: none !important;
+      }
+      .floatingchat-container,
+      .floatingchat-container-mobi {
+        width: 340px !important;
+      }
+    </style>
   </head>
   <body class="min-h-dvh flex flex-col">
     <slot name="header" />
@@ -77,5 +87,18 @@ export interface Props {
       <slot />
     </main>
     <slot name="footer" />
+    <script is:inline src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+    <script is:inline>
+      kofiWidgetOverlay.draw('kappilyadav', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'This is free. Coffee isn\'t',
+        'floating-chat.donateButton.background-color': '#f45d22',
+        'floating-chat.donateButton.text-color': '#fff',
+        'floating-chat.stylesheets': JSON.stringify([
+          'https://fonts.googleapis.com/css?family=DM+Sans:400,600,700,800&display=swap',
+          window.location.origin + '/ko-fi-overrides.css'
+        ])
+      });
+    </script>
   </body>
 </html>

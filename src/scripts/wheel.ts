@@ -67,7 +67,6 @@ export function initWheel() {
   const popupAnswer = document.getElementById('popup-answer') as HTMLParagraphElement | null;
   const popupQuestion = document.getElementById('popup-question') as HTMLParagraphElement | null;
   const pressAgainBtn = document.getElementById('press-again-btn') as HTMLButtonElement | null;
-  const shareResultBtn = document.getElementById('share-result-btn') as HTMLButtonElement | null;
   const popupProgress = document.getElementById('popup-progress') as HTMLDivElement | null;
 
   if (!rotator || !segmentsEl || !labelsEl || !spinBtn) return;
@@ -297,10 +296,6 @@ export function initWheel() {
       popupQuestion.classList.toggle('hidden', !question);
     }
 
-    if (shareResultBtn) {
-      shareResultBtn.onclick = () => handleShare(result, question);
-    }
-
     if (pressAgainBtn) {
       pressAgainBtn.onclick = () => { hidePopup(); spin(); };
     }
@@ -323,21 +318,6 @@ export function initWheel() {
     popup.classList.remove('flex');
     popup.setAttribute('data-result', '');
     if (popupTimer) clearTimeout(popupTimer);
-  }
-
-  function handleShare(result: string, question?: string) {
-    const url = new URL(window.location.href);
-    url.searchParams.set('result', result.toLowerCase());
-    if (question) url.searchParams.set('q', question);
-    if (navigator.share) {
-      navigator.share({
-        title: 'Yes No Wheel',
-        text: `The answer is: ${result.toUpperCase()}${question ? ` - ${question}` : ''}`,
-        url: url.toString(),
-      });
-    } else {
-      navigator.clipboard?.writeText(url.toString());
-    }
   }
 
   function resetWheel() {
