@@ -11,16 +11,13 @@ import MoreTools from '../components/content/MoreTools.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
-  { category: 'general', question: 'What is the Kids Yes No Button?', answer: 'The Kids Yes No Button is a kid-friendly random decision tool for simple yes or no questions. It uses large buttons, bright colours, and simple interactions families can use together.' },
-  { category: 'general', question: 'Can kids use the Kids Yes No Button?', answer: 'Yes. The Kids Yes No Button is designed with children and families in mind. Adult supervision is recommended for younger children, especially when using any website.' },
-  { category: 'general', question: 'What kind of questions can kids ask?', answer: 'Kids can ask fun questions like "Should I clean my room?", "Is it time for a snack?", "Should I play outside?", or any other yes/no question they can think of.' },
-  { category: 'general', question: 'Is the Kids Yes No Button free?', answer: 'Yes. It is free to use, does not require an account, and works directly in the browser.' },
+  { category: 'general', question: 'Is adult supervision needed for the Kids Yes No Button?', answer: 'We recommend it for younger children, the same as with any website. There is nothing to buy, no chat feature, and no account to create, but sitting with your child the first few times helps them understand it is just for fun, not a real decision-maker for anything serious.' },
+  { category: 'general', question: 'Why use a random button instead of just deciding for my kid?', answer: 'Handing a small decision to chance takes the "why not them and not me" argument out of sibling disputes, since nobody chose the outcome. It also gives kids an early, low-stakes way to practice accepting an answer they did not pick.' },
+  { category: 'general', question: 'Does the Kids Yes No Button track or save anything about my child?', answer: 'No. It runs entirely in the browser and does not collect names, ages, or any personal information. The only thing saved locally is a short result history, which clears when you press the clear history link.' },
+  { category: 'general', question: 'What age range is this designed for?', answer: 'It works well for roughly ages 4 and up, once a child understands the difference between yes and no. Older kids and tweens tend to enjoy it as a party or sleepover game rather than a daily tool.' },
 
-  { category: 'games', question: 'How does the Kids Yes No Button work as a game?', answer: 'The button generates random yes or no answers that families can use for simple games, turns, prompts, and playful choices.' },
-  { category: 'games', question: 'Can we use the button for other kids games?', answer: 'Yes. The button works great for other children\'s games that need a random decision  -  picking who goes first, deciding which game to play, or settling playful disputes between siblings.' },
-
-  { category: 'daily', question: 'How can parents use the Kids Yes No Button?', answer: 'Parents can use it as a playful way to make daily decisions with kids  -  whether to have a dance party, clean up toys, or choose a bedtime story. It turns routine choices into a fun activity.' },
-  { category: 'daily', question: 'Can the Kids Yes No Button help with family routines?', answer: 'Yes. Use it to decide which chore to do first, whether to play inside or outside, or what snack to have. The playful theme makes everyday decisions feel like a game.' },
+  { category: 'daily', question: 'Can siblings take turns with the same button?', answer: 'Yes. Since results are not tied to any account, kids can pass the device back and forth and each press the button for their own turn.' },
+  { category: 'daily', question: 'What if my child does not like the answer they get?', answer: 'That is a good moment to talk about it. Ask how they feel about the result: a strong reaction is often a sign of what they actually wanted, and it can turn a random button press into a short conversation about their own preferences.' },
 ];
 
 const breadcrumb = breadcrumbSchema([
@@ -66,14 +63,25 @@ const breadcrumb = breadcrumbSchema([
           What Is the Kids Yes No Button?
         </h2>
         <div class="text-[#78716c] dark:text-[#a8c8a8] space-y-4 leading-relaxed">
-          <p>The Kids Yes No Button is a playful version of the main Yes No Button, made for simple family choices and kid-friendly games. Press the button and it gives a random Yes or No answer with equal probability.</p>
-          <p>Families can use it to pick who goes first, choose between two activities, settle small disagreements, or add a little surprise to everyday routines.</p>
-          <p>The tool runs in the browser, requires no sign-up, and keeps the interaction simple: ask a yes or no question, press the button, and see the result.</p>
+          <p>This is the family version of our <a href="/" class="underline">Yes No Button</a>, built for a different audience with different problems: whose turn it is next, which sibling gets to pick the show, whether it's really time to put the toys away. It uses the same fair, equal-odds mechanism as the main tool, just wrapped in bigger buttons, brighter colors, and simpler wording so a child can use it on their own.</p>
+          <p>What makes this useful for families specifically is that the outcome belongs to nobody. When a parent decides who goes first, there's a decider to blame. When the button decides, there isn't, and that small shift is often enough to end an argument before it starts.</p>
         </div>
       </div>
     </div>
 
     <div class="relative py-section max-sm:py-12 bg-[#fef9c3]/60 dark:bg-[#0f2a0f]/60">
+      <div class="container max-w-3xl">
+        <h2 class="font-display text-2xl md:text-3xl tracking-tight text-[#92400e] dark:text-[#fde68a] mb-6">
+          Turning Everyday Choices Into a Game
+        </h2>
+        <div class="text-[#78716c] dark:text-[#a8c8a8] space-y-4 leading-relaxed">
+          <p>Kids are more likely to accept an outcome, even a chore, when it feels like a game rather than an order. Instead of announcing "you're doing the dishes tonight," assign one child to Yes and the other to No, press the button together, and let the result decide. The chore itself hasn't changed, but the framing has, and for most kids that's the difference between resistance and a shrug.</p>
+          <p>This works especially well for the choices that don't actually matter enough to argue about: which cereal to eat, whether to walk or take the scooter to the park, who picks the radio station in the car. Save your own judgment for the decisions that do matter, and let the button take the small ones off your plate too.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative py-section max-sm:py-12 bg-white/80 dark:bg-[#1a3a1a]/80">
       <div class="container max-w-3xl">
         <h2 class="font-display text-2xl md:text-3xl tracking-tight text-[#92400e] dark:text-[#fde68a] mb-6">
           How to Play a Yes/No Game
@@ -88,7 +96,7 @@ const breadcrumb = breadcrumbSchema([
       </div>
     </div>
 
-    <div class="relative py-section max-sm:py-12 bg-white/80 dark:bg-[#1a3a1a]/80">
+    <div class="relative py-section max-sm:py-12 bg-[#fef9c3]/60 dark:bg-[#0f2a0f]/60">
       <div class="container max-w-3xl">
         <h2 class="font-display text-2xl md:text-3xl tracking-tight text-[#92400e] dark:text-[#fde68a] mb-6">
           Fun Questions to Ask
@@ -104,7 +112,7 @@ const breadcrumb = breadcrumbSchema([
       </div>
     </div>
 
-    <div class="relative py-section max-sm:py-12 bg-[#fef9c3]/60 dark:bg-[#0f2a0f]/60">
+    <div class="relative py-section max-sm:py-12 bg-white/80 dark:bg-[#1a3a1a]/80">
       <div class="container max-w-3xl">
         <h2 class="font-display text-2xl md:text-3xl tracking-tight text-[#92400e] dark:text-[#fde68a] mb-6">
           Frequently Asked Questions

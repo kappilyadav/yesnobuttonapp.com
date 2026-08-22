@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import MoreTools from '../components/content/MoreTools.astro';
-import { aboutPageSchema, breadcrumbSchema } from '../data/schemas';
+import { aboutPageSchema, founderSchema, breadcrumbSchema } from '../data/schemas';
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
@@ -15,7 +15,7 @@ const breadcrumb = breadcrumbSchema([
   title="About | Yes No Button"
   description="Learn about the Yes No Button - a free, anonymous random decision-making tool that helps you break out of analysis paralysis."
   canonical="https://yesnobuttonapp.com/about/"
-  schema={[aboutPageSchema, breadcrumb]}
+  schema={[aboutPageSchema, founderSchema, breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 
@@ -35,6 +35,25 @@ const breadcrumb = breadcrumbSchema([
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Our Mission</h2>
           <p>The Yes No Button was created with a simple mission: to help people make decisions. Whether you're stuck between two options, looking for a spark of spontaneity, or just want to add some fun to your day, our tool gives you an instant random answer.</p>
           <p>We believe that sometimes the best way to make a decision is to stop overthinking and let chance decide. The random answer you receive often reveals your true feelings - if the result disappoints you, you know what you actually wanted all along.</p>
+        </section>
+
+        <section id="founder">
+          <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Who Built This</h2>
+          <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-xl p-6 flex gap-5 items-start max-sm:flex-col max-sm:items-center max-sm:text-center">
+            <div class="w-16 h-16 shrink-0 rounded-full bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center text-2xl font-display text-[#16A34A]" aria-hidden="true">
+              KY
+            </div>
+            <div>
+              <p class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Kapil Yadav</p>
+              <p class="text-sm text-muted dark:text-muted-dark mb-3">Founder &amp; Developer, Yes No Button</p>
+              <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">
+                Kapil is a full-stack developer who builds small, focused web tools rather than sprawling products. The Yes No Button started as a weekend project: a simple, fast, no-account-needed way to settle the low-stakes questions that eat up more mental energy than they deserve. It's grown from there into the set of tools on this site, all built and maintained independently.
+              </p>
+              <a href="https://github.com/kappilyadav" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 mt-3 text-sm text-ink dark:text-ink-dark underline hover:no-underline">
+                See more on GitHub →
+              </a>
+            </div>
+          </div>
         </section>
 
         <section>
@@ -72,7 +91,7 @@ const breadcrumb = breadcrumbSchema([
 
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Why We Built This</h2>
-          <p>We noticed that even simple decisions can take up mental energy. Studies show that an average adult makes about 35,000 decisions per day. When you're faced with one too many choices, outsourcing a decision to a random button can save mental bandwidth for the things that truly matter.</p>
+          <p>We noticed that even simple decisions can take up mental energy. Choosing what to eat, what to watch, or which task to tackle first all draw on the same limited pool of willpower and attention economists and psychologists call decision fatigue. When you're faced with one too many choices, outsourcing a low-stakes decision to a random button can save mental bandwidth for the things that truly matter.</p>
           <p>The Yes No Button started as a simple project and grew into a tool used by thousands of people daily for decisions big and small. We're committed to keeping it simple, free, and private.</p>
         </section>
       </div>

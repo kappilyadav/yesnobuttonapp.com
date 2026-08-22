@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import MoreTools from '../../components/content/MoreTools.astro';
-import { articleSchema, breadcrumbSchema } from '../../data/schemas';
+import { articleSchema, founderSchema, breadcrumbSchema } from '../../data/schemas';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -37,6 +37,7 @@ const breadcrumb = breadcrumbSchema([
       slug: post.id,
       image: post.data.image,
     }),
+    founderSchema,
     breadcrumb,
   ]}
 >
@@ -47,9 +48,13 @@ const breadcrumb = breadcrumbSchema([
       <time class="text-xs text-muted dark:text-muted-dark">
         {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
       </time>
-      <h1 class="font-display text-3xl md:text-4xl tracking-tight text-ink dark:text-ink-dark mt-2 mb-8">
+      <h1 class="font-display text-3xl md:text-4xl tracking-tight text-ink dark:text-ink-dark mt-2 mb-3">
         {post.data.title}
       </h1>
+      <a href="/about/" class="inline-flex items-center gap-2 mb-8 text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">
+        <span class="w-6 h-6 rounded-full bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center text-[10px] font-display text-[#16A34A]" aria-hidden="true">KY</span>
+        Written by Kapil Yadav
+      </a>
       <div class="prose prose-stone dark:prose-invert max-w-none text-muted dark:text-muted-dark leading-relaxed space-y-4 [&_h2]:font-display [&_h2]:text-xl [&_h2]:md:text-2xl [&_h2]:text-ink [&_h2]:dark:text-ink-dark [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:font-display [&_h3]:text-lg [&_h3]:text-ink [&_h3]:dark:text-ink-dark [&_h3]:mt-6 [&_h3]:mb-2 [&_ul]:list-disc [&_ul]:list-inside [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:list-inside [&_ol]:space-y-1 [&_li]:text-muted [&_li]:dark:text-muted-dark [&_a]:text-ink [&_a]:dark:text-ink-dark [&_a]:underline [&_strong]:text-ink [&_strong]:dark:text-ink-dark">
         <Content />
       </div>

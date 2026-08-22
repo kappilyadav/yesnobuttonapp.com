@@ -12,10 +12,11 @@ import MoreTools from '../components/content/MoreTools.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
-  { category: 'general', question: 'What is a yes no wheel?', answer: 'A yes no wheel is a tool that randomly selects Yes or No: like a spinning wheel landing on one of two equal segments. This digital version works instantly, with exactly 50/50 probability, on any device.' },
-  { category: 'general', question: 'Is the yes no wheel truly random?', answer: 'Yes. The wheel uses Math.random() - a pseudorandom number generator - to produce results with exactly 50/50 probability. Each spin is statistically independent.' },
-  { category: 'general', question: 'What is the difference between a yes no wheel and a yes no button?', answer: 'The underlying mechanism is identical: both randomly produce Yes or No with 50/50 probability. The difference is visual: the wheel version uses a spin animation on the result, reinforcing the wheel metaphor.' },
-  { category: 'general', question: 'Can I spin a yes no wheel on my phone?', answer: 'Yes. This yes no wheel works on all devices including iPhone, Android, tablet, and desktop. No app download required.' },
+  { category: 'general', question: 'How is a spinner wheel different from a raffle or prize wheel?', answer: 'Prize wheels and raffle wheels usually have unequal segments: some prizes are rarer than others by design. This yes no wheel always splits the wheel into two exactly equal halves, so the odds never favor one outcome over the other.' },
+  { category: 'general', question: 'Can I use this instead of a printed decision wheel for the classroom?', answer: 'Yes. Teachers often use printable decision wheels for picking students or activities. This digital version needs no printing, laminating, or a physical spinner arm, and it resets instantly for the next spin.' },
+  { category: 'general', question: 'Why does the wheel animation matter if the result is already decided by Math.random()?', answer: 'It doesn’t change the odds, but it changes how the result feels. A brief spin gives everyone in the room a shared moment of suspense before the answer lands, the same reason physical spinner games use motion instead of an instant readout.' },
+  { category: 'general', question: 'Is a digital wheel more reliable than a physical one?', answer: 'A physical spinner can be biased by wear, an uneven surface, or how hard someone flicks it. This wheel has no moving parts to wear down, so the probability stays exactly 50/50 spin after spin.' },
+  { category: 'general', question: 'Can groups take turns spinning the same wheel?', answer: 'Yes. Since nothing is saved to a server, anyone can hand the device to the next person and spin again with no setup between turns.' },
 ];
 
 const breadcrumb = breadcrumbSchema([
@@ -82,9 +83,40 @@ const breadcrumb = breadcrumbSchema([
       <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-4">
         What Is a Yes No Wheel?
       </h2>
-      <p class="text-muted dark:text-muted-dark leading-relaxed mb-4">
-        A yes no wheel is a decision-making tool that randomly lands on either Yes or No when spun. Traditional yes no wheels are physical spinners: a wheel divided equally into yes and no segments, spun by hand. Digital yes no wheels simulate this spin with an animation and the same 50/50 random probability. This tool is a yes no wheel in digital form: no physical spinner required. Click once and the wheel has "spun": an instant random result with exactly the same probability as a real physical spinner. Faster, always available, and impossible to influence.
+      <div class="text-muted dark:text-muted-dark leading-relaxed space-y-4">
+        <p>Spinner wheels have been used for picking winners, dares, and decisions for generations, from carnival prize wheels to the wheel on a classic game show to a laminated chart taped to a classroom whiteboard. This tool takes that familiar spin-and-land format and narrows it to exactly two equal outcomes: Yes or No.</p>
+        <p>Unlike a button press, a spin has a beginning, a middle, and an end. That short window of motion is the whole reason people reach for a wheel instead of a coin or a click: it turns a decision into a small shared moment, which is why decision wheels show up so often in classrooms, group games, and livestreams where an audience is watching the outcome unfold together.</p>
+      </div>
+      <p class="text-sm text-muted dark:text-muted-dark mt-4">
+        Curious about the exact math behind the spin? See <a href="/#how-it-works" class="text-ink dark:text-ink-dark underline hover:no-underline">how the random result is generated</a> on the main Yes No Button page.
       </p>
+    </div>
+  </section>
+
+  <!-- SECTION 1B: Best Uses for a Yes No Wheel -->
+  <section class="bg-canvas dark:bg-canvas-dark py-[80px] max-sm:py-[48px]">
+    <div class="container max-w-3xl">
+      <h2 class="font-display text-2xl md:text-3xl font-bold text-ink dark:text-ink-dark mb-5">
+        Best Uses for a Yes No Wheel
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-card dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-5">
+          <h3 class="font-medium text-[15px] text-ink dark:text-ink-dark mb-1.5">Classroom picks</h3>
+          <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">Project the wheel on a screen to decide things like whether a quiz is open-book, or to add a moment of suspense before revealing which team goes first.</p>
+        </div>
+        <div class="bg-card dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-5">
+          <h3 class="font-medium text-[15px] text-ink dark:text-ink-dark mb-1.5">Livestreams and group calls</h3>
+          <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">A spin gives viewers something to watch happen in real time, unlike an instant result, which makes it a better fit for on-screen decision moments.</p>
+        </div>
+        <div class="bg-card dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-5">
+          <h3 class="font-medium text-[15px] text-ink dark:text-ink-dark mb-1.5">Chore and turn rotations</h3>
+          <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">Spin to decide who does the dishes tonight or whether it's someone's turn to pick the takeout order, without the wheel ever needing to be rebuilt or replaced like a paper one.</p>
+        </div>
+        <div class="bg-card dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-5">
+          <h3 class="font-medium text-[15px] text-ink dark:text-ink-dark mb-1.5">Warm-up for bigger games</h3>
+          <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">Use a few quick spins to loosen up a group before moving into a longer game like trivia or would-you-rather.</p>
+        </div>
+      </div>
     </div>
   </section>
 

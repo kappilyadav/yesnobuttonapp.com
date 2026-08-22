@@ -76,7 +76,7 @@ export const articleSchema = (post: {
   "image": post.image ?? "https://yesnobuttonapp.com/og-image.webp",
   "datePublished": post.pubDate.toISOString(),
   "dateModified": (post.updatedDate ?? post.pubDate).toISOString(),
-  "author": { "@id": "https://yesnobuttonapp.com/#organization" },
+  "author": { "@id": "https://yesnobuttonapp.com/about/#founder" },
   "publisher": { "@id": "https://yesnobuttonapp.com/#organization" },
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -102,6 +102,17 @@ export const breadcrumbSchema = (items: { name: string; url: string }[]) => ({
     "item": `https://yesnobuttonapp.com${item.url}`
   }))
 });
+
+export const founderSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://yesnobuttonapp.com/about/#founder",
+  "name": "Kapil Yadav",
+  "jobTitle": "Founder & Developer",
+  "url": "https://yesnobuttonapp.com/about/",
+  "sameAs": ["https://github.com/kappilyadav"],
+  "worksFor": { "@id": "https://yesnobuttonapp.com/#organization" }
+};
 
 export const aboutPageSchema = {
   "@context": "https://schema.org",
