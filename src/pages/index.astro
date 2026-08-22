@@ -99,16 +99,46 @@ const faqItems = [
       <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#FAFAF8]/80 to-transparent dark:from-[#111110]/80 dark:to-transparent"></div>
     </div>
     <div class="container text-center relative z-10">
-      <YesNoTool toyStyle>
-        <h1 class="font-display text-4xl md:text-6xl tracking-tight text-ink dark:text-ink-dark mb-3">
-          Yes No Button
-        </h1>
-        <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-2 max-w-xl mx-auto">
-          The free random yes or no decision maker. One click. Truly 50/50.
-        </p>
-      </YesNoTool>
+      <YesNoTool toyStyle />
+    </div>
+  </section>
+
+  <!-- Section 1B: Heading / Controls -->
+  <section class="pt-[2px] pb-[80px] max-sm:pt-[32px] max-sm:pb-[48px] bg-[#F0FDF4] dark:bg-[#1A0A2E] relative overflow-hidden">
+    <div class="container text-center relative z-10">
+      <!-- Mode toggle -->
+      <div
+        id="mode-toggle"
+        class="flex items-center gap-1 p-1 rounded-xl bg-[#F4F2EC] dark:bg-[#2A2A28] w-fit mx-auto mb-6"
+        role="radiogroup"
+        aria-label="Select answer mode"
+      >
+        <button
+          data-ynb-mode="binary"
+          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+          role="radio"
+          aria-checked="true"
+        >
+          Yes / No
+        </button>
+        <button
+          data-ynb-mode="three-way"
+          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+          role="radio"
+          aria-checked="false"
+        >
+          Yes / No / Maybe
+        </button>
+      </div>
+
+      <h1 class="font-display text-4xl md:text-6xl tracking-tight text-ink dark:text-ink-dark mb-3">
+        Yes No Button
+      </h1>
+      <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-2 max-w-xl mx-auto">
+        The free random yes or no decision maker. One click. Truly 50/50.
+      </p>
+
       <ResultPopup />
-      <HistoryTracker />
     </div>
   </section>
 
