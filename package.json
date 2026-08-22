@@ -12,7 +12,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "astro build && npx wrangler pages deploy dist/ --project-name yesnobuttonapp-com --branch main",
-    "deploy:preview": "astro build && npx wrangler pages deploy dist/ --project-name yesnobuttonapp-com"
+    "deploy:preview": "astro build && npx wrangler pages deploy dist/ --project-name yesnobuttonapp-com",
+    "deploy:indexnow": "npm run deploy && npm run indexnow",
+    "indexnow": "node scripts/submit-indexnow.mjs"
   },
   "devDependencies": {
     "sharp": "^0.32.0"

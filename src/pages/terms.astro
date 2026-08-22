@@ -7,7 +7,7 @@ import { breadcrumbSchema, createWebPageSchema } from '../data/schemas';
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'Terms & Conditions', url: '/terms' },
+  { name: 'Terms & Conditions', url: '/terms/' },
 ]);
 
 const lastUpdated = 'June 1, 2026';
@@ -16,18 +16,18 @@ const lastUpdated = 'June 1, 2026';
 <BaseLayout
   title="Terms &amp; Conditions | Yes No Button"
   description="Terms and conditions for using the Yes No Button website and tool. Free to use, no guarantees, use at your own risk."
-  canonical="https://yesnobuttonapp.com/terms"
-  schema={[createWebPageSchema("Terms and conditions for using the Yes No Button website and tool. Free to use, no guarantees, use at your own risk.", 'https://yesnobuttonapp.com/terms'), breadcrumb]}
+  canonical="https://yesnobuttonapp.com/terms/"
+  schema={[createWebPageSchema("Terms and conditions for using the Yes No Button website and tool. Free to use, no guarantees, use at your own risk.", 'https://yesnobuttonapp.com/terms/'), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 
   <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
     <div class="container max-w-3xl">
       <div class="flex flex-wrap gap-2 mb-6">
-        <a href="/about" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
-        <a href="/privacy-policy" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
-        <a href="/terms" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Terms</a>
-        <a href="/contact" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
+        <a href="/about/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
+        <a href="/privacy-policy/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
+        <a href="/terms/" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Terms</a>
+        <a href="/contact/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
       </div>
       <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">TERMS &amp; CONDITIONS</span>
       <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">Terms &amp; Conditions</h1>
@@ -89,7 +89,7 @@ const lastUpdated = 'June 1, 2026';
 
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Contact</h2>
-          <p>If you have any questions about these Terms &amp; Conditions, please <a href="/contact" class="text-ink dark:text-ink-dark underline hover:no-underline">contact us</a>.</p>
+          <p>If you have any questions about these Terms &amp; Conditions, please <a href="/contact/" class="text-ink dark:text-ink-dark underline hover:no-underline">contact us</a>.</p>
         </section>
       </div>
     </div>

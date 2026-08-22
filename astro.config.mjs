@@ -6,7 +6,10 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://yesnobuttonapp.com',
   output: 'static',
-  integrations: [sitemap(), mdx()],
+  integrations: [
+    sitemap(),
+    mdx(),
+  ],
   compressHTML: true,
   build: {
     assets: '_assets',

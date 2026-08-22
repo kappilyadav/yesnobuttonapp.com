@@ -1,10 +1,10 @@
 ---
-const iframeCode = `<iframe src="https://yesnobuttonapp.com/embed" width="100%" height="480" frameborder="0" style="border-radius:12px"></iframe>`;
+const iframeCode = `<iframe src="https://yesnobuttonapp.com/embed/" width="100%" height="480" frameborder="0" style="border-radius:12px"></iframe>`;
 ---
 
 <div class="w-full max-w-xl mx-auto space-y-6">
   <div class="border border-[#333330] rounded-2xl overflow-hidden bg-[#111110] p-6">
-    <iframe src="/embed" width="100%" height="480" frameborder="0" style="border-radius:8px" title="Yes No Button embed preview"></iframe>
+    <iframe src="/embed/" width="100%" height="480" frameborder="0" style="border-radius:8px" title="Yes No Button embed preview"></iframe>
   </div>
 
   <div class="relative">
@@ -22,7 +22,7 @@ const iframeCode = `<iframe src="https://yesnobuttonapp.com/embed" width="100%" 
   import { copyEmbedCode } from '../../scripts/embed';
 
   document.getElementById('copy-embed-btn')?.addEventListener('click', async () => {
-    const code = `<iframe src="https://yesnobuttonapp.com/embed" width="100%" height="480" frameborder="0" style="border-radius:12px"></iframe>`;
+    const code = `<iframe src="https://yesnobuttonapp.com/embed/" width="100%" height="480" frameborder="0" style="border-radius:12px"></iframe>`;
     const ok = await copyEmbedCode(code);
     const btn = document.getElementById('copy-embed-btn');
     if (btn) {

@@ -7,14 +7,14 @@ import { aboutPageSchema, breadcrumbSchema } from '../data/schemas';
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'About', url: '/about' },
+  { name: 'About', url: '/about/' },
 ]);
 ---
 
 <BaseLayout
   title="About | Yes No Button"
   description="Learn about the Yes No Button - a free, anonymous random decision-making tool that helps you break out of analysis paralysis."
-  canonical="https://yesnobuttonapp.com/about"
+  canonical="https://yesnobuttonapp.com/about/"
   schema={[aboutPageSchema, breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
@@ -22,10 +22,10 @@ const breadcrumb = breadcrumbSchema([
   <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
     <div class="container max-w-3xl">
       <div class="flex flex-wrap gap-2 mb-6">
-        <a href="/about" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">About</a>
-        <a href="/privacy-policy" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
-        <a href="/terms" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
-        <a href="/contact" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
+        <a href="/about/" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">About</a>
+        <a href="/privacy-policy/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
+        <a href="/terms/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
+        <a href="/contact/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
       </div>
       <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">ABOUT</span>
       <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">About Yes No Button</h1>
@@ -43,7 +43,7 @@ const breadcrumb = breadcrumbSchema([
             <li><strong class="text-ink dark:text-ink-dark">Yes No Button</strong> - The classic 50/50 random decision maker</li>
             <li><strong class="text-ink dark:text-ink-dark">Yes No Maybe Button</strong> - Three-way mode with equal 33% probability for more nuanced decisions</li>
             <li><strong class="text-ink dark:text-ink-dark">Yes No Oracle</strong> - A mystical-themed version with cosmic visuals</li>
-            <li><strong class="text-ink dark:text-ink-dark">Bluey Yes No Button</strong> - A kid-friendly version inspired by the popular TV show</li>
+            <li><strong class="text-ink dark:text-ink-dark">Kids Yes No Button</strong> - A family-friendly version for simple games and routines</li>
             <li><strong class="text-ink dark:text-ink-dark">Embed Widget</strong> - Add the tool to your own website with a single line of code</li>
           </ul>
         </section>

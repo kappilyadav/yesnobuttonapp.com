@@ -8,7 +8,7 @@ import ResultPopup from '../components/tool/ResultPopup.astro';
 import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
-import BlogSection from '../components/content/BlogSection.astro';
+// import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
@@ -20,14 +20,14 @@ const faqItems = [
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'Yes No Wheel', url: '/yes-no-wheel' },
+  { name: 'Yes No Wheel', url: '/yes-no-wheel/' },
 ]);
 ---
 
 <BaseLayout
   title="Yes No Wheel — Spin a Random Yes or No Wheel Online"
   description="Free yes no wheel spinner. Get a random yes or no result with one click: faster than spinning a real wheel."
-  canonical="https://yesnobuttonapp.com/yes-no-wheel"
+  canonical="https://yesnobuttonapp.com/yes-no-wheel/"
   schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
@@ -144,7 +144,7 @@ const breadcrumb = breadcrumbSchema([
     </div>
   </section>
 
-  <BlogSection />
+  <!-- <BlogSection /> -->
 
   <MoreTools />
 

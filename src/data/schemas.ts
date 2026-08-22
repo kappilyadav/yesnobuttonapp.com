@@ -108,7 +108,7 @@ export const aboutPageSchema = {
   "@type": "AboutPage",
   "name": "About Yes No Button",
   "description": "Learn about the Yes No Button — a free, anonymous random decision-making tool that helps you break out of analysis paralysis.",
-  "url": "https://yesnobuttonapp.com/about",
+  "url": "https://yesnobuttonapp.com/about/",
   "mainEntity": { "@id": "https://yesnobuttonapp.com/#organization" }
 };
 
@@ -117,7 +117,7 @@ export const contactPageSchema = {
   "@type": "ContactPage",
   "name": "Contact Yes No Button",
   "description": "Get in touch with the Yes No Button team. Have a question, suggestion, or feedback? We'd love to hear from you.",
-  "url": "https://yesnobuttonapp.com/contact"
+  "url": "https://yesnobuttonapp.com/contact/"
 };
 
 export const createWebPageSchema = (description: string, url?: string) => ({

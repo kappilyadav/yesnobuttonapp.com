@@ -206,9 +206,6 @@ export function initTool() {
 
     updateSpeechIndicator();
 
-    // Hide Ko-fi floating chat while popup is active
-    document.querySelectorAll<HTMLElement>('.floatingchat-container-wrap, .floatingchat-container-wrap-mobi')
-      .forEach(el => el.style.display = 'none');
   }
 
   function updateSpeechIndicator() {
@@ -235,9 +232,6 @@ export function initTool() {
     if (speechIndicator) speechIndicator.classList.add('hidden');
     button?.focus();
 
-    // Restore Ko-fi floating chat
-    document.querySelectorAll<HTMLElement>('.floatingchat-container-wrap, .floatingchat-container-wrap-mobi')
-      .forEach(el => el.style.display = '');
   }
 
   function generateAndShow() {

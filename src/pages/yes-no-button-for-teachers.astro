@@ -7,7 +7,7 @@ import ResultPopup from '../components/tool/ResultPopup.astro';
 import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
-import BlogSection from '../components/content/BlogSection.astro';
+// import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
@@ -26,14 +26,14 @@ const faqItems = [
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'Yes No Button for Teachers', url: '/yes-no-button-for-teachers' },
+  { name: 'Yes No Button for Teachers', url: '/yes-no-button-for-teachers/' },
 ]);
 ---
 
 <BaseLayout
   title="Yes No Button for Teachers  -  Classroom Random Decision Maker"
   description="Use the Yes No Button in your classroom as a random student picker, decision maker, or icebreaker. Free, fair, and projector-friendly. No sign-up needed."
-  canonical="https://yesnobuttonapp.com/yes-no-button-for-teachers"
+  canonical="https://yesnobuttonapp.com/yes-no-button-for-teachers/"
   schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
@@ -127,7 +127,7 @@ const breadcrumb = breadcrumbSchema([
     </div>
   </section>
 
-  <BlogSection />
+  <!-- <BlogSection /> -->
 
   <MoreTools />
 

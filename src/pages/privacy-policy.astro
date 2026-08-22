@@ -7,27 +7,27 @@ import { breadcrumbSchema, createWebPageSchema } from '../data/schemas';
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'Privacy Policy', url: '/privacy-policy' },
+  { name: 'Privacy Policy', url: '/privacy-policy/' },
 ]);
 
-const lastUpdated = 'June 1, 2026';
+const lastUpdated = 'August 5, 2026';
 ---
 
 <BaseLayout
   title="Privacy Policy | Yes No Button"
-  description="Privacy policy for the Yes No Button. We do not collect, store, or share any personal data. The tool runs entirely in your browser."
-  canonical="https://yesnobuttonapp.com/privacy-policy"
-  schema={[createWebPageSchema("Privacy policy for the Yes No Button. We do not collect, store, or share any personal data. The tool runs entirely in your browser.", 'https://yesnobuttonapp.com/privacy-policy'), breadcrumb]}
+  description="Privacy policy for the Yes No Button, including how browser storage, analytics, advertising, and hosting services may process data."
+  canonical="https://yesnobuttonapp.com/privacy-policy/"
+  schema={[createWebPageSchema("Privacy policy for the Yes No Button, including how browser storage, analytics, advertising, and hosting services may process data.", 'https://yesnobuttonapp.com/privacy-policy/'), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 
   <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
     <div class="container max-w-3xl">
       <div class="flex flex-wrap gap-2 mb-6">
-        <a href="/about" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
-        <a href="/privacy-policy" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Privacy</a>
-        <a href="/terms" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
-        <a href="/contact" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
+        <a href="/about/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
+        <a href="/privacy-policy/" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Privacy</a>
+        <a href="/terms/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
+        <a href="/contact/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
       </div>
       <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">PRIVACY POLICY</span>
       <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">Privacy Policy</h1>
@@ -37,35 +37,38 @@ const lastUpdated = 'June 1, 2026';
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Introduction</h2>
           <p>At YesNoButton ("we", "our", or "us"), we take your privacy seriously. This Privacy Policy explains how we collect, use, and protect your information when you visit our website at yesnobuttonapp.com (the "Service").</p>
-          <p>We believe in minimal data collection. The Yes No Button is designed to run entirely in your browser. We do not have servers that store your questions, answers, or personal information.</p>
+          <p>We believe in minimal data collection. The Yes No Button itself is designed to run in your browser. We do not run an account system, and we do not store your questions or answers on our own servers.</p>
         </section>
 
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Information We Collect</h2>
-          <p><strong>We do not collect any personal data.</strong> The Yes No Button tool runs entirely client-side in your browser using JavaScript. When you press the button:</p>
+          <p>The Yes No Button tool runs client-side in your browser using JavaScript. When you press the button:</p>
           <ul class="list-disc list-inside space-y-1 mt-2">
-            <li>Your question is not sent to any server</li>
+            <li>Your typed question is not sent to our servers</li>
             <li>The result is generated locally in your browser</li>
-            <li>No data is transmitted over the network</li>
+            <li>We do not create user accounts or ask for personal profile information</li>
           </ul>
           <p class="mt-3">The only data that may be stored is your history of results in your browser's <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">localStorage</code>. This data never leaves your device and can be cleared at any time using the "Clear history" option in the tool.</p>
         </section>
 
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Cookies and Tracking</h2>
-          <p>We do not use cookies for tracking purposes. We may use essential cookies required for the basic functioning of the website (such as remembering your theme preference).</p>
-          <p>We do not use analytics services that collect personal data. Any analytics we employ are privacy-focused and anonymized.</p>
+          <p>We use local browser storage to remember preferences such as your selected theme and result history. This information stays on your device.</p>
+          <p>We use Google Analytics to understand aggregate website usage, such as page views, device types, and general traffic patterns. Google may use cookies or similar technologies to provide this service.</p>
         </section>
 
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Third-Party Services</h2>
-          <p>Our website is hosted on Cloudflare Pages. Cloudflare may process standard web server logs (IP addresses, browser type, pages requested) for security and performance purposes. These logs are retained for a limited period and are not used for user profiling.</p>
-          <p>We do not integrate third-party advertising networks, social media tracking pixels, or any other data-collecting services.</p>
+          <p>Our website is hosted on Cloudflare Pages. Cloudflare may process standard web server logs, such as IP address, browser type, pages requested, and security events, for hosting, security, and performance purposes.</p>
+          <p>We use Google AdSense to display advertising. Google and its partners may use cookies, device identifiers, or similar technologies to serve and measure ads, prevent fraud, and comply with advertising policies. Depending on your location and Google settings, ads may be personalized or non-personalized.</p>
+          <p>We use Google Analytics to measure site performance and understand usage trends. Analytics data is used in aggregate to improve the website.</p>
+          <p>The tool may use your browser's built-in speech synthesis feature to read results aloud. This is handled by your device or browser.</p>
         </section>
 
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Data Retention</h2>
-          <p>Since we do not collect personal data, there is nothing to retain. Any data stored in your browser's localStorage is under your control and can be deleted at any time.</p>
+          <p>We do not retain your typed questions or generated answers on our own servers. Any result history stored in your browser's localStorage is under your control and can be deleted at any time.</p>
+          <p>Third-party services such as Google and Cloudflare may retain data according to their own privacy policies and retention practices.</p>
         </section>
 
         <section>
@@ -76,7 +79,7 @@ const lastUpdated = 'June 1, 2026';
             <li>The right to request deletion of your data</li>
             <li>The right to withdraw consent</li>
           </ul>
-          <p class="mt-3">Since we do not collect or store personal data, exercising these rights is straightforward - there is nothing we hold.</p>
+          <p class="mt-3">Because we do not operate user accounts or store your questions and answers on our own servers, there may be little or no personal data for us to access or delete. You can also clear localStorage and cookies through your browser settings.</p>
         </section>
 
         <section>
@@ -91,7 +94,7 @@ const lastUpdated = 'June 1, 2026';
 
         <section>
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Contact</h2>
-          <p>If you have any questions about this Privacy Policy, please <a href="/contact" class="text-ink dark:text-ink-dark underline hover:no-underline">contact us</a>.</p>
+          <p>If you have any questions about this Privacy Policy, please <a href="/contact/" class="text-ink dark:text-ink-dark underline hover:no-underline">contact us</a>.</p>
         </section>
       </div>
     </div>

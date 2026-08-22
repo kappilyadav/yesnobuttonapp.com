@@ -7,14 +7,14 @@ import { contactPageSchema, breadcrumbSchema } from '../data/schemas';
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'Contact', url: '/contact' },
+  { name: 'Contact', url: '/contact/' },
 ]);
 ---
 
 <BaseLayout
   title="Contact Us | Yes No Button"
   description="Get in touch with the Yes No Button team. Have a question, suggestion, or feedback? We'd love to hear from you."
-  canonical="https://yesnobuttonapp.com/contact"
+  canonical="https://yesnobuttonapp.com/contact/"
   schema={[contactPageSchema, breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
@@ -22,10 +22,10 @@ const breadcrumb = breadcrumbSchema([
   <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
     <div class="container max-w-3xl">
       <div class="flex flex-wrap gap-2 mb-6">
-        <a href="/about" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
-        <a href="/privacy-policy" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
-        <a href="/terms" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
-        <a href="/contact" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Contact</a>
+        <a href="/about/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
+        <a href="/privacy-policy/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Privacy</a>
+        <a href="/terms/" class="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Terms</a>
+        <a href="/contact/" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Contact</a>
       </div>
       <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">CONTACT</span>
       <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">Contact Us</h1>
@@ -51,7 +51,7 @@ const breadcrumb = breadcrumbSchema([
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0 -4 -4H5a4 4 0 0 0 -4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0 -3 -3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
           <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Embed Support</h3>
-          <p class="text-sm text-muted dark:text-muted-dark">Need help embedding the Yes No Button on your website? Check out our <a href="/embed" class="text-ink dark:text-ink-dark underline hover:no-underline">embed page</a> or reach out.</p>
+          <p class="text-sm text-muted dark:text-muted-dark">Need help embedding the Yes No Button on your website? Check out our <a href="/embed/" class="text-ink dark:text-ink-dark underline hover:no-underline">embed page</a> or reach out.</p>
         </div>
         <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
           <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">

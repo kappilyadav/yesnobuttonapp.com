@@ -13,10 +13,18 @@ export interface Props {
   description: string;
   canonical: string;
   ogImage?: string;
+  robots?: string;
   schema?: object[];
 }
 
-  const { title, description, canonical, ogImage = '/og-image.webp', schema = [] } = Astro.props;
+  const {
+    title,
+    description,
+    canonical,
+    ogImage = '/og-image.webp',
+    robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+    schema = [],
+  } = Astro.props;
   const allSchema = [organizationSchema, websiteSchema, ...schema];
 ---
 
@@ -27,7 +35,7 @@ export interface Props {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="robots" content={robots} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -70,16 +78,6 @@ export interface Props {
       gtag('js', new Date());
       gtag('config', 'G-FHP1RF82CG');
     </script>
-    <style>
-      .floatingchat-container-wrap,
-      .floatingchat-container-wrap-mobi {
-        max-width: none !important;
-      }
-      .floatingchat-container,
-      .floatingchat-container-mobi {
-        width: 340px !important;
-      }
-      </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5091913868096252" crossorigin="anonymous"></script>
     <meta name="google-adsense-account" content="ca-pub-5091913868096252">
   </head>
@@ -89,18 +87,5 @@ export interface Props {
       <slot />
     </main>
     <slot name="footer" />
-    <script is:inline src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
-    <script is:inline>
-      kofiWidgetOverlay.draw('kappilyadav', {
-        'type': 'floating-chat',
-        'floating-chat.donateButton.text': 'This is free. Coffee isn\'t',
-        'floating-chat.donateButton.background-color': '#f45d22',
-        'floating-chat.donateButton.text-color': '#fff',
-        'floating-chat.stylesheets': JSON.stringify([
-          'https://fonts.googleapis.com/css?family=DM+Sans:400,600,700,800&display=swap',
-          window.location.origin + '/ko-fi-overrides.css'
-        ])
-      });
-    </script>
   </body>
 </html>

@@ -7,7 +7,7 @@ import ResultPopup from '../components/tool/ResultPopup.astro';
 import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
-import BlogSection from '../components/content/BlogSection.astro';
+// import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
@@ -21,14 +21,14 @@ const faqItems = [
 const faqSchema = createFaqSchema(faqItems);
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'Yes No Oracle', url: '/yes-no-oracle' },
+  { name: 'Yes No Oracle', url: '/yes-no-oracle/' },
 ]);
 ---
 
 <BaseLayout
   title="Yes No Oracle \u2014 Ask the Oracle Your Yes or No Question"
   description="Consult the free Yes No Oracle for an instant yes or no answer. The online oracle uses true randomness to answer any question. No sign-up."
-  canonical="https://yesnobuttonapp.com/yes-no-oracle"
+  canonical="https://yesnobuttonapp.com/yes-no-oracle/"
   schema={[webAppSchema, faqSchema, breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
@@ -143,7 +143,7 @@ const breadcrumb = breadcrumbSchema([
     </div>
   </section>
 
-  <BlogSection />
+  <!-- <BlogSection /> -->
 
   <MoreTools />
 

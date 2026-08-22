@@ -7,32 +7,32 @@ import ResultPopup from '../components/tool/ResultPopup.astro';
 import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
-import BlogSection from '../components/content/BlogSection.astro';
+// import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
-  { category: 'general', question: 'What is the Bluey Yes No Button?', answer: 'The Bluey Yes No Button is a kid-friendly decision-making tool inspired by the yes/no game from the popular Australian children\'s TV show Bluey. It features bright, playful colours and fun questions families can ask together.' },
-  { category: 'general', question: 'What is the yes/no game in Bluey?', answer: 'In the Bluey episode titled "The Yes/No Game," the characters play a game where they can only answer questions with yes or no. Saying any other word means you lose. The game is a fun way to build listening skills and self-control.' },
-  { category: 'general', question: 'Can kids use the Bluey Yes No Button?', answer: 'Yes. The Bluey Yes No Button is designed with kids in mind  -  large buttons, bright colours, and simple interactions. Adult supervision is recommended for younger children.' },
+  { category: 'general', question: 'What is the Kids Yes No Button?', answer: 'The Kids Yes No Button is a kid-friendly random decision tool for simple yes or no questions. It uses large buttons, bright colours, and simple interactions families can use together.' },
+  { category: 'general', question: 'Can kids use the Kids Yes No Button?', answer: 'Yes. The Kids Yes No Button is designed with children and families in mind. Adult supervision is recommended for younger children, especially when using any website.' },
   { category: 'general', question: 'What kind of questions can kids ask?', answer: 'Kids can ask fun questions like "Should I clean my room?", "Is it time for a snack?", "Should I play outside?", or any other yes/no question they can think of.' },
+  { category: 'general', question: 'Is the Kids Yes No Button free?', answer: 'Yes. It is free to use, does not require an account, and works directly in the browser.' },
 
-  { category: 'games', question: 'How does the Bluey Yes No Button work as a game?', answer: 'The button generates random yes or no answers that players must respond to without saying any other words. It is a digital referee for the classic Bluey yes/no game, perfect for family game night.' },
+  { category: 'games', question: 'How does the Kids Yes No Button work as a game?', answer: 'The button generates random yes or no answers that families can use for simple games, turns, prompts, and playful choices.' },
   { category: 'games', question: 'Can we use the button for other kids games?', answer: 'Yes. The button works great for other children\'s games that need a random decision  -  picking who goes first, deciding which game to play, or settling playful disputes between siblings.' },
 
-  { category: 'daily', question: 'How can parents use the Bluey Yes No Button?', answer: 'Parents can use it as a playful way to make daily decisions with kids  -  whether to have a dance party, clean up toys, or choose a bedtime story. It turns routine choices into a fun activity.' },
-  { category: 'daily', question: 'Can the Bluey Yes No Button help with family routines?', answer: 'Yes. Use it to decide which chore to do first, whether to play inside or outside, or what snack to have. The playful theme makes everyday decisions feel like part of the Bluey game.' },
+  { category: 'daily', question: 'How can parents use the Kids Yes No Button?', answer: 'Parents can use it as a playful way to make daily decisions with kids  -  whether to have a dance party, clean up toys, or choose a bedtime story. It turns routine choices into a fun activity.' },
+  { category: 'daily', question: 'Can the Kids Yes No Button help with family routines?', answer: 'Yes. Use it to decide which chore to do first, whether to play inside or outside, or what snack to have. The playful theme makes everyday decisions feel like a game.' },
 ];
 
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
-  { name: 'Bluey Yes No Button', url: '/bluey-yes-no-button' },
+  { name: 'Kids Yes No Button', url: '/kids-yes-no-button/' },
 ]);
 ---
 
 <BaseLayout
-  title="Bluey Yes No Button  -  Play the Yes/No Game from the Show"
-  description="The Bluey Yes No Button brings the yes/no game from the hit children's show to your screen. Kid-friendly, colourful, and fun for the whole family. Free to play."
-  canonical="https://yesnobuttonapp.com/bluey-yes-no-button"
+  title="Kids Yes No Button  -  Family-Friendly Random Decision Tool"
+  description="A kid-friendly yes no button for family games, routines, and simple choices. Bright, simple, free, and easy to use together."
+  canonical="https://yesnobuttonapp.com/kids-yes-no-button/"
   schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
@@ -42,15 +42,15 @@ const breadcrumb = breadcrumbSchema([
 
     <div class="relative py-12 md:py-20">
       <div class="container text-center">
-        <p class="text-sm uppercase tracking-[0.15em] text-[#d97706] dark:text-[#fbbf24] mb-3 font-medium">&#9733; Inspired by the hit TV show &#9733;</p>
+        <p class="text-sm uppercase tracking-[0.15em] text-[#d97706] dark:text-[#fbbf24] mb-3 font-medium">&#9733; Family-friendly decision maker &#9733;</p>
         <h1 class="font-display text-3xl md:text-5xl tracking-tight text-[#92400e] dark:text-[#fde68a] mb-3">
-          Bluey Yes No Button
+          Kids Yes No Button
         </h1>
         <p class="text-[#b45309] dark:text-[#fcd34d]/80 text-base md:text-lg mb-10 max-w-xl mx-auto">
-          Play the Yes/No game from Bluey! Fun for the whole family.
+          A simple yes or no button for family games, routines, and everyday choices.
         </p>
 
-        <div id="bluey-tool" class="max-w-lg mx-auto">
+        <div id="kids-tool" class="max-w-lg mx-auto">
           <div class="p-6 rounded-2xl border-2 border-[#f59e0b]/30 bg-white/60 dark:bg-[#2a4a2a]/40 backdrop-blur-sm">
             <YesNoTool />
             <ResultPopup />
@@ -63,12 +63,12 @@ const breadcrumb = breadcrumbSchema([
     <div class="relative py-section max-sm:py-12 bg-white/80 dark:bg-[#1a3a1a]/80">
       <div class="container max-w-3xl">
         <h2 class="font-display text-2xl md:text-3xl tracking-tight text-[#92400e] dark:text-[#fde68a] mb-6">
-          What Is the Bluey Yes/No Game?
+          What Is the Kids Yes No Button?
         </h2>
         <div class="text-[#78716c] dark:text-[#a8c8a8] space-y-4 leading-relaxed">
-          <p>In the beloved Australian children's television show <em>Bluey</em>, the characters play a simple but hilarious game: you can only answer questions with &quot;Yes&quot; or &quot;No.&quot; Say any other word, and you're out. The game appears in multiple episodes and has become a fan favourite among kids and parents alike.</p>
-          <p>The Bluey Yes No Button brings this game to life on your screen. Instead of needing a partner to ask questions, the tool provides random yes or no answers that you can use as prompts for the game. It's a digital twist on a classic family activity.</p>
-          <p>Bluey is an Australian animated series that follows a lovable Blue Heeler puppy named Bluey and her family: Mum (Chilli), Dad (Bandit), and little sister Bingo. The show has won multiple awards for its warm, imaginative storytelling about family life.</p>
+          <p>The Kids Yes No Button is a playful version of the main Yes No Button, made for simple family choices and kid-friendly games. Press the button and it gives a random Yes or No answer with equal probability.</p>
+          <p>Families can use it to pick who goes first, choose between two activities, settle small disagreements, or add a little surprise to everyday routines.</p>
+          <p>The tool runs in the browser, requires no sign-up, and keeps the interaction simple: ask a yes or no question, press the button, and see the result.</p>
         </div>
       </div>
     </div>
@@ -76,12 +76,12 @@ const breadcrumb = breadcrumbSchema([
     <div class="relative py-section max-sm:py-12 bg-[#fef9c3]/60 dark:bg-[#0f2a0f]/60">
       <div class="container max-w-3xl">
         <h2 class="font-display text-2xl md:text-3xl tracking-tight text-[#92400e] dark:text-[#fde68a] mb-6">
-          How to Play the Yes/No Game
+          How to Play a Yes/No Game
         </h2>
         <ol class="list-decimal list-inside space-y-4 text-[#78716c] dark:text-[#a8c8a8] leading-relaxed">
           <li><strong class="text-[#92400e] dark:text-[#fde68a]">Gather your players</strong>  -  two or more people. One person asks questions, the others answer.</li>
           <li><strong class="text-[#92400e] dark:text-[#fde68a]">Set the rule</strong>  -  answers must be ONLY &quot;Yes&quot; or &quot;No.&quot; No nodding, shaking your head, or saying anything else!</li>
-          <li><strong class="text-[#92400e] dark:text-[#fde68a]">Use the button</strong>  -  click the Bluey Yes No Button to get a random yes or no prompt. Use it as inspiration for questions.</li>
+          <li><strong class="text-[#92400e] dark:text-[#fde68a]">Use the button</strong>  -  click the Kids Yes No Button to get a random yes or no prompt. Use it as inspiration for questions.</li>
           <li><strong class="text-[#92400e] dark:text-[#fde68a]">Take turns</strong>  -  ask silly, serious, or surprising questions. The fun is in keeping a straight face.</li>
           <li><strong class="text-[#92400e] dark:text-[#fde68a]">Last one standing wins</strong>  -  anyone who says a word other than yes or no is out!</li>
         </ol>
@@ -114,7 +114,7 @@ const breadcrumb = breadcrumbSchema([
     </div>
   </section>
 
-  <BlogSection />
+  <!-- <BlogSection /> -->
 
   <MoreTools />
 
