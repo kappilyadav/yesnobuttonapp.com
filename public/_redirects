@@ -18,13 +18,13 @@
 /random-yes-or-no           /     301
 
 # Oracle variants → oracle page
-/yes-or-no-oracle           /yes-no-oracle     301
-/yesnooracle                /yes-no-oracle     301
+/yes-or-no-oracle           /yes-no-oracle/    301
+/yesnooracle                /yes-no-oracle/    301
 
 # Wheel/spinner variants → wheel page
-/yes-or-no-wheel            /yes-no-wheel     301
-/yes-no-spinner             /yes-no-wheel     301
-/yes-no-picker              /yes-no-wheel     301
+/yes-or-no-wheel            /yes-no-wheel/    301
+/yes-no-spinner             /yes-no-wheel/    301
+/yes-no-picker              /yes-no-wheel/    301
 
 # Kid-friendly page rename
-/bluey-yes-no-button        /kids-yes-no-button     301
+/bluey-yes-no-button        /kids-yes-no-button/    301

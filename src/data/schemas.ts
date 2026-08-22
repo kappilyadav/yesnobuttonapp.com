@@ -2,7 +2,7 @@ export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "YesNoButton",
-  "url": "https://yesnobuttonapp.com",
+  "url": "https://yesnobuttonapp.com/",
   "logo": "https://yesnobuttonapp.com/favicon.svg",
   "description": "Creator of the free online Yes No Button random decision maker.",
 };
@@ -11,7 +11,7 @@ export const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Yes No Button",
-  "url": "https://yesnobuttonapp.com",
+  "url": "https://yesnobuttonapp.com/",
   "description": "A free online random Yes or No decision maker. Press the button to get a truly random answer to any yes or no question.",
   "potentialAction": {
     "@type": "SearchAction",
@@ -27,7 +27,7 @@ export const webAppSchema = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Yes No Button",
-  "url": "https://yesnobuttonapp.com",
+  "url": "https://yesnobuttonapp.com/",
   "description": "A free online random yes or no generator and decision maker. Press the button to get a truly random yes or no answer to any question.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "All",
@@ -124,5 +124,5 @@ export const createWebPageSchema = (description: string, url?: string) => ({
   "@context": "https://schema.org",
   "@type": "WebPage",
   "description": description,
-  "url": url ?? "https://yesnobuttonapp.com"
+  "url": url ?? "https://yesnobuttonapp.com/"
 });
