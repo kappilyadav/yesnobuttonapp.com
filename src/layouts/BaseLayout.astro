@@ -67,19 +67,47 @@ export interface Props {
       }
     </script>
 
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preload" href={syneWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FHP1RF82CG"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-FHP1RF82CG');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5091913868096252" crossorigin="anonymous"></script>
     <meta name="google-adsense-account" content="ca-pub-5091913868096252">
+
+    <script is:inline>
+      (function () {
+        var started = false;
+        function loadThirdPartyScripts() {
+          if (started) return;
+          started = true;
+          var gtm = document.createElement('script');
+          gtm.async = true;
+          gtm.src = 'https://www.googletagmanager.com/gtag/js?id=G-FHP1RF82CG';
+          document.head.appendChild(gtm);
+
+          var ads = document.createElement('script');
+          ads.async = true;
+          ads.crossOrigin = 'anonymous';
+          ads.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5091913868096252';
+          document.head.appendChild(ads);
+
+          events.forEach(function (evt) {
+            window.removeEventListener(evt, loadThirdPartyScripts);
+          });
+          clearTimeout(fallback);
+        }
+        var events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click'];
+        events.forEach(function (evt) {
+          window.addEventListener(evt, loadThirdPartyScripts, { passive: true });
+        });
+        var fallback = setTimeout(loadThirdPartyScripts, 8000);
+      })();
+    </script>
   </head>
   <body class="min-h-dvh flex flex-col">
     <slot name="header" />

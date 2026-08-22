@@ -11,6 +11,12 @@ import FAQAccordion from '../components/content/FAQAccordion.astro';
 import SeasonalTable from '../components/content/SeasonalTable.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+import '@fontsource/baloo-2/700.css';
+import '@fontsource/baloo-2/800.css';
+import '@fontsource/caveat/700.css';
+import baloo700Woff2 from '@fontsource/baloo-2/files/baloo-2-latin-700-normal.woff2?url';
+import baloo800Woff2 from '@fontsource/baloo-2/files/baloo-2-latin-800-normal.woff2?url';
+import caveat700Woff2 from '@fontsource/caveat/files/caveat-latin-700-normal.woff2?url';
 
 const seasonalQuestions = [
   { question: 'Should I go to the beach this weekend?', reason: 'Summer is here and the warm weather makes beach trips the perfect spontaneous decision.' },
@@ -87,6 +93,12 @@ const faqItems = [
   canonical="https://yesnobuttonapp.com/"
   schema={[webAppSchema, createFaqSchema(faqItems), homeBreadcrumb]}
 >
+  <Fragment slot="head">
+    <link rel="preload" href={baloo700Woff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={baloo800Woff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={caveat700Woff2} as="font" type="font/woff2" crossorigin />
+  </Fragment>
+
   <Fragment slot="header">
     <Header />
   </Fragment>
@@ -115,7 +127,7 @@ const faqItems = [
       >
         <button
           data-ynb-mode="binary"
-          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-muted-dark"
           role="radio"
           aria-checked="true"
         >
@@ -123,7 +135,7 @@ const faqItems = [
         </button>
         <button
           data-ynb-mode="three-way"
-          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-muted-dark"
           role="radio"
           aria-checked="false"
         >
@@ -161,7 +173,7 @@ const faqItems = [
         width="600"
         height="400"
         loading="lazy"
-        style="border-radius: 16px; border: 1px solid #E4E2DC; width: 100%; max-width: 560px; display: block; margin: 24px auto;"
+        style="border-radius: 16px; border: 1px solid #E4E2DC; width: 100%; max-width: 560px; height: auto; aspect-ratio: 600 / 400; display: block; margin: 24px auto;"
       />
 
       <h3 class="font-display text-lg md:text-xl tracking-tight text-ink dark:text-ink-dark mt-10 mb-6">
@@ -316,12 +328,12 @@ const faqItems = [
         <div class="border border-[#E4E2DC] dark:border-border-dark rounded-xl px-5 py-3 bg-white dark:bg-card-dark text-sm font-medium text-center w-full">
           <span class="text-[#1A1A18] dark:text-ink-dark">Math.random()</span>
           <div class="flex items-center gap-0 mt-1.5">
-            <span class="text-[10px] text-[#6B6965]">0.0</span>
+            <span class="text-[10px] text-[#6B6965] dark:text-[#9B9890]">0.0</span>
             <div class="flex-1 h-2 rounded-full mx-1 overflow-hidden flex">
               <div class="h-full w-1/2 bg-[#16A34A]"></div>
               <div class="h-full w-1/2 bg-[#DC2626]"></div>
             </div>
-            <span class="text-[10px] text-[#6B6965]">1.0</span>
+            <span class="text-[10px] text-[#6B6965] dark:text-[#9B9890]">1.0</span>
           </div>
         </div>
         <span class="text-[#B0AEA8] text-xl font-medium max-sm:rotate-90 max-sm:scale-x-[-1]">→</span>
@@ -342,7 +354,7 @@ const faqItems = [
         width="600"
         height="400"
         loading="lazy"
-        style="border-radius: 16px; border: 1px solid #E4E2DC; width: 100%; max-width: 560px; display: block; margin: 24px auto;"
+        style="border-radius: 16px; border: 1px solid #E4E2DC; width: 100%; max-width: 560px; height: auto; aspect-ratio: 600 / 400; display: block; margin: 24px auto;"
       />
 
       <h3 class="font-display text-lg md:text-xl tracking-tight text-ink dark:text-ink-dark mt-10 mb-6">Comparison with other methods</h3>
@@ -431,7 +443,7 @@ const faqItems = [
   <!-- Section 6: Why Use Online [bg: #F0FDF4] -->
   <section class="py-[80px] max-sm:py-[48px] bg-[#F0FDF4] dark:bg-[#0A2E1A]">
     <div class="container max-w-3xl">
-      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">BENEFITS</span>
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] dark:text-[#22C55E] uppercase mb-2.5">BENEFITS</span>
       <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
         Why Use the Yes No Button Online?
       </h2>
@@ -479,7 +491,7 @@ const faqItems = [
           <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed">Works in any browser  -  no installation or download needed.</p>
         </div>
       </div>
-      <p style="font-size: 13px; color: #6B6965; margin-top: 24px; text-align: center;">
+      <p class="text-[#6B6965] dark:text-[#9B9890]" style="font-size: 13px; margin-top: 24px; text-align: center;">
         Also called the yes and no button, yes or no button, or no or yes button:
         all names for the same free random decision tool.
       </p>

@@ -17,11 +17,15 @@
     "indexnow": "node scripts/submit-indexnow.mjs"
   },
   "devDependencies": {
+    "chrome-launcher": "^1.2.1",
+    "lighthouse": "^13.4.1",
     "sharp": "^0.32.0"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/baloo-2": "^5.3.0",
+    "@fontsource/caveat": "^5.3.0",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/syne": "^5.2.7",

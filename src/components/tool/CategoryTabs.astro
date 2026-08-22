@@ -42,7 +42,7 @@ const categories: Category[] = [
 ---
 
 <div class="w-full max-w-2xl mx-auto">
-  <div class="flex flex-wrap justify-center gap-2 mb-4">
+  <div class="flex flex-wrap justify-center gap-2 mb-4" role="tablist" aria-label="Question categories">
     {categories.map((cat) => (
       <button
         class="px-[18px] max-sm:px-3 py-2 rounded-full text-sm max-sm:text-xs font-medium whitespace-nowrap border cursor-pointer transition-all duration-150"
@@ -50,8 +50,10 @@ const categories: Category[] = [
           'bg-[#18181B] text-white border-[#18181B]': false,
           'bg-transparent text-[#6B6965] border-[#E4E2DC]': true,
         }}
+        role="tab"
         data-category-tab={cat.id}
         aria-selected="false"
+        aria-controls={`category-${cat.id}`}
       >
         {cat.label}
       </button>
@@ -59,7 +61,7 @@ const categories: Category[] = [
   </div>
 
   {categories.map((cat) => (
-    <div id={`category-${cat.id}`} class="category-panel hidden">
+    <div id={`category-${cat.id}`} class="category-panel hidden" role="tabpanel">
       <div class="flex flex-wrap justify-center gap-2 pt-4">
         {cat.questions.map((q) => (
           <button
@@ -124,7 +126,7 @@ const categories: Category[] = [
     color: #FFFFFF;
     border-color: #18181B;
   }
-  .dark [data-category-tab][aria-selected="true"] {
+  :global(.dark) [data-category-tab][aria-selected="true"] {
     background: #E8E6E0;
     color: #18181B;
     border-color: #E8E6E0;
@@ -134,16 +136,16 @@ const categories: Category[] = [
     color: #6B6965;
     border-color: #E4E2DC;
   }
-  .dark [data-category-tab][aria-selected="false"] {
+  :global(.dark) [data-category-tab][aria-selected="false"] {
     background: transparent;
-    color: #8A8880;
+    color: #9B9890;
     border-color: #2A2A28;
   }
   [data-category-tab][aria-selected="false"]:hover {
     color: #1A1A18;
     border-color: #18181B;
   }
-  .dark [data-category-tab][aria-selected="false"]:hover {
+  :global(.dark) [data-category-tab][aria-selected="false"]:hover {
     color: #E8E6E0;
     border-color: #E8E6E0;
   }
