@@ -5,9 +5,10 @@ import WheelSpinner from '../tool/WheelSpinner.astro';
 export interface Props {
   theme?: string;
   showWheel?: boolean;
+  toyStyle?: boolean;
 }
 
-const { theme, showWheel } = Astro.props;
+const { theme, showWheel, toyStyle } = Astro.props;
 const buttonLabel = theme === 'oracle' ? 'Consult the Oracle' : 'Press to Decide';
 const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
 ---
@@ -16,7 +17,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
 
   <!-- Hero animated circles / Wheel -->
   {showWheel && <WheelSpinner />}
-  {!showWheel && (
+  {!showWheel && !toyStyle && (
     <div class="flex items-center justify-center gap-2 mb-2" id="hero-circles" aria-hidden="true">
       <div class="w-6 h-6 rounded-full bg-yes" style="--i:0; animation: float 1.5s ease-in-out infinite; animation-delay: 0s; opacity: 0; animation: reveal 0.4s ease-out 0s forwards, float 1.5s ease-in-out 0.4s infinite;"></div>
       <div class="w-6 h-6 rounded-full bg-no" style="--i:1; animation: float 1.5s ease-in-out infinite; animation-delay: 0.15s; opacity: 0; animation: reveal 0.4s ease-out 0.08s forwards, float 1.5s ease-in-out 0.48s infinite;"></div>
@@ -28,52 +29,170 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
     </div>
   )}
 
-  <!-- Mode toggle -->
-  <div
-    id="mode-toggle"
-    class="flex items-center gap-1 p-1 rounded-xl bg-[#F4F2EC] dark:bg-[#2A2A28] w-fit mx-auto"
-    role="radiogroup"
-    aria-label="Select answer mode"
-  >
-    <button
-      data-ynb-mode="binary"
-      class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
-      role="radio"
-      aria-checked="true"
-    >
-      Yes / No
-    </button>
-    <button
-      data-ynb-mode="three-way"
-      class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
-      role="radio"
-      aria-checked="false"
-    >
-      Yes / No / Maybe
-    </button>
-  </div>
+  {toyStyle ? (
+    <!-- Physical toy button — hero visual, nothing above it -->
+    <div class="toy-hero w-full flex flex-col items-center">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Caveat:wght@700&display=swap" />
 
-  <!-- Question Input -->
-  <input
-    id="question-input"
-    type="text"
-    placeholder="Type your question here (optional)"
-    class="w-full px-5 py-3.5 rounded-xl border border-border dark:border-border-dark bg-card dark:bg-card-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-ink/10 dark:focus:ring-ink-dark/10 transition-all"
-    aria-label="Type your question"
-  />
+      <div class="toy-stage" aria-hidden="false">
+        <div class="toy-shadow" aria-hidden="true"></div>
 
-  <!-- Press to Decide Button -->
-  <div class="py-12 max-sm:py-8 w-full flex justify-center">
-    <button
-      id="decide-btn"
-      class="relative w-[280px] h-[72px] max-sm:w-[calc(100%-48px)] max-sm:h-16 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark font-display text-xl max-sm:text-lg tracking-[0.05em] uppercase cursor-pointer select-none animate-pulse-subtle animate-pulse-glow hover:bg-[#27272A] dark:hover:bg-[#D4D2CC] hover:scale-105 active:scale-96 transition-all duration-200 ease focus:outline-hidden disabled:opacity-50"
-      aria-label="Press to get a random yes or no answer"
-      role="button"
-    >
-      {buttonLabel}
-    </button>
-  </div>
+        <span class="toy-callout toy-callout-yes text-[#16A34A] dark:text-[#4ADE80]" id="toy-callout-yes" aria-hidden="true">yes!</span>
+        <span class="toy-callout toy-callout-no text-[#DC2626] dark:text-[#F87171]" id="toy-callout-no" aria-hidden="true">no!</span>
+
+        <div class="toy-fob" aria-hidden="false">
+          <span class="toy-fob-sheen" aria-hidden="true"></span>
+
+          <button
+            id="toy-yes-btn"
+            type="button"
+            class="toy-btn-socket toy-btn-socket-yes"
+            aria-label="Press for Yes"
+          >
+            <span class="toy-btn toy-btn-yes">Y</span>
+          </button>
+          <button
+            id="toy-no-btn"
+            type="button"
+            class="toy-btn-socket toy-btn-socket-no"
+            aria-label="Press for No"
+          >
+            <span class="toy-btn toy-btn-no">N</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="toy-caption text-ink dark:text-ink-dark">Yes / No — Out Loud!</p>
+
+      <div class="w-full max-w-lg mx-auto flex flex-col items-center gap-6 mt-10 max-sm:mt-8">
+        <slot />
+
+        <!-- Mode toggle -->
+        <div
+          id="mode-toggle"
+          class="flex items-center gap-1 p-1 rounded-xl bg-[#F4F2EC] dark:bg-[#2A2A28] w-fit mx-auto"
+          role="radiogroup"
+          aria-label="Select answer mode"
+        >
+          <button
+            data-ynb-mode="binary"
+            class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+            role="radio"
+            aria-checked="true"
+          >
+            Yes / No
+          </button>
+          <button
+            data-ynb-mode="three-way"
+            class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+            role="radio"
+            aria-checked="false"
+          >
+            Yes / No / Maybe
+          </button>
+        </div>
+
+        <!-- Question Input -->
+        <input
+          id="question-input"
+          type="text"
+          placeholder="Type your question here (optional)"
+          class="w-full px-5 py-3.5 rounded-xl border border-border dark:border-border-dark bg-card dark:bg-card-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-ink/10 dark:focus:ring-ink-dark/10 transition-all"
+          aria-label="Type your question"
+        />
+      </div>
+    </div>
+  ) : (
+    <>
+      <!-- Mode toggle -->
+      <div
+        id="mode-toggle"
+        class="flex items-center gap-1 p-1 rounded-xl bg-[#F4F2EC] dark:bg-[#2A2A28] w-fit mx-auto"
+        role="radiogroup"
+        aria-label="Select answer mode"
+      >
+        <button
+          data-ynb-mode="binary"
+          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+          role="radio"
+          aria-checked="true"
+        >
+          Yes / No
+        </button>
+        <button
+          data-ynb-mode="three-way"
+          class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-[#8A8880]"
+          role="radio"
+          aria-checked="false"
+        >
+          Yes / No / Maybe
+        </button>
+      </div>
+
+      <!-- Question Input -->
+      <input
+        id="question-input"
+        type="text"
+        placeholder="Type your question here (optional)"
+        class="w-full px-5 py-3.5 rounded-xl border border-border dark:border-border-dark bg-card dark:bg-card-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-ink/10 dark:focus:ring-ink-dark/10 transition-all"
+        aria-label="Type your question"
+      />
+
+      <!-- Press to Decide Button -->
+      <div class="py-12 max-sm:py-8 w-full flex justify-center">
+        <button
+          id="decide-btn"
+          class="relative w-[280px] h-[72px] max-sm:w-[calc(100%-48px)] max-sm:h-16 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark font-display text-xl max-sm:text-lg tracking-[0.05em] uppercase cursor-pointer select-none animate-pulse-subtle animate-pulse-glow hover:bg-[#27272A] dark:hover:bg-[#D4D2CC] hover:scale-105 active:scale-96 transition-all duration-200 ease focus:outline-hidden disabled:opacity-50"
+          aria-label="Press to get a random yes or no answer"
+          role="button"
+        >
+          {buttonLabel}
+        </button>
+      </div>
+    </>
+  )}
 </div>
+
+{toyStyle && (
+  <script>
+    function initToyButtons() {
+      const yesBtn = document.getElementById('toy-yes-btn');
+      const noBtn = document.getElementById('toy-no-btn');
+      const yesCallout = document.getElementById('toy-callout-yes');
+      const noCallout = document.getElementById('toy-callout-no');
+      if (!yesBtn || !noBtn) return;
+
+      function speak(text: string) {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.rate = 1.0;
+          utterance.pitch = 1.0;
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+
+      function pop(el: HTMLElement | null) {
+        if (!el) return;
+        el.classList.remove('is-popped');
+        void el.offsetWidth;
+        el.classList.add('is-popped');
+      }
+
+      function press(button: HTMLElement, callout: HTMLElement | null, word: string) {
+        button.classList.add('is-pressed');
+        window.setTimeout(() => button.classList.remove('is-pressed'), 260);
+        pop(callout);
+        speak(word);
+      }
+
+      yesBtn.addEventListener('click', () => press(yesBtn, yesCallout, 'Yes'));
+      noBtn.addEventListener('click', () => press(noBtn, noCallout, 'No'));
+    }
+
+    initToyButtons();
+  </script>
+)}
 
 <style>
   @keyframes reveal {
@@ -90,5 +209,220 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
     background: #1C1C1A;
     color: #E8E6E0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  /* ============ Physical toy button ============ */
+
+  .toy-stage {
+    position: relative;
+    width: 420px;
+    padding: 24px 0 44px;
+  }
+  @media (max-width: 640px) {
+    .toy-stage { width: 300px; padding: 16px 0 32px; }
+  }
+
+  .toy-fob {
+    position: relative;
+    z-index: 2;
+    width: 320px;
+    height: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 46px;
+    border-radius: 999px;
+    background: linear-gradient(165deg, #FFDD4A 0%, #F9CB23 30%, #EEB90F 60%, #D9A008 100%);
+    box-shadow:
+      inset 6px 6px 12px rgba(255,255,255,0.4),
+      inset -10px -3px 4px -1px rgba(0,0,0,0.16),
+      inset 8px 0 16px -6px rgba(255,255,255,0.3),
+      inset -14px 0 22px -8px rgba(120,72,10,0.35),
+      0 26px 40px rgba(120,72,10,0.35),
+      0 3px 0 rgba(0,0,0,0.1);
+    animation: toy-float 3.8s ease-in-out infinite;
+    transition: animation-play-state 0.16s ease;
+  }
+  @media (max-width: 640px) {
+    .toy-fob { width: 232px; height: 380px; gap: 32px; }
+  }
+
+  .toy-fob:hover {
+    animation-play-state: paused;
+  }
+
+  .toy-fob-sheen {
+    position: absolute;
+    top: 34px;
+    left: 30px;
+    width: 46%;
+    height: 20%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 72%);
+    pointer-events: none;
+    transform: rotate(-18deg);
+  }
+  @media (max-width: 640px) {
+    .toy-fob-sheen { top: 24px; left: 20px; width: 50%; height: 18%; }
+  }
+
+  .toy-btn-socket {
+    position: relative;
+    z-index: 1;
+    width: 168px;
+    height: 168px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    background: linear-gradient(155deg, #D9A521 0%, #B8860E 55%, #8A6208 100%);
+    box-shadow:
+      inset 0 6px 11px rgba(0,0,0,0.35),
+      inset 0 -4px 5px rgba(255,255,255,0.2);
+    transition: transform 0.12s ease;
+  }
+  @media (max-width: 640px) {
+    .toy-btn-socket { width: 122px; height: 122px; }
+  }
+
+  .toy-btn-socket:hover .toy-btn {
+    transform: translateY(-4px);
+  }
+  .toy-btn-socket:focus-visible {
+    outline: 3px solid #B8860E;
+    outline-offset: 4px;
+  }
+  .toy-btn-socket.is-pressed {
+    transform: scale(0.97);
+  }
+  .toy-btn-socket.is-pressed .toy-btn {
+    transform: translateY(7px);
+    box-shadow:
+      inset 0 5px 9px rgba(0,0,0,0.4),
+      inset 0 -3px 5px rgba(255,255,255,0.2),
+      0 0 0 rgba(0,0,0,0);
+  }
+
+  .toy-btn {
+    width: 136px;
+    height: 136px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Baloo 2', 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 80px;
+    line-height: 1;
+    color: #FFFFFF;
+    text-shadow: 0 3px 2px rgba(0,0,0,0.2);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  @media (max-width: 640px) {
+    .toy-btn { width: 100px; height: 100px; font-size: 58px; }
+  }
+
+  .toy-btn-yes {
+    background: radial-gradient(circle at 32% 24%, #86F5B8 0%, #22C55E 42%, #15803D 100%);
+    box-shadow:
+      inset 0 7px 10px rgba(255,255,255,0.6),
+      inset 0 -12px 18px rgba(0,0,0,0.28),
+      0 8px 0 #0F6B33,
+      0 14px 20px rgba(0,0,0,0.32);
+  }
+  .toy-btn-no {
+    background: radial-gradient(circle at 32% 24%, #FFB0AC 0%, #EF4444 42%, #B91C1C 100%);
+    box-shadow:
+      inset 0 7px 10px rgba(255,255,255,0.6),
+      inset 0 -12px 18px rgba(0,0,0,0.28),
+      0 8px 0 #8C1B1B,
+      0 14px 20px rgba(0,0,0,0.32);
+  }
+
+  .toy-shadow {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    width: 240px;
+    height: 36px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0) 72%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: toy-shadow-pulse 3.8s ease-in-out infinite;
+  }
+  @media (max-width: 640px) {
+    .toy-shadow { width: 170px; height: 26px; bottom: 8px; }
+  }
+
+  .toy-callout {
+    position: absolute;
+    z-index: 4;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.06);
+  }
+  .toy-callout-yes {
+    --rot: -9deg;
+    top: -14px;
+    left: -10px;
+    font-size: 80px;
+    transform: rotate(var(--rot));
+  }
+  .toy-callout-no {
+    --rot: 7deg;
+    bottom: 24px;
+    right: -14px;
+    font-size: 72px;
+    transform: rotate(var(--rot));
+  }
+  .toy-callout.is-popped {
+    animation: toy-callout-pop 420ms ease-out;
+  }
+  @media (max-width: 640px) {
+    .toy-callout-yes { font-size: 54px; left: -12px; top: -10px; }
+    .toy-callout-no { font-size: 48px; right: -10px; bottom: 18px; }
+  }
+
+  .toy-caption {
+    font-family: 'Baloo 2', 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    margin-top: 22px;
+  }
+  @media (max-width: 640px) {
+    .toy-caption { font-size: 16px; margin-top: 16px; }
+  }
+
+  @keyframes toy-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(-1deg); }
+  }
+  @keyframes toy-shadow-pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.9; }
+    50% { transform: translateX(-50%) scale(0.85); opacity: 0.6; }
+  }
+  @keyframes toy-callout-pop {
+    0% { transform: scale(1) rotate(var(--rot)); }
+    35% { transform: scale(1.45) rotate(var(--rot)); }
+    100% { transform: scale(1) rotate(var(--rot)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toy-fob { animation: none; }
+    .toy-shadow { animation: none; }
+    .toy-callout.is-popped { animation: none; }
   }
 </style>

@@ -99,13 +99,14 @@ const faqItems = [
       <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#FAFAF8]/80 to-transparent dark:from-[#111110]/80 dark:to-transparent"></div>
     </div>
     <div class="container text-center relative z-10">
-      <h1 class="font-display text-4xl md:text-6xl tracking-tight text-ink dark:text-ink-dark mb-3">
-        Yes No Button
-      </h1>
-      <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-10 max-w-xl mx-auto">
-        The free random yes or no decision maker. One click. Truly 50/50.
-      </p>
-      <YesNoTool />
+      <YesNoTool toyStyle>
+        <h1 class="font-display text-4xl md:text-6xl tracking-tight text-ink dark:text-ink-dark mb-3">
+          Yes No Button
+        </h1>
+        <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-2 max-w-xl mx-auto">
+          The free random yes or no decision maker. One click. Truly 50/50.
+        </p>
+      </YesNoTool>
       <ResultPopup />
       <HistoryTracker />
     </div>
