@@ -7,9 +7,13 @@ export interface FAQItem {
 
 export interface Props {
   items: FAQItem[];
+  /** When set, only the first N questions (in display order) render open;
+   * the rest are revealed by a "Show all" button. Omit to show everything
+   * (existing behavior on pages that don't pass this). */
+  collapseAfter?: number;
 }
 
-const { items } = Astro.props;
+const { items, collapseAfter } = Astro.props;
 
 const categoryLabels: Record<string, string> = {
   general: 'General',
@@ -33,17 +37,28 @@ const grouped = items.reduce<Record<string, FAQItem[]>>((acc, item) => {
 const orderedGroups = categoryOrder
   .filter((cat) => grouped[cat]?.length)
   .map((cat) => ({ category: cat, label: categoryLabels[cat] ?? cat, items: grouped[cat] }));
+
+const hasCollapse = typeof collapseAfter === 'number' && collapseAfter < items.length;
+
+// Assign each item a running index across the whole flattened list so we
+// know which ones fall past the collapse threshold, without breaking up
+// the category grouping.
+let runningIndex = 0;
+const groupsWithIndices = orderedGroups.map((group) => ({
+  ...group,
+  items: group.items.map((item) => ({ item, idx: runningIndex++ })),
+}));
 ---
 
-<div>
-  {orderedGroups.map((group) => (
+<div class="faq-accordion">
+  {groupsWithIndices.map((group) => (
     <div class="mb-8">
       <h3 class="text-xs font-medium text-[#6B6965] dark:text-muted-dark uppercase tracking-[0.08em] mb-3">
         {group.label}
       </h3>
       <div class="space-y-2">
-        {group.items.map((item) => (
-          <details class="group bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-xl overflow-hidden transition-all duration-150">
+        {group.items.map(({ item, idx }) => (
+          <details class={`group bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-xl overflow-hidden transition-all duration-150 ${hasCollapse && idx >= collapseAfter! ? 'faq-extra hidden' : ''}`}>
             <summary class="flex items-center justify-between cursor-pointer px-5 py-[18px] text-base font-medium text-[#1A1A18] dark:text-ink-dark hover:bg-[#FAFAF8] dark:hover:bg-[#222220] transition-colors list-none">
               <span>{item.question}</span>
               <span class="chevron text-[#6B6965] dark:text-muted-dark transition-transform duration-200 group-open:rotate-180 shrink-0 ml-4 text-lg leading-none">▾</span>
@@ -56,7 +71,28 @@ const orderedGroups = categoryOrder
       </div>
     </div>
   ))}
+
+  {hasCollapse && (
+    <div class="text-center">
+      <button
+        type="button"
+        id="faq-show-all"
+        class="px-6 py-3 rounded-full border border-[#E4E2DC] dark:border-border-dark text-sm font-medium text-[#1A1A18] dark:text-ink-dark hover:bg-[#FAFAF8] dark:hover:bg-[#222220] transition-colors cursor-pointer"
+      >
+        Show all {items.length} questions
+      </button>
+    </div>
+  )}
 </div>
+
+{hasCollapse && (
+  <script>
+    document.getElementById('faq-show-all')?.addEventListener('click', (e) => {
+      document.querySelectorAll('.faq-accordion .faq-extra').forEach((el) => el.classList.remove('hidden'));
+      (e.currentTarget as HTMLElement).closest('div')?.remove();
+    });
+  </script>
+)}
 
 <style>
   details[open] summary {

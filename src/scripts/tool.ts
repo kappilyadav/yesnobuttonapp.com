@@ -129,7 +129,7 @@ function initModeToggle() {
   setMode(currentMode);
 }
 
-function getResult(): Result {
+export function getResult(): Result {
   if (currentMode === 'three-way') {
     const r = Math.random();
     if (r < 0.333) return 'no';
@@ -149,90 +149,151 @@ function speakResult(text: string) {
   }
 }
 
+function updateSpeechIndicator() {
+  const speechIndicator = document.getElementById('speech-indicator') as HTMLElement | null;
+  if (!speechIndicator) return;
+  if (!('speechSynthesis' in window)) {
+    speechIndicator.classList.add('hidden');
+    return;
+  }
+  speechIndicator.classList.remove('hidden');
+  const checkSpeaking = setInterval(() => {
+    if (!window.speechSynthesis.speaking) {
+      speechIndicator.classList.add('hidden');
+      clearInterval(checkSpeaking);
+    }
+  }, 200);
+}
+
+/**
+ * Records a result to history + analytics without any visual popup.
+ * Used by lightweight, in-place confirmations (e.g. the toy button's
+ * manual Yes/No/Maybe presses) that don't warrant a fullscreen reveal.
+ */
+export function recordResult(result: Result) {
+  addToHistory(result);
+  renderHistory();
+  Events.resultShown(result);
+}
+
+let popupTimer: ReturnType<typeof setTimeout> | null = null;
+
+/**
+ * Re-rolls the result while the popup is already open. Plays a quick
+ * exit animation on the card first so there's always a visible "gone,
+ * then back" beat — without it, a repeat result (e.g. Yes -> Yes) swaps
+ * text in the same tick and can look like the popup froze.
+ */
+function tryAgain(question?: string) {
+  const popupCard = document.getElementById('popup-card') as HTMLElement | null;
+  const nextResult = getResult();
+
+  if (!popupCard) {
+    showResultPopup(nextResult, question);
+    return;
+  }
+
+  let proceeded = false;
+  const proceed = () => {
+    if (proceeded) return;
+    proceeded = true;
+    popupCard.removeEventListener('animationend', onExitEnd);
+    showResultPopup(nextResult, question);
+  };
+  const onExitEnd = () => proceed();
+
+  popupCard.classList.remove('animate-popup-entry');
+  void popupCard.offsetWidth;
+  popupCard.classList.add('animate-popup-exit');
+  popupCard.addEventListener('animationend', onExitEnd, { once: true });
+
+  // Safety net: if the animationend event never fires for any reason
+  // (backgrounded tab, reduced motion, browser quirks), still proceed —
+  // a missed animation should never leave the popup stuck invisible.
+  setTimeout(proceed, 160);
+}
+
+/**
+ * Shows the shared fullscreen result popup. Queries #result-popup by id
+ * at call time so it works from any script context on a page that
+ * renders <ResultPopup />, regardless of whether #decide-btn exists.
+ */
+export function showResultPopup(result: Result, question?: string) {
+  const popup = document.getElementById('result-popup') as HTMLElement | null;
+  const popupAnswer = document.getElementById('popup-answer') as HTMLElement | null;
+  if (!popup || !popupAnswer) return;
+
+  const popupCard = document.getElementById('popup-card') as HTMLElement | null;
+  const popupQuestion = document.getElementById('popup-question') as HTMLElement | null;
+  const popupProgress = document.getElementById('popup-progress') as HTMLElement | null;
+  const pressAgainBtn = document.getElementById('press-again-btn') as HTMLButtonElement | null;
+
+  popupAnswer.textContent = result.toUpperCase();
+  popup.setAttribute('data-result', result);
+  popup.classList.remove('hidden');
+  popup.classList.add('flex');
+
+  if (popupQuestion) {
+    popupQuestion.textContent = question || '';
+    popupQuestion.classList.toggle('hidden', !question);
+  }
+
+  // Force the entry/bounce animations to restart even when the popup is
+  // already open and the new result is identical to the previous one —
+  // otherwise a same-result "Try Again" has no visible class change and
+  // can look stuck. popup-exit (see press-again handling below) already
+  // covers the visible "gone then back" beat; this is the defensive
+  // reset so the reveal itself always replays too.
+  if (popupCard) {
+    popupCard.classList.remove('animate-popup-entry', 'animate-popup-exit');
+    void popupCard.offsetWidth;
+    popupCard.classList.add('animate-popup-entry');
+  }
+  popupAnswer.classList.remove('animate-bounce-word');
+  void popupAnswer.offsetWidth;
+  popupAnswer.classList.add('animate-bounce-word');
+
+  if (pressAgainBtn) {
+    pressAgainBtn.onclick = () => tryAgain(question);
+  }
+
+  speakResult(result);
+
+  clearTimeout(popupTimer!);
+  if (popupProgress) {
+    popupProgress.classList.remove('animate-progress-bar');
+    void popupProgress.offsetWidth;
+    popupProgress.classList.add('animate-progress-bar');
+  }
+  popupTimer = setTimeout(hideResultPopup, 4000);
+
+  recordResult(result);
+  updateSpeechIndicator();
+}
+
+export function hideResultPopup() {
+  const popup = document.getElementById('result-popup') as HTMLElement | null;
+  if (!popup) return;
+  popup.classList.add('hidden');
+  popup.classList.remove('flex');
+  popup.setAttribute('data-result', '');
+  if (popupTimer) clearTimeout(popupTimer);
+  const speechIndicator = document.getElementById('speech-indicator') as HTMLElement | null;
+  if (speechIndicator) speechIndicator.classList.add('hidden');
+  const button = document.getElementById('decide-btn') as HTMLButtonElement | null;
+  button?.focus();
+}
+
 export function initTool() {
   const button = document.getElementById('decide-btn') as HTMLButtonElement | null;
   const input = document.getElementById('question-input') as HTMLInputElement | null;
-  const popup = document.getElementById('result-popup') as HTMLElement | null;
-  const popupAnswer = document.getElementById('popup-answer') as HTMLElement | null;
-  const popupQuestion = document.getElementById('popup-question') as HTMLElement | null;
   initHistoryElements();
   initModeToggle();
   const clearHistoryBtn = document.getElementById('clear-history') as HTMLElement | null;
-  const pressAgainBtn = document.getElementById('press-again-btn') as HTMLButtonElement | null;
   const categoryChips = document.querySelectorAll('[data-category-chip]');
-  const popupProgress = document.getElementById('popup-progress') as HTMLElement | null;
-  const speechIndicator = document.getElementById('speech-indicator') as HTMLElement | null;
+  const popup = document.getElementById('result-popup') as HTMLElement | null;
 
-  let currentResult: Result | null = null;
   let pendingResult: Result | null = null;
-  let popupTimer: ReturnType<typeof setTimeout> | null = null;
-
-  function showPopup(result: Result, question?: string) {
-    if (!popup || !popupAnswer) return;
-    currentResult = result;
-    popupAnswer.textContent = result.toUpperCase();
-    popup.setAttribute('data-result', result);
-    popup.classList.remove('hidden');
-    popup.classList.add('flex');
-
-    if (popupQuestion) {
-      popupQuestion.textContent = question || '';
-      popupQuestion.classList.toggle('hidden', !question);
-    }
-
-    if (pressAgainBtn) {
-      pressAgainBtn.onclick = () => {
-        hidePopup();
-        generateAndShow();
-      };
-    }
-
-    speakResult(result);
-
-    clearTimeout(popupTimer!);
-
-    if (popupProgress) {
-      popupProgress.classList.remove('animate-progress-bar');
-      void popupProgress.offsetWidth;
-      popupProgress.classList.add('animate-progress-bar');
-    }
-
-    popupTimer = setTimeout(hidePopup, 4000);
-
-    addToHistory(result);
-    renderHistory();
-
-    Events.resultShown(result);
-
-    updateSpeechIndicator();
-
-  }
-
-  function updateSpeechIndicator() {
-    if (!speechIndicator) return;
-    if (!('speechSynthesis' in window)) {
-      speechIndicator.classList.add('hidden');
-      return;
-    }
-    speechIndicator.classList.remove('hidden');
-    const checkSpeaking = setInterval(() => {
-      if (!window.speechSynthesis.speaking) {
-        speechIndicator.classList.add('hidden');
-        clearInterval(checkSpeaking);
-      }
-    }, 200);
-  }
-
-  function hidePopup() {
-    if (!popup) return;
-    popup.classList.add('hidden');
-    popup.classList.remove('flex');
-    popup.setAttribute('data-result', '');
-    if (popupTimer) clearTimeout(popupTimer);
-    if (speechIndicator) speechIndicator.classList.add('hidden');
-    button?.focus();
-
-  }
 
   function generateAndShow() {
     if (!button) return;
@@ -245,12 +306,10 @@ export function initTool() {
     if (hasWheel) {
       // Wheel mode — result shown on the wheel itself, no popup
       speakResult(result);
-      addToHistory(result);
-      renderHistory();
+      recordResult(result);
       updateSpeechIndicator();
-      Events.resultShown(result);
     } else {
-      showPopup(result, question);
+      showResultPopup(result, question);
     }
 
     button.disabled = false;
@@ -271,11 +330,11 @@ export function initTool() {
 
   if (popup) {
     popup.addEventListener('click', (e) => {
-      if (e.target === popup) hidePopup();
+      if (e.target === popup) hideResultPopup();
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') hidePopup();
+      if (e.key === 'Escape') hideResultPopup();
     });
   }
 
@@ -288,19 +347,29 @@ export function initTool() {
 
   categoryChips.forEach((chip) => {
     chip.addEventListener('click', () => {
-      const question = chip.getAttribute('data-question');
-      if (question && input) {
+      const question = chip.getAttribute('data-question') || undefined;
+      if (!question) return;
+
+      if (input) {
         input.value = question;
         input.dispatchEvent(new Event('input'));
-        if (button) {
-          button.classList.remove('animate-pulse-subtle');
-          void button.offsetWidth;
-          button.classList.add('animate-pulse-subtle');
-        }
+      }
+
+      const category = chip.getAttribute('data-category') || 'general';
+      Events.categoryQuestionClicked(category, question);
+
+      if (button) {
+        // Page has a real decide button (e.g. oracle, teachers, kids) —
+        // route through its normal press flow.
+        button.classList.remove('animate-pulse-subtle');
+        void button.offsetWidth;
+        button.classList.add('animate-pulse-subtle');
         pendingResult = getResult();
         generateAndShow();
-        const category = chip.getAttribute('data-category') || 'general';
-        Events.categoryQuestionClicked(category, question);
+      } else {
+        // No decide button on this page (e.g. homepage toy layout) —
+        // show the result directly so the chip still does something.
+        showResultPopup(getResult(), question);
       }
     });
   });
@@ -319,6 +388,6 @@ export function initTool() {
   const resultParam = params.get('result') as Result | null;
   if (resultParam && ['yes', 'no', 'maybe'].includes(resultParam)) {
     const questionParam = params.get('q') || undefined;
-    setTimeout(() => showPopup(resultParam, questionParam), 500);
+    setTimeout(() => showResultPopup(resultParam, questionParam), 500);
   }
 }

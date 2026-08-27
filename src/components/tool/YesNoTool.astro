@@ -133,6 +133,9 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
 
 {toyStyle && (
   <script>
+    import { getResult, recordResult, showResultPopup, type Result } from '../../scripts/tool';
+    import { Events } from '../../scripts/analytics';
+
     function initToyButtons() {
       const yesBtn = document.getElementById('toy-yes-btn');
       const noBtn = document.getElementById('toy-no-btn');
@@ -181,6 +184,10 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
         window.setTimeout(() => button.classList.remove('is-pressed'), 260);
         pop(callout);
         speak(word);
+        // Manual presses stay lightweight (no fullscreen popup) but are
+        // still recorded, so this interaction shows up in history + analytics.
+        recordResult(word.toLowerCase() as Result);
+        Events.buttonPressed();
       }
 
       yesBtn.addEventListener('click', () => press(yesBtn, yesCallout, 'Yes'));
@@ -190,20 +197,11 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
       }
 
       randomBtn?.addEventListener('click', () => {
-        if (isMaybeMode()) {
-          const r = Math.random();
-          if (r < 0.333) {
-            press(noBtn, noCallout, 'No');
-          } else if (r < 0.666) {
-            press(yesBtn, yesCallout, 'Yes');
-          } else if (maybeBtn) {
-            press(maybeBtn, maybeCallout, 'Maybe');
-          }
-        } else if (Math.random() < 0.5) {
-          press(yesBtn, yesCallout, 'Yes');
-        } else {
-          press(noBtn, noCallout, 'No');
-        }
+        // The random path is the "give me an answer" flagship action —
+        // show the same fullscreen reveal used everywhere else on the site.
+        const result = getResult();
+        Events.buttonPressed();
+        showResultPopup(result);
       });
 
       document.querySelectorAll('[data-ynb-mode]').forEach((btn) => {

@@ -216,6 +216,11 @@
   to { transform: scale(1); opacity: 1; }
 }
 
+@keyframes popup-exit {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.92); opacity: 0; }
+}
+
 @keyframes bounce-word {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -269,6 +274,10 @@
 
 .animate-popup-entry {
   animation: popup-entry 220ms ease-out forwards;
+}
+
+.animate-popup-exit {
+  animation: popup-exit 140ms ease-in forwards;
 }
 
 .animate-bounce-word {
@@ -329,6 +338,7 @@
   .animate-float,
   .animate-soundbar,
   .animate-popup-entry,
+  .animate-popup-exit,
   .animate-bounce-word,
   .animate-spin-in,
   .animate-progress-bar,
