@@ -28,3 +28,6 @@
 
 # Kid-friendly page rename
 /bluey-yes-no-button        /kids-yes-no-button/    301
+
+# Standard sitemap location (served from the generated index)
+/sitemap.xml  /sitemap-index.xml  200

@@ -19,6 +19,10 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
+const baseTitle = post.data.seoTitle ?? post.data.title;
+const withSuffix = `${baseTitle} | Yes No Button Blog`;
+const seoTitle = withSuffix.length <= 60 ? withSuffix : baseTitle;
+
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
   { name: 'Blog', url: '/blog/' },
@@ -27,7 +31,7 @@ const breadcrumb = breadcrumbSchema([
 ---
 
 <BaseLayout
-  title={`${post.data.title} | Yes No Button Blog`}
+  title={seoTitle}
   description={post.data.description}
   canonical={`https://yesnobuttonapp.com/blog/${post.id}/`}
   schema={[

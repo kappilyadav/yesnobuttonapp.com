@@ -15,7 +15,7 @@ const sizes = [1200, 800, 400];
 const quality = 80;
 
 const imagesDir = path.join(process.cwd(), 'public', 'images');
-const backupDir = path.join(imagesDir, 'originals');
+const backupDir = path.join(process.cwd(), 'source-images', 'originals');
 
 if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
 
