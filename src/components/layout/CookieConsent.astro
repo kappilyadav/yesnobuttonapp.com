@@ -1,0 +1,45 @@
+---
+// components/layout/CookieConsent.astro
+---
+
+<div id="cookie-consent" role="dialog" aria-label="Cookie consent" class="hidden fixed inset-x-0 bottom-0 z-[60] p-4">
+  <div class="mx-auto max-w-3xl flex flex-col sm:flex-row sm:items-center gap-4 p-4 md:p-5 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark shadow-lg">
+    <p class="flex-1 text-sm text-muted dark:text-muted-dark leading-relaxed m-0">
+      We use cookies for analytics and to show ads. You can accept or reject them. See our <a href="/privacy-policy/" class="text-ink dark:text-ink-dark underline hover:no-underline">Privacy Policy</a>.
+    </p>
+    <div class="flex gap-2 shrink-0">
+      <button type="button" data-consent="denied" class="px-4 py-2 rounded-full border border-border dark:border-border-dark text-sm text-ink dark:text-ink-dark cursor-pointer bg-transparent hover:bg-black/5 dark:hover:bg-white/5">Reject</button>
+      <button type="button" data-consent="granted" class="px-4 py-2 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm cursor-pointer border-0">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = 'ynb_consent';
+    var box = document.getElementById('cookie-consent');
+    if (!box) return;
+    function read() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+    function choose(value) {
+      try { localStorage.setItem(KEY, value); } catch (e) {}
+      if (typeof gtag === 'function') {
+        gtag('consent', 'update', {
+          ad_storage: value,
+          ad_user_data: value,
+          ad_personalization: value,
+          analytics_storage: value
+        });
+      }
+      box.classList.add('hidden');
+    }
+    if (read() !== 'granted' && read() !== 'denied') box.classList.remove('hidden');
+    box.querySelectorAll('[data-consent]').forEach(function (b) {
+      b.addEventListener('click', function () { choose(b.getAttribute('data-consent')); });
+    });
+    document.querySelectorAll('[data-cookie-settings]').forEach(function (b) {
+      b.addEventListener('click', function () { box.classList.remove('hidden'); });
+    });
+  })();
+</script>

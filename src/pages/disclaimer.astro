@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { breadcrumbSchema, createWebPageSchema } from '../data/schemas';
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Disclaimer', url: '/disclaimer/' },
+]);
+
+const lastUpdated = 'October 12, 2026';
+const description = 'Disclaimer for the Yes No Button: results are random and for entertainment, not advice. Do not use them for medical, legal, financial, or safety decisions.';
+const pill = 'text-xs px-3 py-1.5 rounded-full bg-white dark:bg-card-dark border border-border dark:border-border-dark text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline';
+const h2 = 'font-display text-xl font-bold text-ink dark:text-ink-dark mb-3';
+---
+
+<BaseLayout
+  title="Disclaimer | Yes No Button"
+  description={description}
+  canonical="https://yesnobuttonapp.com/disclaimer/"
+  schema={[createWebPageSchema(description, 'https://yesnobuttonapp.com/disclaimer/'), breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <div class="flex flex-wrap gap-2 mb-6">
+        <a href="/about/" class={pill}>About</a>
+        <a href="/privacy-policy/" class={pill}>Privacy</a>
+        <a href="/terms/" class={pill}>Terms</a>
+        <a href="/disclaimer/" class="text-xs px-3 py-1.5 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark border border-btn-bg dark:border-btn-bg-dark no-underline">Disclaimer</a>
+        <a href="/contact/" class={pill}>Contact</a>
+      </div>
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">DISCLAIMER</span>
+      <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">Disclaimer</h1>
+      <p class="text-muted dark:text-muted-dark text-sm mb-8">Last updated: {lastUpdated}</p>
+
+      <div class="text-muted dark:text-muted-dark space-y-6 leading-relaxed [&_a]:text-ink [&_a]:dark:text-ink-dark [&_a]:underline [&_a]:hover:no-underline">
+        <section>
+          <h2 class={h2}>For Entertainment and Casual Decisions</h2>
+          <p>The Yes No Button, Yes No Oracle, Yes No Wheel and the other tools on this site produce random answers. They are made for fun, games, icebreakers, and settling low-stakes choices such as what to eat or which film to watch. A result is not a recommendation, a prediction, or a judgment about your situation.</p>
+        </section>
+
+        <section>
+          <h2 class={h2}>Not Professional Advice</h2>
+          <p>Nothing on this website, including the tools and the blog, is medical, legal, financial, mental-health, or other professional advice. Please do not use a random result to decide anything that affects your health, safety, money, legal position, or relationships in a serious way. For those decisions, talk to a qualified professional.</p>
+        </section>
+
+        <section>
+          <h2 class={h2}>Accuracy of Content</h2>
+          <p>We try to keep our articles accurate and up to date, and we link to sources where we cite research. Even so, the content is general information and we make no guarantee that it is complete, current, or right for your circumstances. If you spot a mistake, please <a href="/contact/">let us know</a>.</p>
+        </section>
+
+        <section>
+          <h2 class={h2}>Randomness</h2>
+          <p>Results are generated in your browser with JavaScript's random number generator. They are designed to be unpredictable and evenly split, but the tools are not certified for gambling, lotteries, prize draws, or any use where a legally or financially significant fair outcome is required.</p>
+        </section>
+
+        <section>
+          <h2 class={h2}>Advertising and External Links</h2>
+          <p>This site shows ads through Google AdSense. Ads are chosen by Google and their appearance does not mean we endorse the advertiser. Our articles may link to outside websites for reference. We do not control those sites and are not responsible for their content or practices. See our <a href="/privacy-policy/">Privacy Policy</a> for how advertising and cookies work here.</p>
+        </section>
+
+        <section>
+          <h2 class={h2}>Limitation of Liability</h2>
+          <p>You use the tools and content at your own risk. To the fullest extent allowed by law, we are not liable for any loss or damage arising from decisions made using this website. See the <a href="/terms/">Terms &amp; Conditions</a> for details.</p>
+        </section>
+
+        <section>
+          <h2 class={h2}>Questions</h2>
+          <p>If anything here is unclear, email <a href="mailto:hello@yesnobuttonapp.com">hello@yesnobuttonapp.com</a> or use the <a href="/contact/">contact page</a>.</p>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

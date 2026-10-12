@@ -1,4 +1,5 @@
 ---
+import CookieConsent from '../components/layout/CookieConsent.astro';
 import '@fontsource/syne/700.css';
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
@@ -74,6 +75,31 @@ export interface Props {
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH'],
+        wait_for_update: 500
+      });
+      gtag('consent', 'default', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted'
+      });
+      try {
+        var saved = localStorage.getItem('ynb_consent');
+        if (saved === 'granted' || saved === 'denied') {
+          gtag('consent', 'update', {
+            ad_storage: saved,
+            ad_user_data: saved,
+            ad_personalization: saved,
+            analytics_storage: saved
+          });
+        }
+      } catch (e) {}
       gtag('js', new Date());
       gtag('config', 'G-FHP1RF82CG');
     </script>
@@ -115,5 +141,6 @@ export interface Props {
       <slot />
     </main>
     <slot name="footer" />
+    <CookieConsent />
   </body>
 </html>
