@@ -1,0 +1,44 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  channel: string;
+}
+
+const { id, title, channel } = Astro.props;
+---
+
+<figure class="my-8" data-youtube-id={id}>
+  <div class="relative w-full overflow-hidden rounded-xl border border-border dark:border-border-dark bg-black" style="aspect-ratio: 16 / 9;">
+    <button type="button" class="yt-play absolute inset-0 w-full h-full p-0 border-0 cursor-pointer bg-transparent" aria-label={`Play video: ${title}`}>
+      <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" class="w-full h-full object-cover" style="margin:0;border-radius:0;max-width:none;" />
+      <span class="absolute inset-0 flex items-center justify-center">
+        <span class="flex items-center justify-center w-16 h-16 rounded-full bg-black/70 text-white">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+      </span>
+    </button>
+  </div>
+  <figcaption class="mt-2 text-sm text-muted dark:text-muted-dark">
+    Video: <a href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer">{title}</a> ({channel}, YouTube)
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-youtube-id]').forEach((fig) => {
+    const btn = fig.querySelector<HTMLButtonElement>('.yt-play');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const id = fig.dataset.youtubeId;
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      frame.title = btn.getAttribute('aria-label') || 'Video';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen';
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.className = 'absolute inset-0 w-full h-full';
+      frame.style.border = '0';
+      btn.replaceWith(frame);
+    });
+  });
+</script>
