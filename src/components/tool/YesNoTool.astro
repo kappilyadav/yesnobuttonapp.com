@@ -39,6 +39,11 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
         <span class="toy-callout toy-callout-no text-[#DC2626] dark:text-[#F87171]" id="toy-callout-no" aria-hidden="true">no!</span>
         <span class="toy-callout toy-callout-maybe text-[#7C3AED] dark:text-[#A78BFA]" id="toy-callout-maybe" aria-hidden="true">maybe!</span>
 
+        <span class="toy-hint text-[#7C3AED] dark:text-[#A78BFA]" id="toy-hint" aria-hidden="true">
+          <svg class="toy-hint-arrow" width="84" height="48" viewBox="0 0 84 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M78 8C58 2 30 10 10 34"/><path d="M28 36L9 37L11 17"/></svg>
+          <span class="toy-hint-text">tap<span class="toy-hint-extra"> me</span>!</span>
+        </span>
+
         <div class="toy-fob" id="toy-fob" aria-hidden="false">
           <span class="toy-fob-sheen" aria-hidden="true"></span>
 
@@ -145,6 +150,17 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
       const maybeCallout = document.getElementById('toy-callout-maybe');
       if (!yesBtn || !noBtn) return;
 
+      const stage = document.querySelector('.toy-stage');
+      try {
+        if (localStorage.getItem('ynb_toy_seen') === '1') stage?.classList.add('hint-done');
+      } catch {}
+      function dismissHint() {
+        stage?.classList.add('hint-done');
+        try {
+          localStorage.setItem('ynb_toy_seen', '1');
+        } catch {}
+      }
+
       function isMaybeMode(): boolean {
         try {
           return localStorage.getItem('ynb_mode') === 'three-way';
@@ -178,6 +194,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
       }
 
       function press(button: HTMLElement, callout: HTMLElement | null, word: string) {
+        dismissHint();
         button.classList.add('is-pressed');
         window.setTimeout(() => button.classList.remove('is-pressed'), 260);
         pop(callout);
@@ -197,6 +214,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
       randomBtn?.addEventListener('click', () => {
         // The random path is the "give me an answer" flagship action —
         // show the same fullscreen reveal used everywhere else on the site.
+        dismissHint();
         const result = getResult();
         Events.buttonPressed();
         showResultPopup(result);
@@ -485,6 +503,66 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
     .toy-random-btn { padding: 13px 24px; font-size: 16px; }
   }
 
+  /* ---- First-visit hint: pulsing rings + "tap me!" arrow ---- */
+  .toy-btn-socket-yes { color: #16A34A; }
+  .toy-btn-socket-no { color: #DC2626; }
+  .toy-btn-socket-maybe { color: #7C3AED; }
+  .toy-btn-socket::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 4px solid currentColor;
+    opacity: 0;
+    pointer-events: none;
+    animation: toy-ring 2.2s ease-out 1s infinite;
+  }
+  .toy-btn-socket-no::before { animation-delay: 2.1s; }
+  .toy-stage.hint-done .toy-btn-socket::before { display: none; }
+
+  .toy-hint {
+    position: absolute;
+    z-index: 4;
+    left: calc(100% - 34px);
+    top: 128px;
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    pointer-events: none;
+    user-select: none;
+    animation: toy-hint-in 0.5s ease-out 1.2s both;
+  }
+  .toy-hint-arrow { margin-top: 12px; flex: none; }
+  .toy-hint-text {
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1;
+    white-space: nowrap;
+    transform: rotate(6deg);
+    animation: toy-hint-wiggle 1.6s ease-in-out 1.8s infinite;
+  }
+  .toy-stage.hint-done .toy-hint { display: none; }
+  @media (max-width: 640px) {
+    .toy-hint { left: calc(100% - 26px); top: 98px; }
+    .toy-hint-arrow { width: 30px; height: 18px; margin-top: 8px; }
+    .toy-hint-text { font-size: 26px; }
+    .toy-hint-extra { display: none; }
+  }
+
+  @keyframes toy-ring {
+    0% { transform: scale(0.95); opacity: 0.85; }
+    70%, 100% { transform: scale(1.3); opacity: 0; }
+  }
+  @keyframes toy-hint-in {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes toy-hint-wiggle {
+    0%, 100% { transform: rotate(6deg) translateX(0); }
+    50% { transform: rotate(3deg) translateX(-5px); }
+  }
+
   @keyframes toy-float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-10px) rotate(-1deg); }
@@ -503,5 +581,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
     .toy-fob { animation: none; }
     .toy-shadow { animation: none; }
     .toy-callout.is-popped { animation: none; }
+    .toy-btn-socket::before { animation: none; opacity: 0.6; transform: scale(1.12); }
+    .toy-hint, .toy-hint-text { animation: none; }
   }
 </style>
