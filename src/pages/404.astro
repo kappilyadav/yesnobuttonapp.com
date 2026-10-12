@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
 import { createWebPageSchema } from '../data/schemas';
 ---
 
@@ -9,6 +11,8 @@ import { createWebPageSchema } from '../data/schemas';
   canonical="https://yesnobuttonapp.com/404/"
   schema={[createWebPageSchema("The page you're looking for doesn't exist. Return to the Yes No Button homepage.", 'https://yesnobuttonapp.com/404/')]}
 >
+  <Fragment slot="header"><Header /></Fragment>
+
   <div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
     <h1 class="font-display text-6xl md:text-8xl tracking-tight text-ink dark:text-ink-dark mb-4">404</h1>
     <p class="text-muted dark:text-muted-dark text-lg mb-8">This page doesn't exist. But the button is still here for you.</p>
@@ -16,4 +20,6 @@ import { createWebPageSchema } from '../data/schemas';
       Press to Go Home
     </a>
   </div>
+
+  <Fragment slot="footer"><Footer /></Fragment>
 </BaseLayout>

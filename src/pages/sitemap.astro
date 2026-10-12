@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Breadcrumbs from '../components/content/Breadcrumbs.astro';
+import { breadcrumbSchema, createWebPageSchema } from '../data/schemas';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Sitemap', url: '/sitemap/' },
+]);
+const description = 'Every page on the Yes No Button website in one place: tools, use cases, blog articles, and company pages.';
+
+const groups = [
+  { title: 'Tools', links: [
+    { name: 'Yes No Button', url: '/' },
+    { name: 'Yes No Oracle', url: '/yes-no-oracle/' },
+    { name: 'Yes No Wheel', url: '/yes-no-wheel/' },
+    { name: 'Kids Yes No Button', url: '/kids-yes-no-button/' },
+    { name: 'Embed Widget', url: '/embed/' },
+  ] },
+  { title: 'Use Cases', links: [
+    { name: 'Yes No Button for Teachers', url: '/yes-no-button-for-teachers/' },
+  ] },
+  { title: 'Company', links: [
+    { name: 'About Us', url: '/about/' },
+    { name: 'Author', url: '/author/' },
+    { name: 'Contact Us', url: '/contact/' },
+    { name: 'Privacy Policy', url: '/privacy-policy/' },
+    { name: 'Disclaimer', url: '/disclaimer/' },
+    { name: 'Terms & Conditions', url: '/terms/' },
+  ] },
+];
+const linkClass = 'text-ink dark:text-ink-dark underline hover:no-underline';
+---
+
+<BaseLayout
+  title="Sitemap | Yes No Button"
+  description={description}
+  canonical="https://yesnobuttonapp.com/sitemap/"
+  schema={[createWebPageSchema(description, 'https://yesnobuttonapp.com/sitemap/'), breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <section class="py-12 md:py-20">
+    <div class="container max-w-3xl">
+      <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Sitemap' }]} />
+      <h1 class="font-display text-3xl md:text-4xl tracking-tight text-ink dark:text-ink-dark mb-3">Sitemap</h1>
+      <p class="text-muted dark:text-muted-dark text-lg mb-10">Every page on this site, in one place.</p>
+
+      <div class="space-y-8 text-muted dark:text-muted-dark">
+        {groups.map((g) => (
+          <section>
+            <h2 class="font-display text-xl text-ink dark:text-ink-dark mb-3">{g.title}</h2>
+            <ul class="list-disc list-inside space-y-1">
+              {g.links.map((l) => <li><a href={l.url} class={linkClass}>{l.name}</a></li>)}
+            </ul>
+          </section>
+        ))}
+        <section>
+          <h2 class="font-display text-xl text-ink dark:text-ink-dark mb-3">Blog</h2>
+          <ul class="list-disc list-inside space-y-1">
+            <li><a href="/blog/" class={linkClass}>All articles</a></li>
+            {posts.map((p) => <li><a href={`/blog/${p.id}/`} class={linkClass}>{p.data.title}</a></li>)}
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

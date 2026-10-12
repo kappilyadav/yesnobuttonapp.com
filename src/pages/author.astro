@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import Breadcrumbs from '../components/content/Breadcrumbs.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 import SocialLinks from '../components/content/SocialLinks.astro';
 import { founderSchema, breadcrumbSchema } from '../data/schemas';
@@ -37,11 +38,7 @@ const h2 = 'font-display text-xl md:text-2xl text-ink dark:text-ink-dark mt-8 mb
 
   <section class="py-12 md:py-20">
     <div class="container max-w-3xl">
-      <nav aria-label="Breadcrumb" class="text-sm text-muted dark:text-muted-dark mb-6">
-        <a href="/" class="no-underline hover:text-ink dark:hover:text-ink-dark">Home</a>
-        <span class="mx-1" aria-hidden="true">/</span>
-        <span class="text-ink dark:text-ink-dark">Author</span>
-      </nav>
+      <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Author' }]} />
 
       <div class="p-6 md:p-10 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark">
         <div class="flex items-center gap-4 mb-6">
