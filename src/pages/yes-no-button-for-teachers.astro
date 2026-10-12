@@ -8,7 +8,7 @@ import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
-import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+import { createWebAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
   { category: 'general', question: 'How can teachers use the Yes No Button?', answer: 'Teachers can use it to randomly select students, determine presentation order, break ties in class votes, decide quiz questions, or as an icebreaker activity. The classroom mode displays results in large fullscreen text for projector visibility.' },
@@ -34,7 +34,7 @@ const breadcrumb = breadcrumbSchema([
   title="Yes No Button for Teachers | Classroom Decision Maker"
   description="Use the Yes No Button in your classroom as a random student picker, decision maker, or icebreaker. Free, fair, and projector-friendly. No sign-up needed."
   canonical="https://yesnobuttonapp.com/yes-no-button-for-teachers/"
-  schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
+  schema={[createWebAppSchema({ name: "Yes No Button for Teachers", url: "https://yesnobuttonapp.com/yes-no-button-for-teachers/", description: "Use the Yes No Button in your classroom as a random student picker, decision maker, or icebreaker. Free, fair, and projector-friendly. No sign-up needed." }), createFaqSchema(faqItems), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 

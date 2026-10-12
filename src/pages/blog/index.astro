@@ -20,7 +20,7 @@ const breadcrumb = breadcrumbSchema([
   title="Yes No Button Blog  -  Decision Making Tips & Questions"
   description="Read the Yes No Button blog for decision-making tips, question ideas, and guides to using the random decision maker effectively."
   canonical="https://yesnobuttonapp.com/blog/"
-  schema={[collectionPageSchema, breadcrumb]}
+  schema={[collectionPageSchema(posts.map((p) => ({ id: p.id, title: p.data.title }))), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 

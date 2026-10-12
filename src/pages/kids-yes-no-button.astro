@@ -8,7 +8,7 @@ import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
-import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+import { createWebAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
   { category: 'general', question: 'Is adult supervision needed for the Kids Yes No Button?', answer: 'We recommend it for younger children, the same as with any website. There is nothing to buy, no chat feature, and no account to create, but sitting with your child the first few times helps them understand it is just for fun, not a real decision-maker for anything serious.' },
@@ -30,7 +30,7 @@ const breadcrumb = breadcrumbSchema([
   title="Kids Yes No Button  -  Family-Friendly Random Decision Tool"
   description="A kid-friendly yes no button for family games, routines, and simple choices. Bright, simple, free, and easy to use together."
   canonical="https://yesnobuttonapp.com/kids-yes-no-button/"
-  schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
+  schema={[createWebAppSchema({ name: "Kids Yes No Button", url: "https://yesnobuttonapp.com/kids-yes-no-button/", description: "A kid-friendly yes no button for family games, routines, and simple choices. Bright, simple, free, and easy to use together." }), createFaqSchema(faqItems), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 

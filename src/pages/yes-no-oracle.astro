@@ -8,7 +8,7 @@ import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
-import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+import { createWebAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
   { category: 'general', question: 'What is the yes no oracle?', answer: 'The Yes No Oracle is a free online tool that randomly generates a yes or no answer with equal 50/50 probability. It uses a mystical oracle framing but the underlying mechanism is identical to a random coin flip.' },
@@ -29,7 +29,7 @@ const breadcrumb = breadcrumbSchema([
   title="Yes No Oracle \u2014 Ask the Oracle Your Yes or No Question"
   description="Consult the free Yes No Oracle for an instant yes or no answer. The online oracle uses true randomness to answer any question. No sign-up."
   canonical="https://yesnobuttonapp.com/yes-no-oracle/"
-  schema={[webAppSchema, faqSchema, breadcrumb]}
+  schema={[createWebAppSchema({ name: "Yes No Oracle", url: "https://yesnobuttonapp.com/yes-no-oracle/", description: "Consult the free Yes No Oracle for an instant yes or no answer. The online oracle uses true randomness to answer any question. No sign-up." }), faqSchema, breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 

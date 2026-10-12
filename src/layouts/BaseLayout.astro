@@ -5,7 +5,7 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '../styles/global.css';
-import { organizationSchema, websiteSchema } from '../data/schemas';
+import { organizationSchema, websiteSchema, founderSchema } from '../data/schemas';
 import syneWoff2 from '@fontsource/syne/files/syne-latin-700-normal.woff2?url';
 import interWoff2 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 
@@ -26,7 +26,13 @@ export interface Props {
     robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
     schema = [],
   } = Astro.props;
-  const allSchema = [organizationSchema, websiteSchema, ...schema];
+  // Person is always included so Organization.founder and Article.author resolve on every page.
+const allSchema = [
+  organizationSchema,
+  websiteSchema,
+  founderSchema,
+  ...schema.filter((s: any) => s?.['@id'] !== founderSchema['@id']),
+];
 ---
 
 <html lang="en">

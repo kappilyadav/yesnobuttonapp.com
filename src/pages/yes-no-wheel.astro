@@ -9,7 +9,7 @@ import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
-import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+import { createWebAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 
 const faqItems = [
   { category: 'general', question: 'How is a spinner wheel different from a raffle or prize wheel?', answer: 'Prize wheels and raffle wheels usually have unequal segments: some prizes are rarer than others by design. This yes no wheel always splits the wheel into two exactly equal halves, so the odds never favor one outcome over the other.' },
@@ -29,7 +29,7 @@ const breadcrumb = breadcrumbSchema([
   title="Yes No Wheel — Spin a Random Yes or No Wheel Online"
   description="Free yes no wheel spinner. Get a random yes or no result with one click: faster than spinning a real wheel."
   canonical="https://yesnobuttonapp.com/yes-no-wheel/"
-  schema={[webAppSchema, createFaqSchema(faqItems), breadcrumb]}
+  schema={[createWebAppSchema({ name: "Yes No Wheel", url: "https://yesnobuttonapp.com/yes-no-wheel/", description: "Free yes no wheel spinner. Get a random yes or no result with one click: faster than spinning a real wheel." }), createFaqSchema(faqItems), breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 

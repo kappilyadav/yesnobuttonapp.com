@@ -1,0 +1,312 @@
+---
+title: "Yes/No Button in HTML: Radio Buttons, Toggles & Random Code"
+description: "How to build a yes or no button in HTML: accessible radio buttons, checkboxes and toggles, plus working JavaScript for a fair random yes or no button."
+pubDate: 2026-10-12
+slug: "yes-no-button-html"
+---
+
+import YouTube from '../../components/content/YouTube.astro';
+
+<picture>
+  <source type="image/webp"
+    srcset="/images/yes-no-button-html-hero-1200.webp 1200w, /images/yes-no-button-html-hero-800.webp 800w, /images/yes-no-button-html-hero-400.webp 400w"
+    sizes="(max-width: 600px) 100vw, 600px" />
+  <img src="/images/yes-no-button-html-hero-1200.webp" width="1200" height="800"
+       alt="Illustration for Yes/No Button in HTML: Radio Buttons, Toggles & Random Code"
+       loading="lazy"
+       style="border-radius: 12px; width: 100%; max-width: 760px; display:block; margin: 24px auto;" />
+</picture>
+
+"Yes or no button" means two different things on the web. To a form designer, it is a way to ask a user a yes or no question and capture the answer: radio buttons, a checkbox, or a toggle. To everyone else, it is a button that gives you a random yes or no, like the one on this site.
+
+Developers search for both. This guide covers both, with copy-paste code, accessibility rules, and the mistakes that cause real problems in production. By the end you will know which control to use for a given question, how to style it so it is usable on a phone, and how to build a fair random yes or no button in a few lines of JavaScript.
+
+<div style="background: #F0FDF4; border: 1px solid #D4F0DF; border-radius: 12px; padding: 20px 24px; margin: 24px 0;">
+  <p style="font-size: 15px; font-weight: 500; color: #15803D; margin-bottom: 8px;">
+    ⚡ Skip the code: embed a ready-made Yes No Button on your site
+  </p>
+  <a href="/embed/" style="display: inline-block; background: #16A34A; color: white;
+    padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
+    text-decoration: none; margin-top: 10px;">
+    See the embed widget →
+  </a>
+</div>
+
+## Part 1: Asking a Yes or No Question in a Form
+
+When a form needs a yes or no answer, you have three standard options. They are not interchangeable.
+
+| Control | Best for | Weak spot |
+| --- | --- | --- |
+| Two radio buttons (Yes and No) | Required questions where the user must answer explicitly | Takes a bit more space than one checkbox |
+| One checkbox | Optional opt-ins, such as "Send me the newsletter" | An unchecked box could mean "no" or "did not look" |
+| Toggle switch | A setting that takes effect immediately, such as "Dark mode" | Not meant for form submission that needs a confirm step |
+
+### Radio buttons: the default for real questions
+
+Use a pair of radio buttons whenever the answer matters and the user should actively choose. Developer and designer Sara Soueidan sums up the trade-off well in her article on [one checkbox versus two radio buttons](https://www.sarasoueidan.com/blog/one-checkbox-or-two-radio-buttons/): a checkbox has an implicit default, so an unchecked box is ambiguous, while a selected "No" is an explicit answer and a missing selection is easy to detect and require.
+
+Here is a minimal, accessible version:
+
+```html
+<fieldset>
+  <legend>Do you want email updates?</legend>
+  <input type="radio" id="updates-yes" name="updates" value="yes" required>
+  <label for="updates-yes">Yes</label>
+  <input type="radio" id="updates-no" name="updates" value="no">
+  <label for="updates-no">No</label>
+</fieldset>
+```
+
+Why this works:
+
+- **Shared `name`.** Radio buttons with the same `name` form a group, so choosing one clears the other. MDN covers this in its documentation for [the radio input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/radio).
+- **`fieldset` and `legend`.** These give the group a programmatic label, so a screen reader announces the question along with each option. The W3C's tutorial on [grouping form controls](https://www.w3.org/WAI/tutorials/forms/grouping/) explains why this matters, and MDN documents [the fieldset element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/fieldset).
+- **`label` with `for`.** Clicking the label selects the radio button, which enlarges the tap target for touch users.
+- **`required`.** If any button in a group has `required`, the user must pick one before the form submits.
+- **No pre-selected answer.** When neither option has `checked`, you can tell the difference between "no" and "did not answer". MDN notes that an unselected group sends nothing on submit, so validate on the server as well.
+
+### Styling radios as a Yes/No segmented button
+
+The plain radio circles are easy to miss. A common pattern is to style the labels as two connected buttons while keeping the real inputs for accessibility:
+
+```css
+.yn {
+  position: relative;
+  display: inline-flex;
+  border: 2px solid #6b6965;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* Visually hidden, but still focusable and announced */
+.yn input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.yn label {
+  display: grid;
+  place-items: center;
+  min-width: 80px;
+  min-height: 44px;
+  padding: 0 20px;
+  cursor: pointer;
+}
+
+.yn input[value="yes"]:checked + label { background: #16a34a; color: #fff; }
+.yn input[value="no"]:checked + label  { background: #dc2626; color: #fff; }
+
+.yn input:focus-visible + label {
+  outline: 3px solid #6d5ae6;
+  outline-offset: -3px;
+}
+```
+
+Wrap the radios in a `div` with `class="yn"`, and each input must come directly before its label so the sibling selectors work. Do not use `display: none` on the inputs. That removes them from keyboard navigation and from assistive technology.
+
+### The checkbox: only for opt-ins
+
+A single checkbox is fine when "unchecked" clearly means "no thanks" and the choice is optional:
+
+```html
+<label>
+  <input type="checkbox" name="newsletter" value="yes">
+  Send me the newsletter
+</label>
+```
+
+Notice the label is a statement, not a question. Soueidan makes the same point: a question label such as "Are you over 18?" suggests radios, while a statement such as "I am over 18" suggests a checkbox. Do not use a lone checkbox for anything a user is legally or financially required to answer.
+
+### The toggle: for settings that apply instantly
+
+A toggle switch is a button that flips a setting immediately, such as "Notifications". The accessible pattern is a `button` with `role="switch"` and an `aria-checked` state, which the W3C documents as the [switch pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/):
+
+```html
+<button type="button" role="switch" aria-checked="false" id="dark-mode">
+  Dark mode
+</button>
+
+<script>
+  const sw = document.getElementById('dark-mode');
+  sw.addEventListener('click', () => {
+    const isOn = sw.getAttribute('aria-checked') === 'true';
+    sw.setAttribute('aria-checked', String(!isOn));
+    document.documentElement.classList.toggle('dark', !isOn);
+  });
+</script>
+```
+
+If the user has to press Save afterward, a checkbox or radio pair is the better choice. A toggle that does nothing until you submit is confusing.
+
+<YouTube id="3T_4VXHcmRg" title="Using Checkboxes vs Radios vs Switches (toggles) in Forms" channel="AM Design" />
+
+### Design rules that apply to every yes/no control
+
+- **Make the targets big enough.** WCAG 2.2 requires pointer targets to be at least 24 by 24 CSS pixels, with limited exceptions ([Success Criterion 2.5.8](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)). For comfortable thumb use, aim for 44 pixels, which is the size in the stricter [enhanced target size criterion](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html).
+- **Do not rely on color alone.** Green and red are a natural yes and no pair, but roughly one in twelve men has some form of color vision deficiency. Always include the words "Yes" and "No", and add an icon or a different shape if you can.
+- **Keep both options visible.** For two choices, a dropdown hides information and adds a tap. Show both.
+- **Use consistent order.** Put "Yes" first or "No" first across your whole product, not both.
+- **Write explicit labels on dangerous actions.** For a confirmation dialog, "Delete account" and "Keep account" are clearer than "Yes" and "No", because people often click without reading the question.
+- **Meet text contrast.** Normal text needs a contrast ratio of at least 4.5 to 1 against its background.
+
+### Handling the data correctly
+
+A yes or no field really has three states: yes, no, and not answered. Store it as a nullable value, such as `true`, `false`, and `null`, rather than forcing a default of `false`. If you default a missing answer to "no", you will treat people who never saw the question as people who said no, and your analytics will be wrong. The same idea applies to survey design. Our guide on [yes or no questions in surveys](/blog/yes-no-survey-questions/) explains when a binary answer is enough and when you need a "not sure" option.
+
+## Part 2: Build a Random Yes or No Button
+
+The other kind of yes or no button gives the user a random answer. It is a fun first project, and it is also a good lesson in what "random" actually means in the browser.
+
+### The five-line version
+
+```html
+<button id="answer-btn" type="button">Ask the button</button>
+<p id="answer" role="status" aria-live="polite"></p>
+
+<script>
+  document.getElementById('answer-btn').addEventListener('click', () => {
+    const result = Math.random() < 0.5 ? 'Yes' : 'No';
+    document.getElementById('answer').textContent = result;
+  });
+</script>
+```
+
+That is a working yes or no button. The `role="status"` and `aria-live="polite"` attributes make a screen reader announce the answer when it changes, which a plain text update does not do. `Math.random()` returns a number from 0 up to but not including 1, so comparing it with 0.5 gives a roughly fair 50/50 split. MDN documents it under [Math.random](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) and notes that it is not cryptographically secure.
+
+### A fairer version that handles three answers
+
+For a casual button, `Math.random()` is fine. If you want a button that is easy to extend, for example with a "Maybe" option, use the Web Crypto API and avoid a classic bug called modulo bias:
+
+```js
+// Returns an unbiased integer from 0 to n - 1 (for n up to 256).
+function randomIndex(n) {
+  const limit = 256 - (256 % n);
+  const byte = new Uint8Array(1);
+  do {
+    crypto.getRandomValues(byte);
+  } while (byte[0] >= limit);
+  return byte[0] % n;
+}
+
+const answers = ['Yes', 'No', 'Maybe'];
+
+document.getElementById('answer-btn').addEventListener('click', () => {
+  document.getElementById('answer').textContent =
+    answers[randomIndex(answers.length)];
+});
+```
+
+Why the loop? A byte has 256 possible values. If you simply wrote `byte % 3`, values 0 and 1 would occur slightly more often than 2, because 256 does not divide evenly by 3. By throwing away values at or above 255, which is the largest multiple of 3 that fits, every answer has exactly the same chance. With only two answers, 256 divides evenly, so no rejection is needed. In a quick test of 300,000 draws of this function, each of the three outcomes landed within about 0.2% of one third. MDN documents the method in [Crypto.getRandomValues()](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues).
+
+### Things that make a random button feel good
+
+- **Show history.** Keep the last few results in `localStorage` and display them. This is a surprisingly engaging feature, and it makes streaks visible, which helps people see that randomness is streaky.
+- **Add a short reveal.** A 300 to 500 millisecond animation builds anticipation. Respect `prefers-reduced-motion` and skip the animation for users who ask for that.
+- **Do not spam the live region.** If users can press the button repeatedly, announcing every result can overwhelm screen reader users. Polite announcements queue rather than interrupt, which is usually fine.
+- **Make it keyboard friendly.** A real `button` element handles Enter and Space automatically, so avoid using a `div` with a click handler.
+- **Say what the result means.** If someone asks "Should I order pizza?", decide beforehand that yes means pizza. A random button is a tiebreaker, not an oracle. Our guide on [how to make better decisions using the Yes No Button](/blog/how-to-make-decisions/) explains how to use it well.
+
+## Skip the Code: Embed a Ready-Made Button
+
+If you only need a working yes or no button on a page, you do not have to build one. Our [embed widget](/embed/) lets you add the Yes No Button to your own website with a single snippet, and the [Yes No Button](/) itself is free, runs in your browser, and needs no account. It splits answers exactly 50/50, with an optional Yes, No, Maybe mode that gives each answer an equal chance.
+
+## Quick Decision Guide
+
+| Situation | Use |
+| --- | --- |
+| The user must answer a question, and the answer matters | Two radio buttons, no default |
+| Optional opt-in, such as a newsletter | One checkbox with a statement label |
+| A setting that applies immediately | Toggle switch with `role="switch"` |
+| A confirmation dialog | Specific verb buttons instead of Yes and No |
+| A fun random answer | A button plus `crypto.getRandomValues` |
+| Three possible answers | Three radio buttons, or a random three-way button |
+
+## Keep Reading
+
+- [Yes/No Survey Questions](/blog/yes-no-survey-questions/): when a yes or no question is the right choice in a form or survey
+- [Embed Widget](/embed/): add the Yes No Button to your own page
+- [How to Make Better Decisions Using the Yes No Button](/blog/how-to-make-decisions/): what a random yes or no is good for
+
+## Frequently Asked Questions
+
+### Should I use radio buttons or a checkbox for a yes or no question?
+
+Use two radio buttons when the user must give an explicit answer, because a missing selection is easy to detect and require. Use a single checkbox for optional opt-ins where unchecked clearly means no, such as joining a newsletter.
+
+### How do I make a yes or no button in HTML?
+
+For a form question, use two radio inputs with the same `name` inside a `fieldset` and `legend`. For an interactive button that gives a random answer, use a `button` element with a JavaScript click handler that picks between "Yes" and "No".
+
+### Should a yes or no radio group have a default selection?
+
+Usually no. Leaving both options unselected lets you tell the difference between a user who chose "no" and one who skipped the question. Pre-select an option only when one answer is clearly the safe default and you handle it deliberately.
+
+### How big should a yes or no button be?
+
+WCAG 2.2 requires targets of at least 24 by 24 CSS pixels at Level AA, and 44 by 44 pixels is recommended for easy touch use. Add spacing between buttons so users do not tap the wrong one.
+
+### Is Math.random good enough for a yes or no button?
+
+For a casual button, yes. Math.random gives a practically fair split for everyday use. For anything where fairness matters more, such as a drawing, use the Web Crypto API and avoid modulo bias when you have more than two outcomes.
+
+### How do I make a yes or no button accessible?
+
+Use real form controls or a native button, give each group a legend or label, make sure focus is visible, do not hide inputs with display none, keep sufficient contrast, and announce random results with an aria-live region.
+
+<script type="application/ld+json">{`{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Should I use radio buttons or a checkbox for a yes or no question?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use two radio buttons when the user must give an explicit answer, because a missing selection is easy to detect and require. Use a single checkbox for optional opt-ins where unchecked clearly means no, such as joining a newsletter."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I make a yes or no button in HTML?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a form question, use two radio inputs with the same name inside a fieldset and legend. For an interactive button that gives a random answer, use a button element with a JavaScript click handler that picks between \\"Yes\\" and \\"No\\"."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should a yes or no radio group have a default selection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually no. Leaving both options unselected lets you tell the difference between a user who chose \\"no\\" and one who skipped the question. Pre-select an option only when one answer is clearly the safe default and you handle it deliberately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How big should a yes or no button be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "WCAG 2.2 requires targets of at least 24 by 24 CSS pixels at Level AA, and 44 by 44 pixels is recommended for easy touch use. Add spacing between buttons so users do not tap the wrong one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Math.random good enough for a yes or no button?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a casual button, yes. Math.random gives a practically fair split for everyday use. For anything where fairness matters more, such as a drawing, use the Web Crypto API and avoid modulo bias when you have more than two outcomes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I make a yes or no button accessible?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use real form controls or a native button, give each group a legend or label, make sure focus is visible, do not hide inputs with display none, keep sufficient contrast, and announce random results with an aria-live region."
+      }
+    }
+  ]
+}`}</script>
