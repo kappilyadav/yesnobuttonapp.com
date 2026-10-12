@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import AuthorBio from '../components/content/AuthorBio.astro';
+import SocialLinks from '../components/content/SocialLinks.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 import { contactPageSchema, breadcrumbSchema } from '../data/schemas';
 
@@ -29,51 +31,106 @@ const breadcrumb = breadcrumbSchema([
       </div>
       <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">CONTACT</span>
       <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">Contact Us</h1>
-      <p class="text-muted dark:text-muted-dark text-lg mb-10">Have a question, suggestion, or just want to say hello? We'd love to hear from you.</p>
+      <p class="text-muted dark:text-muted-dark text-lg mb-10">Have a question, suggestion, or need help? We would love to hear from you. The Yes No Button is built to be simple and dependable, and the fastest way to keep it that way is hearing directly from the people who use it. Here are the best ways to reach us, along with a few things that help us respond faster.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
           <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
           </div>
-          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Email</h3>
-          <p class="text-sm text-muted dark:text-muted-dark">Send us an email at <a href="mailto:hello@yesnobuttonapp.com" class="text-ink dark:text-ink-dark underline hover:no-underline">hello@yesnobuttonapp.com</a>. We'll get back to you as soon as possible.</p>
+          <h2 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Email</h2>
+          <p class="text-sm text-muted dark:text-muted-dark mb-2"><a href="mailto:hello@yesnobuttonapp.com" class="text-ink dark:text-ink-dark underline hover:no-underline">hello@yesnobuttonapp.com</a></p>
+          <p class="text-sm text-muted dark:text-muted-dark">We typically respond within 1&ndash;2 business days.</p>
         </div>
         <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
           <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>
           </div>
-          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Feedback</h3>
-          <p class="text-sm text-muted dark:text-muted-dark">Found a bug or have a feature request? We appreciate your feedback and use it to improve the tool.</p>
-        </div>
-        <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
-          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0 -4 -4H5a4 4 0 0 0 -4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0 -3 -3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Embed Support</h3>
-          <p class="text-sm text-muted dark:text-muted-dark">Need help embedding the Yes No Button on your website? Check out our <a href="/embed/" class="text-ink dark:text-ink-dark underline hover:no-underline">embed page</a> or reach out.</p>
-        </div>
-        <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
-          <div class="w-11 h-11 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center mb-3">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          </div>
-          <h3 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Open Source</h3>
-          <p class="text-sm text-muted dark:text-muted-dark">This project is open source. Find us on <a href="https://github.com" class="text-ink dark:text-ink-dark underline hover:no-underline">GitHub</a> to contribute or report issues.</p>
+          <h2 class="font-display text-base font-bold text-ink dark:text-ink-dark mb-3">Find me online</h2>
+          <SocialLinks />
         </div>
       </div>
 
-      <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-8 text-center">
-        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Send Us a Message</h2>
-        <p class="text-muted dark:text-muted-dark mb-6">For now, the best way to reach us is by email at <a href="mailto:hello@yesnobuttonapp.com" class="text-ink dark:text-ink-dark underline hover:no-underline">hello@yesnobuttonapp.com</a>. We read every message and will respond as quickly as we can.</p>
-        <a href="mailto:hello@yesnobuttonapp.com" class="inline-flex items-center px-6 py-3 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark font-display text-base hover:scale-102 active:scale-98 transition-transform no-underline gap-2">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
-          Send Email
-        </a>
+      <div id="message" class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6 md:p-8 mb-10 scroll-mt-24">
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-2">Send Us a Message</h2>
+        <p class="text-muted dark:text-muted-dark mb-6">Prefer a form over email? Fill this out and it goes straight to our inbox.</p>
+
+        <p id="contact-success" role="status" class="hidden mb-6 p-4 rounded-xl bg-[#F0FDF4] dark:bg-[#0A2E1A] text-[#166534] dark:text-[#86EFAC] text-sm">Thanks, your message was sent. We will get back to you within 1&ndash;2 business days.</p>
+
+        <form action="https://formsubmit.co/hello@yesnobuttonapp.com" method="POST" class="space-y-4">
+          <input type="hidden" name="_subject" value="New message from Yes No Button contact form" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_next" value="https://yesnobuttonapp.com/contact/?sent=true" />
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="contactName" class="block text-sm font-medium text-ink dark:text-ink-dark mb-1.5">Name</label>
+              <input id="contactName" name="name" type="text" required autocomplete="name" class="w-full px-4 py-2.5 rounded-xl border border-border dark:border-border-dark bg-white dark:bg-canvas-dark text-ink dark:text-ink-dark focus:outline-none focus:ring-2 focus:ring-[#16A34A]" />
+            </div>
+            <div>
+              <label for="contactEmail" class="block text-sm font-medium text-ink dark:text-ink-dark mb-1.5">Email</label>
+              <input id="contactEmail" name="email" type="email" required autocomplete="email" class="w-full px-4 py-2.5 rounded-xl border border-border dark:border-border-dark bg-white dark:bg-canvas-dark text-ink dark:text-ink-dark focus:outline-none focus:ring-2 focus:ring-[#16A34A]" />
+            </div>
+          </div>
+          <div>
+            <label for="contactSubject" class="block text-sm font-medium text-ink dark:text-ink-dark mb-1.5">Subject</label>
+            <input id="contactSubject" name="subject" type="text" placeholder="What's this about?" class="w-full px-4 py-2.5 rounded-xl border border-border dark:border-border-dark bg-white dark:bg-canvas-dark text-ink dark:text-ink-dark placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-none focus:ring-2 focus:ring-[#16A34A]" />
+          </div>
+          <div>
+            <label for="contactMessage" class="block text-sm font-medium text-ink dark:text-ink-dark mb-1.5">Message</label>
+            <textarea id="contactMessage" name="message" rows="6" required placeholder="Bug reports, feature ideas, or anything else." class="w-full px-4 py-2.5 rounded-xl border border-border dark:border-border-dark bg-white dark:bg-canvas-dark text-ink dark:text-ink-dark placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-none focus:ring-2 focus:ring-[#16A34A]"></textarea>
+          </div>
+          <button type="submit" class="inline-flex items-center px-6 py-3 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark font-display text-base hover:scale-102 active:scale-98 transition-transform gap-2 cursor-pointer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></svg>
+            Send Message
+          </button>
+        </form>
       </div>
+
+      <div class="text-muted dark:text-muted-dark leading-relaxed space-y-4 [&_a]:text-ink [&_a]:dark:text-ink-dark [&_a]:underline [&_a]:hover:no-underline [&_strong]:text-ink [&_strong]:dark:text-ink-dark">
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mt-10 mb-1">Before You Reach Out</h2>
+        <p>Most support questions come down to the browser rather than a bug in the tool. Checking a few things first often gets you an answer faster than waiting on a reply:</p>
+        <ul class="list-disc list-inside space-y-2">
+          <li><strong>The button does nothing:</strong> The tool needs JavaScript. Refresh the page, turn off any extension that blocks scripts on the site, and try a different browser if it still does not respond.</li>
+          <li><strong>My history or mode disappeared:</strong> History and your Yes/No/Maybe mode are saved in your own browser, not on a server. Clearing site data, using a private window, or switching devices starts you fresh.</li>
+          <li><strong>The results feel streaky:</strong> Every press is an independent 50/50 (or 33% each in Maybe mode), so runs of the same answer are normal and not a sign the tool is stuck.</li>
+          <li><strong>The wheel has no sound:</strong> Browsers often block audio until you interact with the page, and muted tabs or device silent modes also stop it. Click the wheel once and check your volume.</li>
+          <li><strong>The embed widget does not show:</strong> Check that the snippet was pasted in full and that your site's security settings (such as a content security policy) allow it. The <a href="/embed/">embed page</a> has the exact code.</li>
+        </ul>
+
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mt-10 mb-1">Frequently Requested Topics</h2>
+        <ul class="list-disc list-inside space-y-2">
+          <li><strong>Bug reports:</strong> Please include your browser name and version, your operating system, and the exact steps that led to the problem. A screenshot is especially useful.</li>
+          <li><strong>Feature requests:</strong> We welcome ideas for new modes, tools, or workflow improvements. Tell us the situation the feature would solve, not just the feature itself, since that context usually shapes how we build it.</li>
+          <li><strong>Privacy questions:</strong> See our <a href="/privacy-policy/">Privacy Policy</a> for how we handle your data.</li>
+          <li><strong>Classroom and kids use:</strong> If you use the tool with students or children and something does not suit that setting, tell us. See also the <a href="/yes-no-button-for-teachers/">teachers page</a> and the <a href="/kids-yes-no-button/">kids version</a>.</li>
+          <li><strong>Accessibility feedback:</strong> If any part of the site is hard to use with a screen reader, keyboard-only navigation, or other assistive technology, tell us exactly where so we can fix it.</li>
+          <li><strong>General inquiries:</strong> For anything else, just send an email and we will point you in the right direction.</li>
+        </ul>
+
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mt-10 mb-1">Response Times and What to Expect</h2>
+        <p>This project does not run a dedicated support team, so replies come from the same person who builds and maintains the tool. Most emails get a response within one to two business days. Bug reports with clear reproduction steps are usually the fastest to resolve, since there is no back and forth needed to understand what went wrong. Feature requests take a little longer, because a real answer means thinking through whether the idea fits the tool's scope.</p>
+
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mt-10 mb-1">Reporting a Security Issue</h2>
+        <p>If you believe you have found a security vulnerability, please email us directly instead of posting details publicly. Include the exact steps, the browser and OS involved, and a proof of concept if you have one. We will confirm receipt and let you know once a fix is in place.</p>
+
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mt-10 mb-1">Press and Partnership Inquiries</h2>
+        <p>For press, partnership, or other business questions, email us with a short description of what you are looking for. Because this is a small, focused tool rather than a company with a marketing department, replies to these may take a little longer than support requests.</p>
+      </div>
+
+      <AuthorBio class="mt-12" />
     </div>
   </section>
 
   <MoreTools />
 
   <Fragment slot="footer"><Footer /></Fragment>
+  <script is:inline>
+    if (new URLSearchParams(location.search).get('sent') === 'true') {
+      var el = document.getElementById('contact-success');
+      if (el) { el.classList.remove('hidden'); el.scrollIntoView({ block: 'center' }); }
+    }
+  </script>
 </BaseLayout>

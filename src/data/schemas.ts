@@ -109,8 +109,13 @@ export const founderSchema = {
   "@id": "https://yesnobuttonapp.com/about/#founder",
   "name": "Kapil Yadav",
   "jobTitle": "Founder & Developer",
-  "url": "https://yesnobuttonapp.com/about/",
-  "sameAs": ["https://github.com/kappilyadav"],
+  "url": "https://yesnobuttonapp.com/author/",
+  "sameAs": [
+    "https://github.com/kappilyadav",
+    "https://www.linkedin.com/in/kapilyadavv",
+    "https://www.instagram.com/heykapil_",
+    "https://x.com/kapsheeps"
+  ],
   "worksFor": { "@id": "https://yesnobuttonapp.com/#organization" }
 };
 

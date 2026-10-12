@@ -1,0 +1,55 @@
+---
+import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+  bio?: string;
+  showAboutLink?: boolean;
+  class?: string;
+}
+
+const {
+  bio = 'Full-stack developer who builds and maintains the Yes No Button and its small, focused web tools. Ships public code on GitHub and tests every guide against the live tools before publishing.',
+  showAboutLink = true,
+  class: className = 'mt-12',
+} = Astro.props;
+---
+
+<aside class={`${className} p-6 md:p-8 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark`} aria-label="About the author">
+  <div class="flex flex-col sm:flex-row gap-5 sm:gap-6">
+    <a href="/author/" class="shrink-0" aria-label="About Kapil Yadav">
+      <img
+        src="/images/kappil-yadav.webp"
+        alt="Kapil Yadav"
+        width="80"
+        height="80"
+        loading="lazy"
+        class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-border dark:border-border-dark object-cover"
+      />
+    </a>
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-wrap items-center gap-3 mb-2">
+        <p class="font-display text-xl md:text-2xl text-ink dark:text-ink-dark m-0">Kapil Yadav</p>
+        <span class="px-3 py-1 rounded-full border border-border dark:border-border-dark text-[11px] font-semibold uppercase tracking-wide text-muted dark:text-muted-dark">Founder &amp; Developer</span>
+      </div>
+      <p class="text-sm md:text-base text-muted dark:text-muted-dark leading-relaxed m-0">
+        {bio}
+      </p>
+      <div class="flex flex-wrap items-center justify-between gap-3 mt-5 pt-4 border-t border-dashed border-border dark:border-border-dark text-sm">
+        <a href="mailto:hello@yesnobuttonapp.com" class="inline-flex items-center gap-2 text-muted dark:text-muted-dark no-underline hover:text-ink dark:hover:text-ink-dark transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          hello@yesnobuttonapp.com
+        </a>
+        <SocialLinks />
+        <span class="flex items-center gap-2 font-semibold">
+          {showAboutLink && (
+            <>
+              <a href="/about/" class="text-ink dark:text-ink-dark no-underline hover:underline">About Us</a>
+              <span class="text-muted dark:text-muted-dark" aria-hidden="true">·</span>
+            </>
+          )}
+          <a href="/contact/" class="text-ink dark:text-ink-dark no-underline hover:underline">Contact</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,108 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import SocialLinks from '../components/content/SocialLinks.astro';
+import { founderSchema, breadcrumbSchema } from '../data/schemas';
+
+const posts = await getCollection('blog');
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Author', url: '/author/' },
+]);
+
+const profilePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": "https://yesnobuttonapp.com/author/#profile",
+  "url": "https://yesnobuttonapp.com/author/",
+  "name": "Kapil Yadav - Author, Yes No Button",
+  "mainEntity": { "@id": "https://yesnobuttonapp.com/about/#founder" },
+};
+
+const h2 = 'font-display text-xl md:text-2xl text-ink dark:text-ink-dark mt-8 mb-3';
+---
+
+<BaseLayout
+  title="Kapil Yadav - Author, Yes No Button"
+  description="Kapil Yadav builds and maintains the Yes No Button and writes its blog. Read about his background, how he tests guides, and find all his articles."
+  canonical="https://yesnobuttonapp.com/author/"
+  schema={[profilePageSchema, founderSchema, breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <section class="py-12 md:py-20">
+    <div class="container max-w-3xl">
+      <nav aria-label="Breadcrumb" class="text-sm text-muted dark:text-muted-dark mb-6">
+        <a href="/" class="no-underline hover:text-ink dark:hover:text-ink-dark">Home</a>
+        <span class="mx-1" aria-hidden="true">/</span>
+        <span class="text-ink dark:text-ink-dark">Author</span>
+      </nav>
+
+      <div class="p-6 md:p-10 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark">
+        <div class="flex items-center gap-4 mb-6">
+          <img src="/images/kappil-yadav.webp" alt="Kapil Yadav" width="64" height="64" class="w-14 h-14 md:w-16 md:h-16 rounded-full border-2 border-border dark:border-border-dark object-cover" />
+          <div>
+            <h1 class="font-display text-2xl md:text-3xl tracking-tight text-ink dark:text-ink-dark m-0">Kapil Yadav</h1>
+            <p class="text-sm text-muted dark:text-muted-dark m-0 mt-1">Founder &amp; Developer, YesNoButtonApp</p>
+          </div>
+        </div>
+
+        <div class="text-muted dark:text-muted-dark leading-relaxed space-y-4 [&_a]:text-ink [&_a]:dark:text-ink-dark [&_a]:underline [&_a]:hover:no-underline">
+          <p>I build and maintain the Yes No Button, a free, no-account tool for settling small decisions with a random yes or no. I write the blog, fix the bugs, and read the emails that come in through <a href="/contact/">the contact page</a>.</p>
+
+          <h2 class={h2}>Background</h2>
+          <p>I am a full-stack developer, and I have spent most of my time building small, focused web tools rather than large applications: things that do one job well, load fast, and do not ask for an account before you can use them. The Yes No Button grew out of that preference rather than out of a business plan.</p>
+
+          <h2 class={h2}>Why I Built the Yes No Button</h2>
+          <p>It started as a weekend project. I wanted a fast, anonymous way to settle the low-stakes questions that eat up more mental energy than they deserve: what to eat, which film to watch, whether to send the message. A coin flip does the job, but a coin is not always in your pocket, and a screen with one big button is quicker than a search for a random-answer site full of ads. So I built the page I wanted to use. It has grown into the set of tools on this site: the <a href="/">Yes No Button</a>, the <a href="/yes-no-oracle/">Yes No Oracle</a>, the <a href="/yes-no-wheel/">Yes No Wheel</a>, a <a href="/kids-yes-no-button/">kids version</a>, and an <a href="/embed/">embeddable widget</a>.</p>
+
+          <h2 class={h2}>How I Decide What to Build</h2>
+          <p>Every tool here has to work instantly, in the browser, without sign-up and without collecting your data. That rule has turned down more ideas than it has approved. I would rather ship a handful of tools that work every time than a long list that works most of the time.</p>
+
+          <h2 class={h2}>How I Work on This Site</h2>
+          <p>I try every tool myself before I write about it, and I run guides against the live tools before publishing. Each article shows when it was published and when it was last updated, so it is clear when something has changed. Guides get revisited when something about the tools or the advice changes, not on a fixed schedule.</p>
+
+          <h2 class={h2}>Corrections and Updates</h2>
+          <p>If something on this site is wrong, whether a factual error, an outdated screenshot, or a tool that is not behaving as described, I want to hear about it and I will fix it. There is no editorial process between a correction and the live page beyond me reading your email and pushing the change.</p>
+
+          <h2 class={h2}>Find Me</h2>
+          <p>Code and commit history are public on GitHub (<a href="https://github.com/kappilyadav" target="_blank" rel="noopener noreferrer me">@kappilyadav</a>). If you spot a bug or want to suggest a feature, that and <a href="mailto:hello@yesnobuttonapp.com">email</a> are the fastest ways to reach me. I am also on LinkedIn, X and Instagram if you would rather connect there.</p>
+          <SocialLinks class="pt-1" />
+        </div>
+      </div>
+
+      <h2 class="font-display text-2xl text-ink dark:text-ink-dark mt-12 mb-6">Articles by Kapil Yadav</h2>
+      <ul class="list-none p-0 m-0 space-y-4">
+        {posts.map((post) => {
+          const heroBase = `/images/${post.id}-hero`;
+          return (
+            <li>
+              <a href={`/blog/${post.id}/`} class="flex flex-col sm:flex-row overflow-hidden rounded-xl border border-border dark:border-border-dark bg-card dark:bg-card-dark no-underline hover:shadow-md transition-shadow">
+                <picture class="sm:w-56 shrink-0">
+                  <source type="image/webp" srcset={`${heroBase}-800.webp 800w, ${heroBase}-400.webp 400w`} sizes="(max-width: 640px) 100vw, 224px" />
+                  <img src={`${heroBase}-400.webp`} alt={`Cover image for ${post.data.title}`} width="400" height="267" loading="lazy" class="w-full h-44 sm:h-full object-cover" onerror="this.src='/og-image.webp'" />
+                </picture>
+                <div class="p-4 md:p-5">
+                  <time class="block text-xs text-muted dark:text-muted-dark" datetime={post.data.pubDate.toISOString()}>
+                    {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </time>
+                  <span class="block font-display text-base md:text-lg text-ink dark:text-ink-dark leading-tight mt-1">{post.data.title}</span>
+                  <span class="block text-sm text-muted dark:text-muted-dark mt-2 leading-relaxed">{post.data.description}</span>
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import AuthorBio from '../components/content/AuthorBio.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 import { aboutPageSchema, founderSchema, breadcrumbSchema } from '../data/schemas';
 
@@ -39,21 +40,7 @@ const breadcrumb = breadcrumbSchema([
 
         <section id="founder">
           <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mb-3">Who Built This</h2>
-          <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-xl p-6 flex gap-5 items-start max-sm:flex-col max-sm:items-center max-sm:text-center">
-            <div class="w-16 h-16 shrink-0 rounded-full bg-[#F0FDF4] dark:bg-[#0A2E1A] flex items-center justify-center text-2xl font-display text-[#16A34A]" aria-hidden="true">
-              KY
-            </div>
-            <div>
-              <p class="font-display text-base font-bold text-ink dark:text-ink-dark mb-1">Kapil Yadav</p>
-              <p class="text-sm text-muted dark:text-muted-dark mb-3">Founder &amp; Developer, Yes No Button</p>
-              <p class="text-sm text-muted dark:text-muted-dark leading-relaxed">
-                Kapil is a full-stack developer who builds small, focused web tools rather than sprawling products. The Yes No Button started as a weekend project: a simple, fast, no-account-needed way to settle the low-stakes questions that eat up more mental energy than they deserve. It's grown from there into the set of tools on this site, all built and maintained independently.
-              </p>
-              <a href="https://github.com/kappilyadav" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 mt-3 text-sm text-ink dark:text-ink-dark underline hover:no-underline">
-                See more on GitHub →
-              </a>
-            </div>
-          </div>
+          <AuthorBio class="mt-0" showAboutLink={false} bio="Kapil is a full-stack developer who builds small, focused web tools rather than sprawling products. The Yes No Button started as a weekend project: a simple, fast, no-account-needed way to settle the low-stakes questions that eat up more mental energy than they deserve. It's grown from there into the set of tools on this site, all built and maintained independently." />
         </section>
 
         <section>
