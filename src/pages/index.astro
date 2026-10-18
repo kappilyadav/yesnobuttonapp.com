@@ -10,12 +10,6 @@ import EmbedWidget from '../components/tool/EmbedWidget.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
-import '@fontsource/baloo-2/700.css';
-import '@fontsource/baloo-2/800.css';
-import '@fontsource/caveat/700.css';
-import baloo700Woff2 from '@fontsource/baloo-2/files/baloo-2-latin-700-normal.woff2?url';
-import baloo800Woff2 from '@fontsource/baloo-2/files/baloo-2-latin-800-normal.woff2?url';
-import caveat700Woff2 from '@fontsource/caveat/files/caveat-latin-700-normal.woff2?url';
 
 const homeBreadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
@@ -47,9 +41,15 @@ const faqItems = [
   schema={[webAppSchema, createFaqSchema(faqItems), homeBreadcrumb]}
 >
   <Fragment slot="head">
-    <link rel="preload" href={baloo700Woff2} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={baloo800Woff2} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={caveat700Woff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/baloo-2-700-sub.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/baloo-2-800-sub.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/caveat-700-sub.woff2" as="font" type="font/woff2" crossorigin />
+    <style is:inline>
+      /* Trimmed copies of Baloo 2 and Caveat holding only the glyphs the homepage button uses. */
+      @font-face { font-family: 'Baloo 2'; font-style: normal; font-display: swap; font-weight: 700; src: url('/fonts/baloo-2-700-sub.woff2') format('woff2'); }
+      @font-face { font-family: 'Baloo 2'; font-style: normal; font-display: swap; font-weight: 800; src: url('/fonts/baloo-2-800-sub.woff2') format('woff2'); }
+      @font-face { font-family: 'Caveat'; font-style: normal; font-display: swap; font-weight: 700; src: url('/fonts/caveat-700-sub.woff2') format('woff2'); }
+    </style>
   </Fragment>
 
   <Fragment slot="header">
@@ -123,6 +123,8 @@ const faqItems = [
 
       <img
         src="/images/yes-result-screenshot.webp"
+            srcset="/images/yes-result-screenshot-560.webp 560w, /images/yes-result-screenshot-800.webp 800w, /images/yes-result-screenshot.webp 1100w"
+            sizes="(min-width: 600px) 560px, 100vw"
         alt="Yes No Button showing a YES result in green"
         width="600"
         height="400"
@@ -181,6 +183,8 @@ const faqItems = [
         <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl overflow-hidden">
           <img
             src="/images/how-to-use-press-button.webp"
+            srcset="/images/how-to-use-press-button-560.webp 560w, /images/how-to-use-press-button-800.webp 800w, /images/how-to-use-press-button.webp 1100w"
+            sizes="(min-width: 768px) 480px, 100vw"
             alt="Pressing the green Y or red N button, or the Pick Random button, on the Yes No Button toy"
             width="1100"
             height="794"
@@ -195,6 +199,8 @@ const faqItems = [
         <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl overflow-hidden">
           <img
             src="/images/how-to-use-see-answer.webp"
+            srcset="/images/how-to-use-see-answer-560.webp 560w, /images/how-to-use-see-answer-800.webp 800w, /images/how-to-use-see-answer.webp 1100w"
+            sizes="(min-width: 768px) 480px, 100vw"
             alt="Fullscreen YES result popup with a Try Again button"
             width="1100"
             height="794"
@@ -209,6 +215,8 @@ const faqItems = [
         <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl overflow-hidden">
           <img
             src="/images/how-to-use-maybe-mode.webp"
+            srcset="/images/how-to-use-maybe-mode-560.webp 560w, /images/how-to-use-maybe-mode-800.webp 800w, /images/how-to-use-maybe-mode.webp 1100w"
+            sizes="(min-width: 768px) 480px, 100vw"
             alt="Yes No Maybe toy button showing the purple M button for a third option"
             width="1100"
             height="794"
@@ -223,6 +231,8 @@ const faqItems = [
         <div class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl overflow-hidden">
           <img
             src="/images/how-to-use-history.webp"
+            srcset="/images/how-to-use-history-560.webp 560w, /images/how-to-use-history-800.webp 800w, /images/how-to-use-history.webp 1100w"
+            sizes="(min-width: 768px) 480px, 100vw"
             alt="History tracker showing recent Yes and No results with a running tally"
             width="1100"
             height="794"
@@ -280,6 +290,8 @@ const faqItems = [
 
       <img
         src="/images/no-result-screenshot.webp"
+        srcset="/images/no-result-screenshot-560.webp 560w, /images/no-result-screenshot-800.webp 800w, /images/no-result-screenshot.webp 1100w"
+        sizes="(min-width: 600px) 560px, 100vw"
         alt="Yes No Button showing a NO result in red"
         width="600"
         height="400"

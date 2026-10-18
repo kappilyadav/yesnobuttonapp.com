@@ -35,7 +35,7 @@ const breadcrumb = breadcrumbSchema([
       </p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {posts.map((post) => {
+        {posts.map((post, idx) => {
           const heroBase = `/images/${post.id}-hero`;
           const hero1200 = `${heroBase}-1200.webp`;
           const hero800 = `${heroBase}-800.webp`;
@@ -47,7 +47,7 @@ const breadcrumb = breadcrumbSchema([
                 <div class="w-full">
                   <picture>
                     <source type="image/webp" srcset={`${hero1200} 1200w, ${hero800} 800w, ${hero400} 400w`} sizes="(max-width: 640px) 100vw, 360px" />
-                    <img src={hero1200} alt={`Illustration for ${post.data.title}`} loading="lazy" class="w-full h-44 object-cover sm:h-48 md:h-40 lg:h-44" onerror={`this.src='${fallback}'`} />
+                    <img src={hero1200} alt={`Illustration for ${post.data.title}`} loading={idx < 3 ? 'eager' : 'lazy'} fetchpriority={idx === 0 ? 'high' : undefined} class="w-full h-44 object-cover sm:h-48 md:h-40 lg:h-44" onerror={`this.src='${fallback}'`} />
                   </picture>
                 </div>
 

@@ -348,3 +348,6 @@
     animation: none;
   }
 }
+
+/* Cookie banner is in the server HTML; hide it before first paint once a choice is saved. */
+html.consent-set #cookie-consent:not(.force-open) { display: none; }

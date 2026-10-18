@@ -14,7 +14,7 @@ import YouTube from '../../components/content/YouTube.astro';
     sizes="(max-width: 600px) 100vw, 600px" />
   <img src="/images/history-of-the-magic-8-ball-hero-1200.webp" width="1200" height="800"
        alt="Illustration for The History of the Magic 8-Ball"
-       loading="lazy"
+       loading="eager" fetchpriority="high"
        style="border-radius: 12px; width: 100%; max-width: 760px; display:block; margin: 24px auto;" />
 </picture>
 
@@ -118,7 +118,7 @@ It removes the discomfort of feeling solely responsible for a choice, especially
   <p style="color: #A8A8A0; font-size: 14px; margin-bottom: 20px;">
     No shaking required. Ask your question and get an instant answer.
   </p>
-  <a href="/yes-no-oracle/" style="display: inline-block; background: #16A34A; color: white;
+  <a href="/yes-no-oracle/" style="display: inline-block; background: #15803D; color: white;
     padding: 12px 28px; border-radius: 8px; font-size: 15px; font-weight: 500;
     text-decoration: none; margin-top: 10px;">
     Consult the Yes No Oracle →

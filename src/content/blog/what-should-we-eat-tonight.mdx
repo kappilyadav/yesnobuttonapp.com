@@ -13,7 +13,7 @@ import YouTube from '../../components/content/YouTube.astro';
     sizes="(max-width: 600px) 100vw, 600px" />
   <img src="/images/what-should-we-eat-tonight-hero-1200.webp" width="1200" height="800"
        alt="Illustration for The Ultimate What Should We Eat Tonight Decision Guide"
-       loading="lazy"
+       loading="eager" fetchpriority="high"
        style="border-radius: 12px; width: 100%; max-width: 760px; display:block; margin: 24px auto;" />
 </picture>
 
@@ -22,14 +22,10 @@ It happens almost every evening. Someone asks what's for dinner. The other perso
 This is not really a food problem. It is a decision problem, made worse by the fact that there are functionally unlimited options and nobody wants to be responsible for choosing among them. Here are three concrete ways to actually get out of the loop.
 
 <div style="background: #F0FDF4; border: 1px solid #D4F0DF; border-radius: 12px; padding: 20px 24px; margin: 24px 0;">
-  <p style="font-size: 15px; font-weight: 500; color: #15803D; margin-bottom: 8px;">
-    Use the Yes No Button to make the final call
-  </p>
-  <a href="/" style="display: inline-block; background: #16A34A; color: white;
+  <p style="font-size: 15px; font-weight: 500; color: #15803D; margin-bottom: 8px;">Use the Yes No Button to make the final call</p>
+  <a href="/" style="display: inline-block; background: #15803D; color: white;
     padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
-    text-decoration: none; margin-top: 10px;">
-    Try the Yes No Button →
-  </a>
+    text-decoration: none; margin-top: 10px;">Try the Yes No Button →</a>
 </div>
 
 ## Why "What Do You Want" Never Works

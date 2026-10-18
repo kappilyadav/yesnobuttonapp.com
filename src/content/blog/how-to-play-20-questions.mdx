@@ -13,7 +13,7 @@ import YouTube from '../../components/content/YouTube.astro';
     sizes="(max-width: 600px) 100vw, 600px" />
   <img src="/images/how-to-play-20-questions-hero-1200.webp" width="1200" height="800"
        alt="Illustration for How to Play 20 Questions: Rules, Strategy & Best Questions"
-       loading="lazy"
+       loading="eager" fetchpriority="high"
        style="border-radius: 12px; width: 100%; max-width: 760px; display:block; margin: 24px auto;" />
 </picture>
 
@@ -22,14 +22,10 @@ Twenty Questions is one of the few games that needs no board, no cards, and no s
 This guide covers the exact rules, the math behind why twenty questions is enough to find almost anything, a step-by-step strategy with a worked example, the best opening questions, ideas for what to guess, and variations for different ages and settings.
 
 <div style="background: #F0FDF4; border: 1px solid #D4F0DF; border-radius: 12px; padding: 20px 24px; margin: 24px 0;">
-  <p style="font-size: 15px; font-weight: 500; color: #15803D; margin-bottom: 8px;">
-    🎲 Use the Yes No Wheel to pick who goes first or what to guess
-  </p>
-  <a href="/yes-no-wheel/" style="display: inline-block; background: #16A34A; color: white;
+  <p style="font-size: 15px; font-weight: 500; color: #15803D; margin-bottom: 8px;">🎲 Use the Yes No Wheel to pick who goes first or what to guess</p>
+  <a href="/yes-no-wheel/" style="display: inline-block; background: #15803D; color: white;
     padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
-    text-decoration: none; margin-top: 10px;">
-    Open the Yes No Wheel →
-  </a>
+    text-decoration: none; margin-top: 10px;">Open the Yes No Wheel →</a>
 </div>
 
 ## The Rules in One Minute

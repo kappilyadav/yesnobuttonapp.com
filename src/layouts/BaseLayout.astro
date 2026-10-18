@@ -73,6 +73,10 @@ const allSchema = [
       if (t === 'dark' || (t !== 'light' && prefersDark)) {
         document.documentElement.classList.add('dark');
       }
+      try {
+        var c = localStorage.getItem('ynb_consent');
+        if (c === 'granted' || c === 'denied') document.documentElement.classList.add('consent-set');
+      } catch (e) {}
     </script>
 
     <link rel="preload" href={syneWoff2} as="font" type="font/woff2" crossorigin />

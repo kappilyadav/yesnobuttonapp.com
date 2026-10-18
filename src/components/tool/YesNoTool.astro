@@ -124,8 +124,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
         <button
           id="decide-btn"
           class="relative w-[280px] h-[72px] max-sm:w-[calc(100%-48px)] max-sm:h-16 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark font-display text-xl max-sm:text-lg tracking-[0.05em] uppercase cursor-pointer select-none animate-pulse-subtle animate-pulse-glow hover:bg-[#27272A] dark:hover:bg-[#D4D2CC] hover:scale-105 active:scale-96 transition-all duration-200 ease focus:outline-hidden disabled:opacity-50"
-          aria-label="Press to get a random yes or no answer"
-          role="button"
+          aria-label={`${buttonLabel}: get a random yes or no answer`}
         >
           {buttonLabel}
         </button>
