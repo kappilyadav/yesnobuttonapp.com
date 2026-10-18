@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import Breadcrumbs from '../components/content/Breadcrumbs.astro';
+import EmbedWidget from '../components/tool/EmbedWidget.astro';
+import FAQAccordion from '../components/content/FAQAccordion.astro';
+import MoreTools from '../components/content/MoreTools.astro';
+import { breadcrumbSchema, createWebPageSchema, createFaqSchema } from '../data/schemas';
+
+const description = 'Add a free yes or no button to your website with one line of code. Copy the iframe snippet, see sizing options, and follow steps for WordPress, Wix, Google Sites and Notion.';
+const lastUpdated = 'October 18, 2026';
+
+const faqItems = [
+  { question: 'Is the Yes No Button embed really free?', answer: 'Yes. The widget is free to use on personal, educational and commercial sites. There is no account, no API key and no usage limit. It is the same tool you see on the homepage, loaded from a single page.' },
+  { question: 'Does the embedded button collect my visitors’ data?', answer: 'The widget itself runs in the visitor’s browser and does not send their questions or answers to us. Like the main site, it can save a short result history in the visitor’s own browser. See the privacy policy for details on analytics and advertising on the main site.' },
+  { question: 'What size should I use for the iframe?', answer: 'Use width 100% so it fits any column, and a height between 420 and 520 pixels. 480 is a good default. If the result popup looks cramped on a very narrow column, increase the height slightly.' },
+  { question: 'Why is my embed blank or blocked?', answer: 'Some site builders and security policies strip or block iframes. Check that you pasted the whole snippet, that the block type accepts raw HTML, and that your site’s content security policy allows frames from yesnobuttonapp.com.' },
+  { question: 'Can I change the colours or text?', answer: 'Not at the moment. The widget follows the visitor’s light or dark theme preference and always shows the standard button, so the look stays consistent across sites.' },
+  { question: 'Do I have to link back to you?', answer: 'No link is required. A link to yesnobuttonapp.com is appreciated but optional.' },
+];
+
+const breadcrumb = breadcrumbSchema([
+  { name: 'Home', url: '/' },
+  { name: 'Embed Yes No Button', url: '/embed-yes-no-button/' },
+]);
+const h2 = 'font-display text-2xl md:text-3xl tracking-tight text-ink dark:text-ink-dark mb-4';
+---
+
+<BaseLayout
+  title="Embed a Yes No Button on Your Website | Free Widget"
+  description={description}
+  canonical="https://yesnobuttonapp.com/embed-yes-no-button/"
+  schema={[createWebPageSchema(description, 'https://yesnobuttonapp.com/embed-yes-no-button/', 'Embed the Yes No Button'), createFaqSchema(faqItems), breadcrumb]}
+>
+  <Fragment slot="header"><Header /></Fragment>
+
+  <section class="py-12 md:py-20">
+    <div class="container max-w-3xl">
+      <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Embed Yes No Button' }]} />
+      <h1 class="font-display text-3xl md:text-5xl tracking-tight text-ink dark:text-ink-dark mb-3">
+        Embed the Yes No Button on Your Website
+      </h1>
+      <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-2 max-w-2xl">
+        Add a free random yes or no button to any page with one line of code. No account, no API key, no limits.
+      </p>
+      <p class="text-muted dark:text-muted-dark text-sm mb-10">Last updated: {lastUpdated}</p>
+
+      <EmbedWidget />
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12 bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl text-muted dark:text-muted-dark leading-relaxed space-y-4">
+      <h2 class={h2}>How to Add It in Three Steps</h2>
+      <ol class="list-decimal list-inside space-y-2">
+        <li><strong class="text-ink dark:text-ink-dark">Copy the snippet</strong> above with the Copy Code button.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Paste it as raw HTML</strong> in the place on the page where you want the button. Most editors call this an HTML, embed or code block.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Publish and test.</strong> Press the button once on the live page to confirm it loads.</li>
+      </ol>
+      <p>The snippet is a standard <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">iframe</code> that loads <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">yesnobuttonapp.com/embed/</code>, a stripped-down page that contains only the button. Because it is hosted by us, improvements to the tool reach your page automatically.</p>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12">
+    <div class="container max-w-3xl text-muted dark:text-muted-dark leading-relaxed space-y-4">
+      <h2 class={h2}>Where to Paste It</h2>
+      <p>The exact menu names change as site builders update, but the idea is the same everywhere: find the block that accepts raw HTML or an embed.</p>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong class="text-ink dark:text-ink-dark">WordPress:</strong> add a <em>Custom HTML</em> block and paste the snippet. In the classic editor, use the Text tab.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Wix:</strong> add an <em>Embed Code</em> element and choose the option to embed HTML code.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Google Sites:</strong> choose <em>Insert, Embed</em> and paste the snippet under the embed code tab.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Notion:</strong> type <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">/embed</code> and paste the address <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">https://yesnobuttonapp.com/embed/</code> instead of the full snippet.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Plain HTML:</strong> paste the snippet anywhere inside the <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">body</code> of your page.</li>
+      </ul>
+      <p>Some platforms restrict custom code to certain plans or strip iframes entirely. If yours does, link to the <a href="/" class="text-ink dark:text-ink-dark underline hover:no-underline">full Yes No Button</a> instead.</p>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12 bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl text-muted dark:text-muted-dark leading-relaxed space-y-4">
+      <h2 class={h2}>Sizing and Layout Tips</h2>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong class="text-ink dark:text-ink-dark">Width:</strong> keep <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">100%</code> so the widget adapts to phones. Cap the width with a wrapper (for example 400 to 600 pixels) if your page has a wide column.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Height:</strong> 480 pixels fits the button, the mode switch and the result. Go up to about 520 if your column is narrow.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Accessibility:</strong> the snippet includes a <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">title</code> so screen readers announce what the frame is. Keep it if you edit the code.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Performance:</strong> the snippet uses <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-border/30 dark:bg-border-dark/30 text-ink dark:text-ink-dark">loading="lazy"</code>, so it only loads when visitors scroll near it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12">
+    <div class="container max-w-3xl text-muted dark:text-muted-dark leading-relaxed space-y-4">
+      <h2 class={h2}>Good Uses for an Embedded Yes No Button</h2>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong class="text-ink dark:text-ink-dark">Classroom and course pages:</strong> a fair way to pick who answers next. See <a href="/yes-no-button-for-teachers/" class="text-ink dark:text-ink-dark underline hover:no-underline">Yes No Button for Teachers</a> and our guide to <a href="/blog/fair-randomizers-for-classroom-participation/" class="text-ink dark:text-ink-dark underline hover:no-underline">fair randomizers for classroom participation</a>.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Blog posts about decisions:</strong> let readers test a tough call on the spot.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Game and party pages:</strong> a quick answer machine for games such as <a href="/blog/how-to-play-20-questions/" class="text-ink dark:text-ink-dark underline hover:no-underline">20 Questions</a>.</li>
+        <li><strong class="text-ink dark:text-ink-dark">Live sessions and workshops:</strong> a fun tiebreaker on a shared screen.</li>
+      </ul>
+      <p>If you would rather build your own from scratch, our guide to a <a href="/blog/yes-no-button-html/" class="text-ink dark:text-ink-dark underline hover:no-underline">yes/no button in HTML</a> has the code.</p>
+    </div>
+  </section>
+
+  <section class="py-section max-sm:py-12 bg-card dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <h2 class={h2}>Frequently Asked Questions</h2>
+      <FAQAccordion items={faqItems} />
+    </div>
+  </section>
+
+  <MoreTools />
+
+  <Fragment slot="footer"><Footer /></Fragment>
+</BaseLayout>

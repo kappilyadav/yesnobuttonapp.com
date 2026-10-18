@@ -22,7 +22,7 @@ export default defineConfig({
   site: 'https://yesnobuttonapp.com',
   output: 'static',
   integrations: [
-    sitemap(),
+    sitemap({ filter: (page) => !page.endsWith('/embed/') }),
     mdx(),
   ],
   markdown: {

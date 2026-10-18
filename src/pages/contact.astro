@@ -7,6 +7,9 @@ import SocialLinks from '../components/content/SocialLinks.astro';
 import MoreTools from '../components/content/MoreTools.astro';
 import { contactPageSchema, breadcrumbSchema } from '../data/schemas';
 
+const lastUpdated = 'October 18, 2026';
+const pageSchema = { ...contactPageSchema, dateModified: '2026-10-18' };
+
 const breadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
   { name: 'Contact', url: '/contact/' },
@@ -17,7 +20,7 @@ const breadcrumb = breadcrumbSchema([
   title="Contact Us | Yes No Button"
   description="Get in touch with the Yes No Button team. Have a question, suggestion, or feedback? We'd love to hear from you."
   canonical="https://yesnobuttonapp.com/contact/"
-  schema={[contactPageSchema, breadcrumb]}
+  schema={[pageSchema, breadcrumb]}
 >
   <Fragment slot="header"><Header /></Fragment>
 
@@ -33,6 +36,7 @@ const breadcrumb = breadcrumbSchema([
       <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">CONTACT</span>
       <h1 class="font-display text-[36px] max-sm:text-[28px] font-bold text-ink dark:text-ink-dark leading-[1.15] mb-2">Contact Us</h1>
       <p class="text-muted dark:text-muted-dark text-lg mb-10">Have a question, suggestion, or need help? We would love to hear from you. The Yes No Button is built to be simple and dependable, and the fastest way to keep it that way is hearing directly from the people who use it. Here are the best ways to reach us, along with a few things that help us respond faster.</p>
+      <p class="text-muted dark:text-muted-dark text-sm -mt-6 mb-10">Last updated: {lastUpdated}</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <div class="bg-white dark:bg-card-dark border border-border dark:border-border-dark rounded-2xl p-6">
@@ -98,7 +102,16 @@ const breadcrumb = breadcrumbSchema([
           <li><strong>My history or mode disappeared:</strong> History and your Yes/No/Maybe mode are saved in your own browser, not on a server. Clearing site data, using a private window, or switching devices starts you fresh.</li>
           <li><strong>The results feel streaky:</strong> Every press is an independent 50/50 (or 33% each in Maybe mode), so runs of the same answer are normal and not a sign the tool is stuck.</li>
           <li><strong>The wheel has no sound:</strong> Browsers often block audio until you interact with the page, and muted tabs or device silent modes also stop it. Click the wheel once and check your volume.</li>
-          <li><strong>The embed widget does not show:</strong> Check that the snippet was pasted in full and that your site's security settings (such as a content security policy) allow it. The <a href="/embed/">embed page</a> has the exact code.</li>
+          <li><strong>The embed widget does not show:</strong> Check that the snippet was pasted in full and that your site's security settings (such as a content security policy) allow it. The <a href="/embed-yes-no-button/">embed page</a> has the exact code.</li>
+        </ul>
+
+        <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mt-10 mb-1">Common Questions We Can Answer Right Now</h2>
+        <ul class="list-disc list-inside space-y-2">
+          <li><strong>Is the Yes No Button really 50/50?</strong> A browser-based random generator has no starting side or throwing technique to bias it, unlike a physical coin. We explain the physics in <a href="/blog/is-a-coin-flip-really-50-50/">Is a Coin Flip Really 50/50?</a></li>
+          <li><strong>Can I keep it on my phone like an app?</strong> Yes. On Android use the Install prompt, and on iPhone use Share, then Add to Home Screen. You can also bookmark the page with Ctrl+D or &#8984;+D on a computer. The menu has an <em>Add to Home Screen</em> shortcut that shows the steps for your device.</li>
+          <li><strong>I have more than two options.</strong> Use the <a href="/yes-no-wheel/">Yes No Wheel</a>, where you can add your own choices, or read <a href="/blog/how-to-decide-between-two-equally-good-options/">how to decide between two equally good options</a>.</li>
+          <li><strong>I want it on my own site.</strong> The <a href="/embed-yes-no-button/">embed guide</a> has a free copy-and-paste snippet and notes for common site builders.</li>
+          <li><strong>I want to suggest questions or a guide.</strong> Tell us the topic. Our articles are written around what readers ask, such as <a href="/blog/yes-no-survey-questions/">yes/no survey questions</a> and <a href="/blog/how-to-play-20-questions/">how to play 20 Questions</a>.</li>
         </ul>
 
         <h2 class="font-display text-xl font-bold text-ink dark:text-ink-dark mt-10 mb-1">Frequently Requested Topics</h2>
