@@ -174,6 +174,7 @@ export function recordResult(result: Result) {
   addToHistory(result);
   renderHistory();
   Events.resultShown(result);
+  window.dispatchEvent(new Event('ynb:result'));
 }
 
 let popupTimer: ReturnType<typeof setTimeout> | null = null;

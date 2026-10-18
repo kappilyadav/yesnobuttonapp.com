@@ -1,0 +1,140 @@
+---
+// components/layout/InstallPrompt.astro
+// Registers the service worker and shows a small "keep this handy" bar:
+// install on Android/desktop Chrome, Share-sheet hint on iOS, Ctrl/Cmd+D hint elsewhere.
+---
+
+<div id="install-prompt" role="dialog" aria-label="Save Yes No Button" class="hidden fixed inset-x-0 bottom-0 z-[55] p-4 pointer-events-none">
+  <div class="pointer-events-auto mx-auto max-w-md flex items-start gap-3 p-4 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark shadow-lg">
+    <img src="/favicon.svg" alt="" width="36" height="36" class="rounded-lg shrink-0 mt-0.5" />
+    <div class="flex-1 min-w-0">
+      <p data-ip-title class="text-sm font-medium text-ink dark:text-ink-dark m-0"></p>
+      <p data-ip-text class="text-sm text-muted dark:text-muted-dark leading-relaxed mt-1 mb-0"></p>
+      <div class="flex gap-2 mt-3">
+        <button type="button" data-ip-install class="hidden px-4 py-2 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm cursor-pointer border-0">Install</button>
+        <button type="button" data-ip-close class="px-4 py-2 rounded-full border border-border dark:border-border-dark text-sm text-ink dark:text-ink-dark cursor-pointer bg-transparent hover:bg-black/5 dark:hover:bg-white/5">Not now</button>
+      </div>
+    </div>
+    <button type="button" data-ip-close aria-label="Close" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-full border-0 bg-transparent text-muted dark:text-muted-dark cursor-pointer hover:bg-black/5 dark:hover:bg-white/5">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const DISMISS_KEY = 'ynb_install_dismissed';
+  const USES_KEY = 'ynb_uses';
+  const USES_BEFORE_PROMPT = 3;
+  const SNOOZE_MS = 30 * 24 * 60 * 60 * 1000;
+
+  function read(key: string): string | null {
+    try { return localStorage.getItem(key); } catch { return null; }
+  }
+  function write(key: string, value: string) {
+    try { localStorage.setItem(key, value); } catch {}
+  }
+
+  // Service worker: production only, so dev reloads are never served from cache.
+  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+
+  const standalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (navigator as any).standalone === true;
+
+  const box = document.getElementById('install-prompt');
+  if (box && !standalone) init(box);
+
+  function init(box: HTMLElement) {
+    const titleEl = box.querySelector<HTMLElement>('[data-ip-title]')!;
+    const textEl = box.querySelector<HTMLElement>('[data-ip-text]')!;
+    const installBtn = box.querySelector<HTMLButtonElement>('[data-ip-install]')!;
+
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isMobile = isIOS || /Android/.test(ua);
+    const isMac = /Mac/.test(navigator.platform) && !isIOS;
+
+    let deferred: any = null;
+    let shownThisSession = false;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferred = e;
+    });
+    window.addEventListener('appinstalled', () => {
+      write(DISMISS_KEY, String(Date.now()));
+      hide();
+    });
+
+    function hide() { box.classList.add('hidden'); }
+
+    function render() {
+      installBtn.classList.add('hidden');
+      if (deferred) {
+        titleEl.textContent = isMobile ? 'Add Yes/No to your home screen' : 'Install Yes/No';
+        textEl.textContent = 'Open it in one tap, no need to remember the web address.';
+        installBtn.classList.remove('hidden');
+      } else if (isIOS) {
+        titleEl.textContent = 'Add Yes/No to your home screen';
+        textEl.textContent = 'Tap the Share button in Safari, then choose “Add to Home Screen”.';
+      } else if (isMobile) {
+        titleEl.textContent = 'Add Yes/No to your home screen';
+        textEl.textContent = 'Open your browser menu and choose “Add to Home screen”.';
+      } else {
+        titleEl.textContent = 'Bookmark this page';
+        textEl.textContent = 'Press ' + (isMac ? '⌘ + D' : 'Ctrl + D') + ' to keep the Yes No Button one click away.';
+      }
+    }
+
+    function show() {
+      // Never stack on top of the cookie banner.
+      const cookie = document.getElementById('cookie-consent');
+      if (cookie && !cookie.classList.contains('hidden')) return false;
+      render();
+      box.classList.remove('hidden');
+      return true;
+    }
+
+    function snooze() {
+      write(DISMISS_KEY, String(Date.now()));
+      hide();
+    }
+
+    box.querySelectorAll('[data-ip-close]').forEach((b) => b.addEventListener('click', snooze));
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferred) return;
+      deferred.prompt();
+      try { await deferred.userChoice; } catch {}
+      deferred = null;
+      snooze();
+    });
+
+    // Manual trigger from the header "Bookmark / Add to Home Screen" link.
+    window.addEventListener('ynb:install', async () => {
+      if (deferred) {
+        deferred.prompt();
+        try { await deferred.userChoice; } catch {}
+        deferred = null;
+        return;
+      }
+      render();
+      box.classList.remove('hidden');
+    });
+
+    // Automatic nudge: only after a few real uses, once per session, then snoozed 30 days.
+    window.addEventListener('ynb:result', () => {
+      const uses = (parseInt(read(USES_KEY) || '0', 10) || 0) + 1;
+      write(USES_KEY, String(uses));
+      if (shownThisSession || uses < USES_BEFORE_PROMPT) return;
+      const dismissed = parseInt(read(DISMISS_KEY) || '0', 10) || 0;
+      if (dismissed && Date.now() - dismissed < SNOOZE_MS) return;
+      // Give the result popup a moment before sliding in.
+      setTimeout(() => { if (show()) shownThisSession = true; }, 2500);
+    });
+  }
+</script>

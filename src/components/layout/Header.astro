@@ -13,6 +13,7 @@
       <a href="/about/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
       <a href="/contact/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
       <a href="/blog/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Blog</a>
+      <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors bg-transparent border-0 p-0 cursor-pointer">Bookmark</button>
       <div class="relative" data-theme-dropdown>
         <button data-theme-toggle class="w-9 h-9 flex items-center justify-center rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" aria-label="Select theme">
           <svg data-theme-icon="light" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6B6965"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -68,6 +69,7 @@
       <a href="/about/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">About</a>
       <a href="/contact/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Contact</a>
       <a href="/blog/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Blog</a>
+      <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors text-left bg-transparent border-0 py-2 cursor-pointer">Add to Home Screen</button>
     </div>
   </div>
 </header>
@@ -169,6 +171,15 @@
   document.querySelectorAll('#mobile-menu a').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu?.classList.add('hidden');
+    });
+  });
+
+  document.querySelectorAll('[data-save-link]').forEach(btn => {
+    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    if (standalone) { btn.classList.add('hidden'); return; }
+    btn.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      window.dispatchEvent(new Event('ynb:install'));
     });
   });
 
