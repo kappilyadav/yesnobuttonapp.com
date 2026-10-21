@@ -4,6 +4,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
 import Breadcrumbs from '../components/content/Breadcrumbs.astro';
+import { otherLocales, localeMeta } from '../i18n/config';
+import { homePath } from '../i18n/utils';
 import { breadcrumbSchema, createWebPageSchema } from '../data/schemas';
 
 const posts = await getCollection('blog');
@@ -23,6 +25,7 @@ const groups = [
     { name: 'Kids Yes No Button', url: '/kids-yes-no-button/' },
     { name: 'Embed Widget', url: '/embed-yes-no-button/' },
   ] },
+  { title: 'Languages', links: otherLocales.map((l) => ({ name: localeMeta[l].label, url: homePath(l), lang: localeMeta[l].tag })) },
   { title: 'Use Cases', links: [
     { name: 'Yes No Button for Teachers', url: '/yes-no-button-for-teachers/' },
   ] },
@@ -57,7 +60,7 @@ const linkClass = 'text-ink dark:text-ink-dark underline hover:no-underline';
           <section>
             <h2 class="font-display text-xl text-ink dark:text-ink-dark mb-3">{g.title}</h2>
             <ul class="list-disc list-inside space-y-1">
-              {g.links.map((l) => <li><a href={l.url} class={linkClass}>{l.name}</a></li>)}
+              {g.links.map((l) => <li><a href={l.url} class={linkClass} lang={'lang' in l ? l.lang : undefined} hreflang={'lang' in l ? l.lang : undefined}>{l.name}</a></li>)}
             </ul>
           </section>
         ))}
