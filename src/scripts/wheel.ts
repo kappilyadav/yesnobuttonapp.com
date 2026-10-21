@@ -1,10 +1,14 @@
 import { addToHistory, clearHistory, initHistoryElements, renderHistory } from './tool';
+import { fmt, i18n, resultFromLabel, speak } from '../i18n/client';
 
 const CX = 200;
 const CY = 200;
 const R = 180;
 
-const DEFAULT_ENTRIES = ['Yes', 'No', 'Yes', 'No', 'Yes', 'No'];
+function defaultEntries(): string[] {
+  const { yes, no } = i18n().ui;
+  return [yes, no, yes, no, yes, no];
+}
 
 const SEGMENT_COLORS = [
   '#8B5CF6',
@@ -38,16 +42,6 @@ function getSegments(entries: string[]): { label: string; start: number; end: nu
   }));
 }
 
-function speakText(text: string) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1;
-    u.pitch = 1;
-    window.speechSynthesis.speak(u);
-  }
-}
-
 export function initWheel() {
   const rotator = document.getElementById('wheel-rotator') as SVGGElement | null;
   const segmentsEl = document.getElementById('wheel-segments') as SVGGElement | null;
@@ -73,7 +67,7 @@ export function initWheel() {
 
   initHistoryElements();
 
-  let entries: string[] = [...DEFAULT_ENTRIES];
+  let entries: string[] = defaultEntries();
   let spinning = false;
   let currentRotation = 0;
   let recentResultsList: string[] = [];
@@ -133,7 +127,7 @@ export function initWheel() {
     } else {
       const badge = document.createElement('span');
       badge.className = 'px-4 py-1.5 rounded-full text-xs font-medium bg-muted/20 text-muted dark:text-muted-dark';
-      badge.textContent = `${entries.length} options \u00b7 ${Math.round(100 / entries.length)}% each`;
+      badge.textContent = fmt(i18n().ui.optionsEach, { n: entries.length, p: Math.round(100 / entries.length) });
       resultPills.appendChild(badge);
     }
   }
@@ -163,7 +157,7 @@ export function initWheel() {
       const removeBtn = document.createElement('button');
       removeBtn.className = 'text-muted hover:text-ink dark:hover:text-ink-dark transition-colors p-0.5 cursor-pointer shrink-0';
       removeBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-      removeBtn.setAttribute('aria-label', `Remove ${entry}`);
+      removeBtn.setAttribute('aria-label', fmt(i18n().ui.remove, { x: entry }));
       removeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         removeEntry(i);
@@ -174,7 +168,7 @@ export function initWheel() {
       entryListEl.appendChild(row);
     });
     const c = entries.length;
-    entryCountEl.textContent = `${c} entr${c === 1 ? 'y' : 'ies'}`;
+    entryCountEl.textContent = fmt(c === 1 ? i18n().ui.entryOne : i18n().ui.entryMany, { n: c });
   }
 
   function addEntry(text: string) {
@@ -274,7 +268,7 @@ export function initWheel() {
       stopTicking();
       spinning = false;
       addRecentResult(result);
-      const normalized = result.toLowerCase();
+      const normalized = resultFromLabel(result);
       if (normalized === 'yes' || normalized === 'no') {
         addToHistory(normalized);
         renderHistory();
@@ -287,7 +281,7 @@ export function initWheel() {
   function showPopup(result: string, question?: string) {
     if (!popup || !popupAnswer) return;
     popupAnswer.textContent = result.toUpperCase();
-    popup.setAttribute('data-result', result.toLowerCase());
+    popup.setAttribute('data-result', resultFromLabel(result) ?? result.toLowerCase());
     popup.classList.remove('hidden');
     popup.classList.add('flex');
 
@@ -300,7 +294,7 @@ export function initWheel() {
       pressAgainBtn.onclick = () => { hidePopup(); spin(); };
     }
 
-    speakText(result);
+    speak(result);
     clearTimeout(popupTimer!);
 
     if (popupProgress) {

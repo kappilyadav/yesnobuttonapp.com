@@ -1,0 +1,44 @@
+---
+// Footer for translated pages. Legal/about pages exist in English only, so
+// their links are flagged with lang/hreflang="en".
+import LanguageLinks from './LanguageLinks.astro';
+import { getLocale, getUi, homePath } from '../../i18n/utils';
+
+const locale = getLocale(Astro);
+const t = getUi(locale);
+const linkClass = 'text-sm text-ink dark:text-ink-dark hover:text-muted dark:hover:text-muted-dark transition-colors no-underline';
+const info = [
+  { href: '/about/', label: t.about },
+  { href: '/contact/', label: t.contact },
+  { href: '/privacy-policy/', label: t.privacy },
+  { href: '/terms/', label: t.terms },
+  { href: '/disclaimer/', label: t.disclaimer },
+];
+---
+
+<footer class="bg-[#FAF5E8] dark:bg-[#1C1C1A] border-t border-border dark:border-border-dark">
+  <div class="container py-12 md:py-16">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto mb-8">
+      <div>
+        <h3 class="font-display text-sm uppercase tracking-wider text-muted dark:text-muted-dark mb-4">{t.footerTool}</h3>
+        <ul class="space-y-2 list-none p-0 m-0">
+          <li><a href={homePath(locale)} class={linkClass}>Yes No Button</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-display text-sm uppercase tracking-wider text-muted dark:text-muted-dark mb-4">{t.footerInfo}</h3>
+        <ul class="space-y-2 list-none p-0 m-0">
+          {info.map((i) => (
+            <li><a href={i.href} hreflang="en" lang="en" class={linkClass}>{i.label}</a></li>
+          ))}
+          <li><button type="button" data-cookie-settings class="text-sm text-ink dark:text-ink-dark hover:text-muted dark:hover:text-muted-dark transition-colors cursor-pointer bg-transparent border-0 p-0">{t.cookieSettings}</button></li>
+        </ul>
+      </div>
+    </div>
+    <LanguageLinks />
+    <div class="border-t border-border dark:border-border-dark pt-6 text-center max-w-5xl mx-auto">
+      <p class="text-sm text-muted dark:text-muted-dark">&copy; {new Date().getFullYear()} YesNoButton. {t.rights}</p>
+      <p class="text-xs text-muted dark:text-muted-dark mt-2">{t.tagline}</p>
+    </div>
+  </div>
+</footer>

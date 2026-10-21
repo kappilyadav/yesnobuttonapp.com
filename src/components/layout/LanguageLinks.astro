@@ -1,0 +1,26 @@
+---
+// Crawlable list of every language's homepage, used in footers.
+import { defaultLocale, localeMeta, otherLocales, type Locale } from '../../i18n/config';
+import { getLocale, getUi, homePath } from '../../i18n/utils';
+
+const locale = getLocale(Astro);
+const t = getUi(locale);
+const all: Locale[] = [defaultLocale, ...otherLocales];
+---
+
+<nav aria-label={t.footerLanguages} class="max-w-5xl mx-auto mb-8">
+  <h3 class="font-display text-sm uppercase tracking-wider text-muted dark:text-muted-dark mb-3">{t.footerLanguages}</h3>
+  <ul class="flex flex-wrap gap-x-5 gap-y-2 list-none p-0 m-0">
+    {all.map((l) => (
+      <li>
+        <a
+          href={homePath(l)}
+          hreflang={localeMeta[l].tag}
+          lang={localeMeta[l].tag}
+          class:list={['text-sm text-ink dark:text-ink-dark hover:text-muted dark:hover:text-muted-dark transition-colors no-underline', l === locale && 'font-semibold']}
+          aria-current={l === locale ? 'true' : undefined}
+        >{localeMeta[l].label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>

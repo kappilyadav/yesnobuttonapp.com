@@ -1,15 +1,18 @@
 ---
 // components/layout/CookieConsent.astro
+import { getLocale, getUi } from '../../i18n/utils';
+
+const t = getUi(getLocale(Astro));
 ---
 
-<div id="cookie-consent" role="dialog" aria-label="Cookie consent" class="fixed inset-x-0 bottom-0 z-[60] p-4">
+<div id="cookie-consent" role="dialog" aria-label={t.cookieAria} class="fixed inset-x-0 bottom-0 z-[60] p-4">
   <div class="mx-auto max-w-3xl flex flex-col sm:flex-row sm:items-center gap-4 p-4 md:p-5 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark shadow-lg">
     <p class="flex-1 text-sm text-muted dark:text-muted-dark leading-relaxed m-0">
-      We use cookies for analytics and to show ads. You can accept or reject them. See our <a href="/privacy-policy/" class="text-ink dark:text-ink-dark underline hover:no-underline">Privacy Policy</a>.
+      <Fragment set:html={t.cookieText} />
     </p>
     <div class="flex gap-2 shrink-0">
-      <button type="button" data-consent="denied" class="px-4 py-2 rounded-full border border-border dark:border-border-dark text-sm text-ink dark:text-ink-dark cursor-pointer bg-transparent hover:bg-black/5 dark:hover:bg-white/5">Reject</button>
-      <button type="button" data-consent="granted" class="px-4 py-2 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm cursor-pointer border-0">Accept</button>
+      <button type="button" data-consent="denied" class="px-4 py-2 rounded-full border border-border dark:border-border-dark text-sm text-ink dark:text-ink-dark cursor-pointer bg-transparent hover:bg-black/5 dark:hover:bg-white/5">{t.reject}</button>
+      <button type="button" data-consent="granted" class="px-4 py-2 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm cursor-pointer border-0">{t.accept}</button>
     </div>
   </div>
 </div>

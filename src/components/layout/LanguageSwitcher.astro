@@ -1,0 +1,47 @@
+---
+// components/layout/LanguageSwitcher.astro
+import { defaultLocale, localeMeta, otherLocales, type Locale } from '../../i18n/config';
+import { getLocale, getUi, homePath } from '../../i18n/utils';
+
+const locale = getLocale(Astro);
+const t = getUi(locale);
+const all: Locale[] = [defaultLocale, ...otherLocales];
+---
+
+<details class="relative" data-lang-switcher>
+  <summary
+    class="h-9 px-2.5 flex items-center gap-1.5 rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors list-none text-sm text-muted dark:text-muted-dark"
+    aria-label={t.language}
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    <span class="uppercase">{localeMeta[locale].tag.split('-')[0]}</span>
+  </summary>
+  <ul class="absolute right-0 top-full mt-2 w-48 rounded-lg border border-border dark:border-border-dark bg-canvas dark:bg-canvas-dark shadow-lg py-1 z-50 list-none m-0 p-1">
+    {all.map((l) => (
+      <li>
+        <a
+          href={homePath(l)}
+          hreflang={localeMeta[l].tag}
+          lang={localeMeta[l].tag}
+          class:list={['block px-3 py-2 text-sm text-ink dark:text-ink-dark no-underline rounded hover:bg-border/30 dark:hover:bg-border-dark/30', l === locale && 'font-semibold']}
+          aria-current={l === locale ? 'true' : undefined}
+        >
+          {localeMeta[l].label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</details>
+
+<style>
+  summary::-webkit-details-marker { display: none; }
+</style>
+
+<script>
+  // Close the menu when clicking elsewhere.
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll<HTMLDetailsElement>('[data-lang-switcher][open]').forEach((d) => {
+      if (!d.contains(e.target as Node)) d.open = false;
+    });
+  });
+</script>

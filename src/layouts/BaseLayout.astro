@@ -7,6 +7,8 @@ import '@fontsource/inter/500.css';
 import '@fontsource/jetbrains-mono/400.css';
 import '../styles/global.css';
 import { organizationSchema, websiteSchema, founderSchema } from '../data/schemas';
+import { localeMeta } from '../i18n/config';
+import { getLocale, getUi } from '../i18n/utils';
 import syneWoff2 from '@fontsource/syne/files/syne-latin-700-normal.woff2?url';
 import interWoff2 from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
 
@@ -17,6 +19,8 @@ export interface Props {
   ogImage?: string;
   robots?: string;
   schema?: object[];
+  /** hreflang alternates for this page (include x-default). */
+  alternates?: { hreflang: string; href: string }[];
 }
 
   const {
@@ -26,7 +30,12 @@ export interface Props {
     ogImage = '/og-image.webp',
     robots = 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
     schema = [],
+    alternates = [],
   } = Astro.props;
+  const locale = getLocale(Astro);
+  const meta = localeMeta[locale];
+  // Translated pages ship their dictionary so client scripts (speech, history, wheel) can localize.
+  const i18nJson = locale === 'en' ? '' : JSON.stringify({ tag: meta.tag, ui: getUi(locale) }).replace(/</g, '\\u003c');
   // Person is always included so Organization.founder and Article.author resolve on every page.
 const allSchema = [
   organizationSchema,
@@ -36,13 +45,14 @@ const allSchema = [
 ];
 ---
 
-<html lang="en">
+<html lang={meta.tag}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
     <meta name="robots" content={robots} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
@@ -51,6 +61,7 @@ const allSchema = [
     <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={meta.og} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -82,6 +93,7 @@ const allSchema = [
     <link rel="preload" href={syneWoff2} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={interWoff2} as="font" type="font/woff2" crossorigin />
     <slot name="head" />
+    {i18nJson && <script type="application/json" id="ynb-i18n" set:html={i18nJson} />}
 
     <script is:inline>
       window.dataLayer = window.dataLayer || [];

@@ -1,21 +1,30 @@
 ---
 // components/layout/Header.astro
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getLocale, getUi, homePath } from '../../i18n/utils';
+
+const locale = getLocale(Astro);
+const t = getUi(locale);
+const isEn = locale === 'en';
 ---
 
 <header id="site-header" class="sticky top-0 z-50 transition-[background,backdrop-filter,box-shadow,border-bottom] duration-300 h-14 flex items-center" data-header>
   <div class="flex items-center justify-between w-full px-6" style="padding-left: max(24px, calc((100vw - 1280px) / 2)); padding-right: max(24px, calc((100vw - 1280px) / 2));">
-    <a href="/" class="font-display text-lg tracking-tight text-ink dark:text-ink-dark no-underline shrink-0 flex items-center gap-2">
-      <img src="/favicon.svg" alt="Yes No Button logo" width="22" height="22" class="rounded shrink-0" style="display:block" />
+    <a href={homePath(locale)} class="font-display text-lg tracking-tight text-ink dark:text-ink-dark no-underline shrink-0 flex items-center gap-2">
+      <img src="/favicon.svg" alt={t.logoAlt} width="22" height="22" class="rounded shrink-0" style="display:block" />
       YesNoButton
     </a>
     <nav class="hidden md:flex items-center gap-6" aria-label="Main navigation">
+      {isEn && (<>
       <a href="/yes-no-wheel/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Yes No Wheel</a>
       <a href="/about/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
       <a href="/contact/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
       <a href="/blog/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Blog</a>
-      <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors bg-transparent border-0 p-0 cursor-pointer">Bookmark</button>
+      </>)}
+      <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors bg-transparent border-0 p-0 cursor-pointer">{t.navBookmark}</button>
+      <LanguageSwitcher />
       <div class="relative" data-theme-dropdown>
-        <button data-theme-toggle class="w-9 h-9 flex items-center justify-center rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" aria-label="Select theme">
+        <button data-theme-toggle class="w-9 h-9 flex items-center justify-center rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" aria-label={t.themeLabel}>
           <svg data-theme-icon="light" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6B6965"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg data-theme-icon="dark" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6B6965"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg data-theme-icon="system" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6B6965"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -23,22 +32,23 @@
         <div data-theme-menu class="absolute right-0 top-full mt-2 w-36 rounded-lg border border-border dark:border-border-dark bg-canvas dark:bg-canvas-dark shadow-lg py-1 hidden z-50" role="menu">
           <button data-theme-option="light" class="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-ink dark:text-ink-dark hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            Light
+            {t.light}
           </button>
           <button data-theme-option="dark" class="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-ink dark:text-ink-dark hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            Dark
+            {t.dark}
           </button>
           <button data-theme-option="system" class="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-ink dark:text-ink-dark hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            System
+            {t.system}
           </button>
         </div>
       </div>
     </nav>
     <div class="flex md:hidden items-center gap-2">
+      <LanguageSwitcher />
       <div class="relative" data-theme-dropdown>
-        <button data-theme-toggle class="w-9 h-9 flex items-center justify-center rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" aria-label="Select theme">
+        <button data-theme-toggle class="w-9 h-9 flex items-center justify-center rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" aria-label={t.themeLabel}>
           <svg data-theme-icon="light" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6B6965"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
           <svg data-theme-icon="dark" class="hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6B6965"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg data-theme-icon="system" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#6B6965"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -46,30 +56,32 @@
         <div data-theme-menu class="absolute right-0 top-full mt-2 w-36 rounded-lg border border-border dark:border-border-dark bg-canvas dark:bg-canvas-dark shadow-lg py-1 hidden z-50" role="menu">
           <button data-theme-option="light" class="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-ink dark:text-ink-dark hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            Light
+            {t.light}
           </button>
           <button data-theme-option="dark" class="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-ink dark:text-ink-dark hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            Dark
+            {t.dark}
           </button>
           <button data-theme-option="system" class="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-ink dark:text-ink-dark hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" role="menuitem">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            System
+            {t.system}
           </button>
         </div>
       </div>
-      <button id="hamburger-btn" class="w-9 h-9 flex items-center justify-center rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" aria-label="Open menu">
+      <button id="hamburger-btn" class="w-9 h-9 flex items-center justify-center rounded-lg border border-border dark:border-border-dark bg-transparent cursor-pointer hover:bg-border/30 dark:hover:bg-border-dark/30 transition-colors" aria-label={t.openMenu}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B6965" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
     </div>
   </div>
   <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-canvas dark:bg-canvas-dark border-b border-border dark:border-border-dark shadow-lg">
     <div class="flex flex-col px-6 py-4 gap-3">
+      {isEn && (<>
       <a href="/yes-no-wheel/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Yes No Wheel</a>
       <a href="/about/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">About</a>
       <a href="/contact/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Contact</a>
       <a href="/blog/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Blog</a>
-      <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors text-left bg-transparent border-0 py-2 cursor-pointer">Add to Home Screen</button>
+      </>)}
+      <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors text-left bg-transparent border-0 py-2 cursor-pointer">{t.navAddHome}</button>
     </div>
   </div>
 </header>

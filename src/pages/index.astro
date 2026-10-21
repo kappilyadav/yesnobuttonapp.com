@@ -10,6 +10,7 @@ import EmbedWidget from '../components/tool/EmbedWidget.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
+import { homeAlternates } from '../i18n/utils';
 
 const homeBreadcrumb = breadcrumbSchema([
   { name: 'Home', url: '/' },
@@ -38,6 +39,7 @@ const faqItems = [
   title="Yes No Button: Free Yes or No Button Online"
   description="Use the free yes or no button online. Press for an instant, truly random 50/50 answer with a spoken result. No sign-up. Try the yes no button now."
   canonical="https://yesnobuttonapp.com/"
+  alternates={homeAlternates()}
   schema={[webAppSchema, createFaqSchema(faqItems), homeBreadcrumb]}
 >
   <Fragment slot="head">

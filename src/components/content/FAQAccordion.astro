@@ -11,9 +11,13 @@ export interface Props {
    * the rest are revealed by a "Show all" button. Omit to show everything
    * (existing behavior on pages that don't pass this). */
   collapseAfter?: number;
+  /** Label for the show-all button; {n} is replaced with the item count. */
+  showAllLabel?: string;
+  /** Hide the category heading (used by translated pages, which have one group). */
+  hideCategoryLabels?: boolean;
 }
 
-const { items, collapseAfter } = Astro.props;
+const { items, collapseAfter, showAllLabel = 'Show all {n} questions', hideCategoryLabels = false } = Astro.props;
 
 const categoryLabels: Record<string, string> = {
   general: 'General',
@@ -53,9 +57,9 @@ const groupsWithIndices = orderedGroups.map((group) => ({
 <div class="faq-accordion">
   {groupsWithIndices.map((group) => (
     <div class="mb-8">
-      <h3 class="text-xs font-medium text-[#6B6965] dark:text-muted-dark uppercase tracking-[0.08em] mb-3">
+      {!hideCategoryLabels && <h3 class="text-xs font-medium text-[#6B6965] dark:text-muted-dark uppercase tracking-[0.08em] mb-3">
         {group.label}
-      </h3>
+      </h3>}
       <div class="space-y-2">
         {group.items.map(({ item, idx }) => (
           <details class={`group bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-xl overflow-hidden transition-all duration-150 ${hasCollapse && idx >= collapseAfter! ? 'faq-extra hidden' : ''}`}>
@@ -79,7 +83,7 @@ const groupsWithIndices = orderedGroups.map((group) => ({
         id="faq-show-all"
         class="px-6 py-3 rounded-full border border-[#E4E2DC] dark:border-border-dark text-sm font-medium text-[#1A1A18] dark:text-ink-dark hover:bg-[#FAFAF8] dark:hover:bg-[#222220] transition-colors cursor-pointer"
       >
-        Show all {items.length} questions
+        {showAllLabel.replace('{n}', String(items.length))}
       </button>
     </div>
   )}

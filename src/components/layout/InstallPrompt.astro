@@ -2,26 +2,31 @@
 // components/layout/InstallPrompt.astro
 // Registers the service worker and shows a small "keep this handy" bar:
 // install on Android/desktop Chrome, Share-sheet hint on iOS, Ctrl/Cmd+D hint elsewhere.
+import { getLocale, getUi } from '../../i18n/utils';
+
+const t = getUi(getLocale(Astro));
 ---
 
-<div id="install-prompt" role="dialog" aria-label="Save Yes No Button" class="hidden fixed inset-x-0 bottom-0 z-[55] p-4 pointer-events-none">
+<div id="install-prompt" role="dialog" aria-label={t.ipAria} class="hidden fixed inset-x-0 bottom-0 z-[55] p-4 pointer-events-none">
   <div class="pointer-events-auto mx-auto max-w-md flex items-start gap-3 p-4 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark shadow-lg">
     <img src="/favicon.svg" alt="" width="36" height="36" class="rounded-lg shrink-0 mt-0.5" />
     <div class="flex-1 min-w-0">
       <p data-ip-title class="text-sm font-medium text-ink dark:text-ink-dark m-0"></p>
       <p data-ip-text class="text-sm text-muted dark:text-muted-dark leading-relaxed mt-1 mb-0"></p>
       <div class="flex gap-2 mt-3">
-        <button type="button" data-ip-install class="hidden px-4 py-2 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm cursor-pointer border-0">Install</button>
-        <button type="button" data-ip-close class="px-4 py-2 rounded-full border border-border dark:border-border-dark text-sm text-ink dark:text-ink-dark cursor-pointer bg-transparent hover:bg-black/5 dark:hover:bg-white/5">Not now</button>
+        <button type="button" data-ip-install class="hidden px-4 py-2 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm cursor-pointer border-0">{t.ipInstall}</button>
+        <button type="button" data-ip-close class="px-4 py-2 rounded-full border border-border dark:border-border-dark text-sm text-ink dark:text-ink-dark cursor-pointer bg-transparent hover:bg-black/5 dark:hover:bg-white/5">{t.ipNotNow}</button>
       </div>
     </div>
-    <button type="button" data-ip-close aria-label="Close" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-full border-0 bg-transparent text-muted dark:text-muted-dark cursor-pointer hover:bg-black/5 dark:hover:bg-white/5">
+    <button type="button" data-ip-close aria-label={t.ipClose} class="shrink-0 w-7 h-7 flex items-center justify-center rounded-full border-0 bg-transparent text-muted dark:text-muted-dark cursor-pointer hover:bg-black/5 dark:hover:bg-white/5">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
     </button>
   </div>
 </div>
 
 <script>
+  import { fmt, i18n } from '../../i18n/client';
+
   const DISMISS_KEY = 'ynb_install_dismissed';
   const USES_KEY = 'ynb_uses';
   const USES_BEFORE_PROMPT = 3;
@@ -49,6 +54,7 @@
   if (box && !standalone) init(box);
 
   function init(box: HTMLElement) {
+    const ui = i18n().ui;
     const titleEl = box.querySelector<HTMLElement>('[data-ip-title]')!;
     const textEl = box.querySelector<HTMLElement>('[data-ip-text]')!;
     const installBtn = box.querySelector<HTMLButtonElement>('[data-ip-install]')!;
@@ -75,18 +81,18 @@
     function render() {
       installBtn.classList.add('hidden');
       if (deferred) {
-        titleEl.textContent = isMobile ? 'Add Yes/No to your home screen' : 'Install Yes/No';
-        textEl.textContent = 'Open it in one tap, no need to remember the web address.';
+        titleEl.textContent = isMobile ? ui.ipHomeTitle : ui.ipInstallTitle;
+        textEl.textContent = ui.ipDeferredText;
         installBtn.classList.remove('hidden');
       } else if (isIOS) {
-        titleEl.textContent = 'Add Yes/No to your home screen';
-        textEl.textContent = 'Tap the Share button in Safari, then choose “Add to Home Screen”.';
+        titleEl.textContent = ui.ipHomeTitle;
+        textEl.textContent = ui.ipIosText;
       } else if (isMobile) {
-        titleEl.textContent = 'Add Yes/No to your home screen';
-        textEl.textContent = 'Open your browser menu and choose “Add to Home screen”.';
+        titleEl.textContent = ui.ipHomeTitle;
+        textEl.textContent = ui.ipAndroidText;
       } else {
-        titleEl.textContent = 'Bookmark this page';
-        textEl.textContent = 'Press ' + (isMac ? '⌘ + D' : 'Ctrl + D') + ' to keep the Yes No Button one click away.';
+        titleEl.textContent = ui.ipBookmarkTitle;
+        textEl.textContent = fmt(ui.ipBookmarkText, { key: isMac ? '⌘ + D' : 'Ctrl + D' });
       }
     }
 

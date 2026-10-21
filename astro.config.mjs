@@ -21,8 +21,19 @@ function rehypeExternalLinks() {
 export default defineConfig({
   site: 'https://yesnobuttonapp.com',
   output: 'static',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es', 'de', 'pt-br', 'it', 'nl'],
+    routing: { prefixDefaultLocale: false },
+  },
   integrations: [
-    sitemap({ filter: (page) => !page.endsWith('/embed/') }),
+    sitemap({
+      filter: (page) => !page.endsWith('/embed/'),
+      i18n: {
+        defaultLocale: 'en',
+        locales: { en: 'en', es: 'es', de: 'de', 'pt-br': 'pt-BR', it: 'it', nl: 'nl' },
+      },
+    }),
     mdx(),
   ],
   markdown: {

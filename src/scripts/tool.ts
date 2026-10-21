@@ -1,5 +1,6 @@
 // scripts/tool.ts
 import { Events } from './analytics';
+import { i18n, resultLabel, speak } from '../i18n/client';
 
 export type Result = 'yes' | 'no' | 'maybe';
 type Mode = 'binary' | 'three-way';
@@ -106,15 +107,15 @@ export function renderHistory() {
         break;
     }
     pill.className = classes;
-    pill.textContent = entry.result.toUpperCase();
+    pill.textContent = resultLabel(entry.result).toUpperCase();
     _historyContainer.appendChild(pill);
   });
 
   const parts: string[] = [];
-  if (counts.yes > 0) parts.push(`Yes: ${counts.yes}`);
-  if (counts.no > 0) parts.push(`No: ${counts.no}`);
-  if (counts.maybe > 0) parts.push(`Maybe: ${counts.maybe}`);
-  _historyCounts.textContent = parts.length > 0 ? parts.join(' · ') : 'No results yet';
+  if (counts.yes > 0) parts.push(`${resultLabel('yes')}: ${counts.yes}`);
+  if (counts.no > 0) parts.push(`${resultLabel('no')}: ${counts.no}`);
+  if (counts.maybe > 0) parts.push(`${resultLabel('maybe')}: ${counts.maybe}`);
+  _historyCounts.textContent = parts.length > 0 ? parts.join(' · ') : i18n().ui.noResults;
 }
 
 function initModeToggle() {
@@ -139,14 +140,8 @@ export function getResult(): Result {
   return Math.random() < 0.5 ? 'no' : 'yes';
 }
 
-function speakResult(text: string) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-    window.speechSynthesis.speak(utterance);
-  }
+function speakResult(result: Result) {
+  speak(resultLabel(result));
 }
 
 function updateSpeechIndicator() {
@@ -229,7 +224,7 @@ export function showResultPopup(result: Result, question?: string) {
   const popupProgress = document.getElementById('popup-progress') as HTMLElement | null;
   const pressAgainBtn = document.getElementById('press-again-btn') as HTMLButtonElement | null;
 
-  popupAnswer.textContent = result.toUpperCase();
+  popupAnswer.textContent = resultLabel(result).toUpperCase();
   popup.setAttribute('data-result', result);
   popup.classList.remove('hidden');
   popup.classList.add('flex');

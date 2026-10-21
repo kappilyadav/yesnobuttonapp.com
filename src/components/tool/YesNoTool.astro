@@ -1,6 +1,7 @@
 ---
 // YesNoTool.astro
 import WheelSpinner from '../tool/WheelSpinner.astro';
+import { getLocale, getUi } from '../../i18n/utils';
 
 export interface Props {
   theme?: string;
@@ -9,6 +10,7 @@ export interface Props {
 }
 
 const { theme, showWheel, toyStyle } = Astro.props;
+const t = getUi(getLocale(Astro));
 const buttonLabel = theme === 'oracle' ? 'Consult the Oracle' : 'Press to Decide';
 const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
 ---
@@ -35,13 +37,13 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
       <div class="toy-stage" aria-hidden="false">
         <div class="toy-shadow" aria-hidden="true"></div>
 
-        <span class="toy-callout toy-callout-yes text-[#16A34A] dark:text-[#4ADE80]" id="toy-callout-yes" aria-hidden="true">yes!</span>
-        <span class="toy-callout toy-callout-no text-[#DC2626] dark:text-[#F87171]" id="toy-callout-no" aria-hidden="true">no!</span>
-        <span class="toy-callout toy-callout-maybe text-[#7C3AED] dark:text-[#A78BFA]" id="toy-callout-maybe" aria-hidden="true">maybe!</span>
+        <span class="toy-callout toy-callout-yes text-[#16A34A] dark:text-[#4ADE80]" id="toy-callout-yes" aria-hidden="true">{t.calloutYes}</span>
+        <span class="toy-callout toy-callout-no text-[#DC2626] dark:text-[#F87171]" id="toy-callout-no" aria-hidden="true">{t.calloutNo}</span>
+        <span class="toy-callout toy-callout-maybe text-[#7C3AED] dark:text-[#A78BFA]" id="toy-callout-maybe" aria-hidden="true">{t.calloutMaybe}</span>
 
         <span class="toy-hint text-[#7C3AED] dark:text-[#A78BFA]" id="toy-hint" aria-hidden="true">
           <svg class="toy-hint-arrow" width="84" height="48" viewBox="0 0 84 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M78 8C58 2 30 10 10 34"/><path d="M28 36L9 37L11 17"/></svg>
-          <span class="toy-hint-text">tap<span class="toy-hint-extra"> me</span>!</span>
+          <span class="toy-hint-text">{t.hintMain}<span class="toy-hint-extra">{t.hintExtra}</span>!</span>
         </span>
 
         <div class="toy-fob" id="toy-fob" aria-hidden="false">
@@ -51,25 +53,25 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
             id="toy-yes-btn"
             type="button"
             class="toy-btn-socket toy-btn-socket-yes"
-            aria-label="Press for Yes"
+            aria-label={t.pressYes}
           >
-            <span class="toy-btn toy-btn-yes">Y</span>
+            <span class="toy-btn toy-btn-yes">{t.keyYes}</span>
           </button>
           <button
             id="toy-no-btn"
             type="button"
             class="toy-btn-socket toy-btn-socket-no"
-            aria-label="Press for No"
+            aria-label={t.pressNo}
           >
-            <span class="toy-btn toy-btn-no">N</span>
+            <span class="toy-btn toy-btn-no">{t.keyNo}</span>
           </button>
           <button
             id="toy-maybe-btn"
             type="button"
             class="toy-btn-socket toy-btn-socket-maybe"
-            aria-label="Press for Maybe"
+            aria-label={t.pressMaybe}
           >
-            <span class="toy-btn toy-btn-maybe">M</span>
+            <span class="toy-btn toy-btn-maybe">{t.keyMaybe}</span>
           </button>
         </div>
       </div>
@@ -78,9 +80,9 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
         id="toy-random-btn"
         type="button"
         class="toy-random-btn mt-5 max-sm:mt-4 sm:mt-0 sm:absolute sm:top-0 sm:right-0"
-        aria-label="Pick Random: randomly press Yes or No for you"
+        aria-label={t.pickRandomAria}
       >
-        Pick Random
+        {t.pickRandom}
       </button>
     </div>
   ) : (
@@ -90,7 +92,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
         id="mode-toggle"
         class="flex items-center gap-1 p-1 rounded-xl bg-[#F4F2EC] dark:bg-[#2A2A28] w-fit mx-auto"
         role="radiogroup"
-        aria-label="Select answer mode"
+        aria-label={t.modeLabel}
       >
         <button
           data-ynb-mode="binary"
@@ -98,7 +100,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
           role="radio"
           aria-checked="true"
         >
-          Yes / No
+          {t.modeBinary}
         </button>
         <button
           data-ynb-mode="three-way"
@@ -106,7 +108,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
           role="radio"
           aria-checked="false"
         >
-          Yes / No / Maybe
+          {t.modeThree}
         </button>
       </div>
 
@@ -114,9 +116,9 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
       <input
         id="question-input"
         type="text"
-        placeholder="Type your question here (optional)"
+        placeholder={t.questionPlaceholder}
         class="w-full px-5 py-3.5 rounded-xl border border-border dark:border-border-dark bg-card dark:bg-card-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-ink/10 dark:focus:ring-ink-dark/10 transition-all"
-        aria-label="Type your question"
+        aria-label={t.questionAria}
       />
 
       <!-- Press to Decide Button -->
@@ -137,6 +139,7 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
   <script>
     import { getResult, recordResult, showResultPopup, type Result } from '../../scripts/tool';
     import { Events } from '../../scripts/analytics';
+    import { resultLabel, speak } from '../../i18n/client';
 
     function initToyButtons() {
       const yesBtn = document.getElementById('toy-yes-btn');
@@ -175,16 +178,6 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
         if (maybeCallout) maybeCallout.style.display = on ? 'inline' : 'none';
       }
 
-      function speak(text: string) {
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(text);
-          utterance.rate = 1.0;
-          utterance.pitch = 1.0;
-          window.speechSynthesis.speak(utterance);
-        }
-      }
-
       function pop(el: HTMLElement | null) {
         if (!el) return;
         el.classList.remove('is-popped');
@@ -192,22 +185,22 @@ const yesBadgeClass = theme === 'oracle' ? 'bg-[#D97706]' : 'bg-[#16A34A]';
         el.classList.add('is-popped');
       }
 
-      function press(button: HTMLElement, callout: HTMLElement | null, word: string) {
+      function press(button: HTMLElement, callout: HTMLElement | null, key: Result) {
         dismissHint();
         button.classList.add('is-pressed');
         window.setTimeout(() => button.classList.remove('is-pressed'), 260);
         pop(callout);
-        speak(word);
+        speak(resultLabel(key));
         // Manual presses stay lightweight (no fullscreen popup) but are
         // still recorded, so this interaction shows up in history + analytics.
-        recordResult(word.toLowerCase() as Result);
+        recordResult(key);
         Events.buttonPressed();
       }
 
-      yesBtn.addEventListener('click', () => press(yesBtn, yesCallout, 'Yes'));
-      noBtn.addEventListener('click', () => press(noBtn, noCallout, 'No'));
+      yesBtn.addEventListener('click', () => press(yesBtn, yesCallout, 'yes'));
+      noBtn.addEventListener('click', () => press(noBtn, noCallout, 'no'));
       if (maybeBtn) {
-        maybeBtn.addEventListener('click', () => press(maybeBtn, maybeCallout, 'Maybe'));
+        maybeBtn.addEventListener('click', () => press(maybeBtn, maybeCallout, 'maybe'));
       }
 
       randomBtn?.addEventListener('click', () => {

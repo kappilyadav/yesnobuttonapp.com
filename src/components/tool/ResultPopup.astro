@@ -6,7 +6,10 @@ export interface Props {
   resultAnimation?: string;
 }
 
+import { getLocale, getUi } from '../../i18n/utils';
+
 const { theme, resultAnimation = 'animate-bounce-word' } = Astro.props;
+const t = getUi(getLocale(Astro));
 ---
 
 <div
@@ -33,7 +36,7 @@ const { theme, resultAnimation = 'animate-bounce-word' } = Astro.props;
     ></p>
 
     <!-- Subtext -->
-    <p class="text-white/80 text-sm mb-8">Click anywhere to try again</p>
+    <p class="text-white/80 text-sm mb-8">{t.clickAnywhere}</p>
 
     <!-- Buttons -->
     <div class="flex items-center justify-center">
@@ -41,7 +44,7 @@ const { theme, resultAnimation = 'animate-bounce-word' } = Astro.props;
         id="press-again-btn"
         class="px-6 py-2.5 rounded-full border-2 border-white/80 text-white text-sm font-medium hover:bg-white/10 transition-colors cursor-pointer focus:outline-hidden"
       >
-        Try Again
+        {t.tryAgain}
       </button>
     </div>
 

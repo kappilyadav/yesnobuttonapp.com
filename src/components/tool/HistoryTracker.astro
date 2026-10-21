@@ -1,10 +1,13 @@
 ---
 // HistoryTracker.astro
+import { getLocale, getUi } from '../../i18n/utils';
+
+const t = getUi(getLocale(Astro));
 ---
 
 <div id="history-tracker" class="w-full max-w-lg mx-auto mt-6">
   <div class="flex items-center justify-between mb-3">
-    <p class="text-xs font-medium text-muted dark:text-muted-dark uppercase tracking-wider">History</p>
+    <p class="text-xs font-medium text-muted dark:text-muted-dark uppercase tracking-wider">{t.history}</p>
   </div>
   <div id="history-pills" class="flex flex-wrap gap-1.5 min-h-[32px]"></div>
   <div class="flex items-center justify-between mt-2">
@@ -13,7 +16,7 @@
       id="clear-history"
       class="text-xs text-[#6B6965] dark:text-muted-dark underline hover:text-ink dark:hover:text-ink-dark transition-colors cursor-pointer"
     >
-      Clear history
+      {t.clearHistory}
     </button>
   </div>
 </div>

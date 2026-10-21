@@ -1,0 +1,217 @@
+---
+// Localized homepage (es, de, pt-br, it, nl). One landing page per language,
+// with the hero tool chosen to match the language's primary keyword.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/layout/Header.astro';
+import FooterLocalized from '../../components/layout/FooterLocalized.astro';
+import YesNoTool from '../../components/tool/YesNoTool.astro';
+import WheelSpinner from '../../components/tool/WheelSpinner.astro';
+import WheelControls from '../../components/tool/WheelControls.astro';
+import ResultPopup from '../../components/tool/ResultPopup.astro';
+import HistoryTracker from '../../components/tool/HistoryTracker.astro';
+import FAQAccordion from '../../components/content/FAQAccordion.astro';
+import { otherLocales, localeMeta, SITE } from '../../i18n/config';
+import { getHome, getLocale, getUi, homeAlternates, homePath } from '../../i18n/utils';
+import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../../data/schemas';
+
+export function getStaticPaths() {
+  return otherLocales.map((locale) => ({ params: { locale } }));
+}
+
+const locale = getLocale(Astro) as (typeof otherLocales)[number];
+const t = getUi(locale);
+const c = getHome(locale);
+const meta = localeMeta[locale];
+const url = SITE + homePath(locale);
+const useWheel = meta.hero === 'wheel';
+
+const schema = [
+  {
+    ...webAppSchema,
+    '@id': `${url}#webapp`,
+    name: c.h1,
+    url,
+    description: c.seo.description,
+    inLanguage: meta.tag,
+    featureList: c.schemaFeatures,
+  },
+  createFaqSchema(c.faq.items),
+  breadcrumbSchema([{ name: c.breadcrumb, url: homePath(locale) }]),
+];
+---
+
+<BaseLayout
+  title={c.seo.title}
+  description={c.seo.description}
+  canonical={url}
+  alternates={homeAlternates()}
+  schema={schema}
+>
+  <Fragment slot="head">
+    {!useWheel && (
+      <>
+        <link rel="preload" href="/fonts/baloo-2-700-sub.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/baloo-2-800-sub.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/caveat-700-sub.woff2" as="font" type="font/woff2" crossorigin />
+        <style is:inline>
+          @font-face { font-family: 'Baloo 2'; font-style: normal; font-display: swap; font-weight: 700; src: url('/fonts/baloo-2-700-sub.woff2') format('woff2'); }
+          @font-face { font-family: 'Baloo 2'; font-style: normal; font-display: swap; font-weight: 800; src: url('/fonts/baloo-2-800-sub.woff2') format('woff2'); }
+          @font-face { font-family: 'Caveat'; font-style: normal; font-display: swap; font-weight: 700; src: url('/fonts/caveat-700-sub.woff2') format('woff2'); }
+        </style>
+      </>
+    )}
+  </Fragment>
+
+  <Fragment slot="header"><Header /></Fragment>
+
+  {useWheel ? (
+    <!-- Hero: wheel (matches "ruleta / roleta / ruota" keywords) -->
+    <section id="tool-top" class="bg-canvas dark:bg-canvas-dark py-[60px] max-sm:py-[40px]">
+      <div class="container">
+        <div class="text-center mb-10 max-sm:mb-6">
+          <h1 class="font-display text-4xl md:text-5xl font-bold text-ink dark:text-ink-dark leading-tight mb-3">{c.h1}</h1>
+          <p class="text-muted dark:text-muted-dark leading-relaxed max-w-xl mx-auto">{c.subtitle}</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-8 max-sm:gap-6 items-start max-w-4xl mx-auto">
+          <div class="flex flex-col items-center gap-5 lg:order-2"><WheelSpinner /></div>
+          <div class="lg:order-1"><WheelControls /></div>
+        </div>
+        <div class="max-w-2xl mx-auto mt-10 max-sm:mt-6">
+          <input
+            id="question-input"
+            type="text"
+            placeholder={t.questionPlaceholder}
+            aria-label={t.questionAria}
+            class="w-full px-6 py-4 rounded-2xl border border-border dark:border-border-dark bg-card dark:bg-card-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-[#8B5CF6]/20 dark:focus:ring-[#A78BFA]/20 transition-all"
+          />
+        </div>
+        <div class="max-w-lg mx-auto mt-6"><HistoryTracker /></div>
+        <ResultPopup />
+      </div>
+    </section>
+  ) : (
+    <>
+      <!-- Hero: toy button (matches "generator" keywords) -->
+      <section id="tool-top" class="pt-[80px] pb-[16px] max-sm:py-[48px] hero-gradient relative overflow-hidden">
+        <div aria-hidden="true" class="hero-glow absolute inset-0 pointer-events-none select-none">
+          <div class="animate-hero-glow absolute top-1/2 left-1/2 w-[700px] h-[700px] max-sm:w-[400px] max-sm:h-[400px] rounded-full bg-gradient-to-br from-[#16A34A]/8 via-[#7C3AED]/5 to-transparent dark:from-[#22C55E]/10 dark:via-[#A78BFA]/8 dark:to-transparent blur-3xl"></div>
+        </div>
+        <div class="container text-center relative z-10"><YesNoTool toyStyle /></div>
+      </section>
+      <section class="pt-[2px] pb-[80px] max-sm:pt-[32px] max-sm:pb-[48px] bg-[#F0FDF4] dark:bg-[#1A0A2E] relative overflow-hidden">
+        <div class="container text-center relative z-10">
+          <div id="mode-toggle" class="flex items-center gap-1 p-1 rounded-xl bg-[#F4F2EC] dark:bg-[#2A2A28] w-fit mx-auto mb-6" role="radiogroup" aria-label={t.modeLabel}>
+            <button data-ynb-mode="binary" class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-muted-dark" role="radio" aria-checked="true">{t.modeBinary}</button>
+            <button data-ynb-mode="three-way" class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer text-[#6B6965] dark:text-muted-dark" role="radio" aria-checked="false">{t.modeThree}</button>
+          </div>
+          <h1 class="font-display text-4xl md:text-6xl tracking-tight text-ink dark:text-ink-dark mb-3">{c.h1}</h1>
+          <p class="text-muted dark:text-muted-dark text-base md:text-lg mb-2 max-w-xl mx-auto">{c.subtitle}</p>
+          <ResultPopup />
+          <HistoryTracker />
+        </div>
+      </section>
+    </>
+  )}
+
+  <!-- What is it -->
+  <section class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">{c.what.eyebrow}</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">{c.what.heading}</h2>
+      <div class="text-muted dark:text-muted-dark space-y-4 leading-relaxed mt-6">
+        {c.what.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <div class="mt-6">
+        <a href="#tool-top" class="inline-block px-6 py-3 rounded-full bg-btn-bg dark:bg-btn-bg-dark text-btn-text dark:text-btn-text-dark text-sm font-medium hover:bg-[#27272A] dark:hover:bg-[#D4D2CC] transition-colors no-underline cursor-pointer">{c.what.cta}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to use -->
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">{c.how.eyebrow}</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">{c.how.heading}</h2>
+      <p class="text-muted dark:text-muted-dark leading-relaxed mt-4 mb-8">{c.how.intro}</p>
+      <ol class="grid grid-cols-1 md:grid-cols-3 gap-6 list-none p-0 m-0">
+        {c.how.steps.map((s, i) => (
+          <li class="bg-white dark:bg-card-dark border border-[#E4E2DC] dark:border-border-dark rounded-2xl p-5">
+            <p class="font-medium text-[15px] text-[#1A1A18] dark:text-ink-dark"><span class="text-[#16A34A]">{i + 1}.</span> {s.title}</p>
+            <p class="text-[14px] text-[#6B6965] dark:text-muted-dark leading-relaxed mt-1.5">{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="mt-6 bg-[#F0FDF4] dark:bg-[#0A2E1A] border-l-3 border-[#16A34A] rounded-r-lg p-[14px_16px] text-sm text-[#15803D] dark:text-[#22C55E] leading-relaxed">{c.how.note}</div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">{c.works.eyebrow}</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">{c.works.heading}</h2>
+      <div class="flex items-center justify-center gap-3 my-8 max-sm:flex-col max-sm:gap-2" aria-hidden="true">
+        <div class="border border-[#E4E2DC] dark:border-border-dark rounded-xl px-5 py-3 bg-white dark:bg-card-dark text-sm font-medium text-[#1A1A18] dark:text-ink-dark w-full text-center">{c.works.flowClick}</div>
+        <span class="text-[#B0AEA8] text-xl font-medium max-sm:rotate-90">→</span>
+        <div class="border border-[#E4E2DC] dark:border-border-dark rounded-xl px-5 py-3 bg-white dark:bg-card-dark text-sm font-medium text-center w-full">
+          <span class="text-[#1A1A18] dark:text-ink-dark">Math.random()</span>
+          <div class="flex items-center gap-0 mt-1.5">
+            <span class="text-[10px] text-[#6B6965] dark:text-[#9B9890]">0.0</span>
+            <div class="flex-1 h-2 rounded-full mx-1 overflow-hidden flex">
+              <div class="h-full w-1/2 bg-[#DC2626]"></div>
+              <div class="h-full w-1/2 bg-[#16A34A]"></div>
+            </div>
+            <span class="text-[10px] text-[#6B6965] dark:text-[#9B9890]">1.0</span>
+          </div>
+        </div>
+        <span class="text-[#B0AEA8] text-xl font-medium max-sm:rotate-90">→</span>
+        <div class="border border-[#E4E2DC] dark:border-border-dark rounded-xl px-5 py-3 bg-white dark:bg-card-dark text-sm font-medium text-[#1A1A18] dark:text-ink-dark w-full text-center">{c.works.flowResult}</div>
+      </div>
+      <div class="text-muted dark:text-muted-dark space-y-4 leading-relaxed">
+        {c.works.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <h3 class="font-display text-lg md:text-xl tracking-tight text-ink dark:text-ink-dark mt-10 mb-6">{c.works.tableHeading}</h3>
+      <div class="overflow-x-auto" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+        <table class="ynb-table">
+          <thead><tr>{c.works.tableHead.map((h) => <th>{h}</th>)}</tr></thead>
+          <tbody>
+            {c.works.tableRows.map((row, i) => (
+              <tr class={i === c.works.tableRows.length - 1 ? 'winner-row' : undefined}>
+                {row.map((cell, j) => <td class={j === 0 ? 'text-ink dark:text-ink-dark' : 'text-muted dark:text-muted-dark'}>{cell}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-[80px] max-sm:py-[48px] bg-[#FAFAF8] dark:bg-canvas-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">{c.faq.eyebrow}</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-6">{c.faq.heading}</h2>
+      <FAQAccordion items={c.faq.items} collapseAfter={5} showAllLabel={c.faq.showAll} hideCategoryLabels />
+    </div>
+  </section>
+
+  <!-- Also known as -->
+  <section class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+    <div class="container max-w-3xl">
+      <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">{c.aka.eyebrow}</span>
+      <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-5">{c.aka.heading}</h2>
+      <p class="text-base text-[#4A4A48] dark:text-muted-dark leading-[1.8]" set:html={c.aka.text} />
+    </div>
+  </section>
+
+  <Fragment slot="footer"><FooterLocalized /></Fragment>
+</BaseLayout>
+
+<script>
+  import { initTool } from '../../scripts/tool';
+  import { initWheel } from '../../scripts/wheel';
+
+  // The wheel hero and the toy-button hero are mutually exclusive per language.
+  if (document.getElementById('wheel-rotator')) initWheel();
+  else initTool();
+</script>

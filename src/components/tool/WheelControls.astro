@@ -1,13 +1,16 @@
 ---
 // WheelControls.astro — left panel entry editor
+import { getLocale, getUi, fmt } from '../../i18n/utils';
+
+const t = getUi(getLocale(Astro));
 ---
 
 <div class="bg-card dark:bg-card-dark rounded-2xl shadow-sm border border-border dark:border-border-dark overflow-hidden">
   <!-- Purple header -->
   <div class="bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED] px-5 py-3.5">
     <div class="flex items-center justify-between">
-      <span class="text-white text-sm font-semibold">Entries</span>
-      <span id="entry-count" class="text-white/70 text-xs font-medium">2 entries</span>
+      <span class="text-white text-sm font-semibold">{t.entries}</span>
+      <span id="entry-count" class="text-white/70 text-xs font-medium">{fmt(t.entryMany, { n: 2 })}</span>
     </div>
   </div>
 
@@ -18,14 +21,14 @@
       <input
         id="entry-input"
         type="text"
-        placeholder="Add an option..."
+        placeholder={t.addPlaceholder}
         class="flex-1 px-3.5 py-2 rounded-xl border border-border dark:border-border-dark bg-canvas dark:bg-canvas-dark text-ink dark:text-ink-dark text-sm placeholder:text-muted dark:placeholder:text-muted-dark focus:outline-hidden focus:ring-2 focus:ring-[#8B5CF6]/20 transition-all"
       />
       <button
         id="add-entry-btn"
         class="px-4 py-2 rounded-xl bg-[#7C3AED] text-white text-sm font-medium hover:bg-[#6D28D9] transition-colors cursor-pointer"
       >
-        Add
+        {t.add}
       </button>
     </div>
 
@@ -36,7 +39,7 @@
 
     <!-- Hint text -->
     <p class="text-xs text-muted dark:text-muted-dark">
-      Add at least 2 options. Click the wheel center to spin.
+      {t.wheelHint}
     </p>
   </div>
 </div>
