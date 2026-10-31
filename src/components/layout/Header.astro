@@ -2,6 +2,7 @@
 // components/layout/Header.astro
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { getLocale, getUi, homePath } from '../../i18n/utils';
+import { playUrl } from '../../data/app';
 
 const locale = getLocale(Astro);
 const t = getUi(locale);
@@ -20,6 +21,7 @@ const isEn = locale === 'en';
       <a href="/about/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">About</a>
       <a href="/contact/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Contact</a>
       <a href="/blog/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Blog</a>
+      <a href={playUrl('header')} target="_blank" rel="noopener" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline">Android App</a>
       </>)}
       <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors bg-transparent border-0 p-0 cursor-pointer">{t.navBookmark}</button>
       <LanguageSwitcher />
@@ -80,6 +82,7 @@ const isEn = locale === 'en';
       <a href="/about/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">About</a>
       <a href="/contact/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Contact</a>
       <a href="/blog/" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Blog</a>
+      <a href={playUrl('header')} target="_blank" rel="noopener" class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors no-underline py-2">Android App</a>
       </>)}
       <button type="button" data-save-link class="text-sm text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark transition-colors text-left bg-transparent border-0 py-2 cursor-pointer">{t.navAddHome}</button>
     </div>

@@ -8,6 +8,7 @@ import HistoryTracker from '../components/tool/HistoryTracker.astro';
 import CategoryTabs from '../components/tool/CategoryTabs.astro';
 import EmbedWidget from '../components/tool/EmbedWidget.astro';
 import FAQAccordion from '../components/content/FAQAccordion.astro';
+import AppPromo from '../components/content/AppPromo.astro';
 // import BlogSection from '../components/content/BlogSection.astro';
 import { webAppSchema, createFaqSchema, breadcrumbSchema } from '../data/schemas';
 import { homeAlternates } from '../i18n/utils';
@@ -110,8 +111,12 @@ const faqItems = [
     </div>
   </section>
 
+  <div class="pt-8 max-sm:pt-6 bg-white dark:bg-card-dark">
+    <AppPromo placement="home" />
+  </div>
+
   <!-- Section 2: What Is [bg: #FFFFFF] -->
-  <section class="py-[80px] max-sm:py-[48px] bg-white dark:bg-card-dark">
+  <section class="pt-[32px] pb-[80px] max-sm:pt-[24px] max-sm:pb-[48px] bg-white dark:bg-card-dark">
     <div class="container max-w-3xl">
       <span class="block text-xs font-medium tracking-[0.1em] text-[#16A34A] uppercase mb-2.5">WHAT IS IT</span>
       <h2 class="font-display text-[36px] max-sm:text-[28px] font-bold text-[#1A1A18] dark:text-ink-dark leading-[1.15] mb-2">
